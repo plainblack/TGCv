@@ -28,7 +28,11 @@
                     <FormSelect @change="user.update()" v-model="user.props.admin" :options="user.options?.admin"
                         name="admin" label="Admin" />
                 </div>
-            </FieldsetItem>
+                <div class="mb-4">
+                    <FormSelect @change="user.update()" v-model="user.props.maintenanceManager" :options="user.options?.maintenanceManager"
+                        name="maintenanceManager" label="Maintenance Manager" />
+                </div> 
+           </FieldsetItem>
 
             <FieldsetItem name="Preferences">
                 <div class="mb-4">
