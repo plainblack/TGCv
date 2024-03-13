@@ -4,6 +4,13 @@ import ving from './ving.json';
 ving.site.url = process.env.VING_SITE_URL;
 
 export default defineNuxtConfig({
+    vite: {
+        server: {
+            watch: {
+                usePolling: true,
+            },
+        },
+    },
     modules: [
         '@pinia/nuxt',
         'nuxt-icon',

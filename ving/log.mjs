@@ -6,7 +6,7 @@ import DailyRotateFile from 'winston-daily-rotate-file';
  * @returns a winston object
  */
 export const mainlog = createLogger({
-    level: 'info',
+    level: 'debug',
     format: format.combine(format.timestamp(), format.json()),
     transports: [
         new DailyRotateFile({
