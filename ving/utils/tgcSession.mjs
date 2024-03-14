@@ -26,7 +26,3 @@ export const getTGCSession = async () => {
     }
     return json.result;
 };
-
-console.log(await getTGCSession());
-await ving.close();
-
