@@ -1,6 +1,15 @@
 import ving from '#ving/index.mjs';
 
 export const getTGCSession = async () => {
+    let tgcSession = await ving.useCache().get('tgc_session');
+    if (tgcSession) {
+        return tgcSession;
+    }
+    tgcSession = await fetchTGCSession();
+    await ving.useCache().set('tgc_session', tgcSession, 1000 * 60 * 60 * 24);
+};
+
+export const fetchTGCSession = async () => {
     const fod = new FormData;
     fod.append("username", process.env.TGC_SITE_USERNAME);
     fod.append("password", process.env.TGC_SITE_PASS);
@@ -11,7 +20,6 @@ export const getTGCSession = async () => {
         "Content-Type": "multipart/form-data",
         body: fod,
     });
-    //ving.log('oldtgc').debug(await response.text());
     const data = await response.text();
     let json;
     try {
@@ -25,4 +33,4 @@ export const getTGCSession = async () => {
         throw ving.ouch(500, "Could not fetch TGC Session");
     }
     return json.result;
-};
+}
