@@ -7,6 +7,7 @@ export const getTGCSession = async () => {
     }
     tgcSession = await fetchTGCSession();
     await ving.useCache().set('tgc_session', tgcSession, 1000 * 60 * 60 * 24);
+    return tgcSession;
 };
 
 export const fetchTGCSession = async () => {
