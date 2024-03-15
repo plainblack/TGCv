@@ -1,16 +1,19 @@
 import { Session } from '#ving/session.mjs';
-import { defineEventHandler, getCookie } from 'h3';
+import { defineEventHandler, getCookie, setCookie } from 'h3';
 import ving from '#ving/index.mjs';
 import { verifyTGCUserSession } from '#ving/utils/tgc.mjs';
 
 export default defineEventHandler(async (event) => {
+    if (ving.useCache().get(`tgcUserFetch${vingUser.get('id')}`)) {
+        if (event.context.ving.session) {
+            return;
+        }
+    }
+
     const cookie = getCookie(event, 'session_id');
     if (cookie) {
-        console.log(cookie)
-        ving.log().info(cookie);
 
         try {
-            //event.context.ving.session = await Session.fetch(cookie);
             const tgcUser = await verifyTGCUserSession(cookie.session_id);
             if (tgcUser == undefined) {
                 return;
@@ -42,7 +45,13 @@ export default defineEventHandler(async (event) => {
                     maintenanceManager: tgcUser.maintenance_manager
                 });
             }
-            //Create the session
+            //Create the session if needed
+            if (!event.context.ving.session) {
+                const session = await Session.start(vingUser);
+                setCookie(event, 'vingSessionId', session.id, { maxAge: 60 * 60 * 24 * 365 * 5, httpOnly: true });
+                event.context.ving.session = session;
+                ving.useCache().set(`tgcUserFetch${vingUser.get('id')}`, 1, 1000 * 60 * 60);
+            }
         }
         catch { }
     }
