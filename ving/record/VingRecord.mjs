@@ -76,6 +76,21 @@ export class VingRecord {
         this.#inserted = inserted;
         this.db = db;
         this.table = table;
+        const schema = findVingSchema(getTableName(table));
+        const pseudoProps = {}
+        for (const prop of schema.props) {
+            if (prop.type == 'virtual')
+                continue;
+            pseudoProps[prop.name] = {
+                get() {
+                    return this.get(prop.name);
+                },
+                set(value) {
+                    return this.set(prop.name, value);
+                },
+            }
+        }
+        Object.defineProperties(this, pseudoProps);
     }
 
     /**
@@ -142,7 +157,8 @@ export class VingRecord {
         let out = { props: {} };
         out.props.id = this.get('id');
         if (include !== undefined && include.links) {
-            out.links = { base: { href: `/api/${schema.kind?.toLowerCase()}`, methods: ['GET', 'POST'] } };
+            const vingConfig = ving.getConfig();
+            out.links = { base: { href: `/api/${vingConfig.rest.version}/${schema.kind?.toLowerCase()}`, methods: ['GET', 'POST'] } };
             out.links.self = { href: `${out.links.base.href}/${this.#props.id}`, methods: ['GET', 'PUT', 'DELETE'] };
         }
         if (include !== undefined && include.options) {
@@ -183,7 +199,7 @@ export class VingRecord {
             if (typeof out.links === 'object'
                 && include.links
                 && field.relation
-                && out.links.self === 'object'
+                && typeof out.links.self === 'object'
             ) {
                 let lower = field.relation.name.toLowerCase();
                 out.links[lower] = { href: `${out.links.self.href}/${lower}`, methods: ['GET'] };
