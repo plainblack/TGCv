@@ -64,9 +64,7 @@ export default defineNuxtConfig({
         '~/assets/css/main.css',
     ],
     runtimeConfig: {
-        public: {
-            site: ving.site,
-        },
+        public: ving,
     },
     content: {
         highlight: { theme: 'light-plus' },

@@ -22,7 +22,7 @@ Once you're done adding functionality you can then generate a Rest API for it by
 ./ving.mjs record --rest Foo
 ```
 
-Those files will be placed in `server/api/foo` and you can modify them as needed, but they should work without modification. And you can access them at `http://localhost:3000/api/foo`.
+Those files will be placed in `server/api/v1/foo` and you can modify them as needed, but they should work without modification. And you can access them at `http://localhost:3000/api/v1/foo`.
 
 And if you want to build a user interface for your services, you can generate that too by invoking the CLI once more.
 
@@ -106,7 +106,7 @@ const list = await Users.describeList(params, where)
             meta : { displayName : 'Freddy', ... }, // calculated properties
             links: { 
                 self : { 
-                    href : "/api/user/xxx", 
+                    href : "/api/v1/user/xxx", 
                     methods: ['GET','PUT','DELETE'] 
                 }, 
                 ... 
@@ -254,6 +254,7 @@ const record = users.findOrDie('xxx');
 
 Once you have a record you can use the following methods to manipulate it.
 
+
 ### Reading Data
 
 #### describe
@@ -263,13 +264,13 @@ Formats everything known about a record into an object that is easily serializab
 const description = await record.describe(params)
 ```
 
-#### Result
+##### Result
 ```js
 {
     props : { id: 'xxx', ... }, // database properties
     meta : { displayName : 'Freddy', ... }, // calculated properties
     links: { self : { 
-        href : "/api/user/xxx", 
+        href : "/api/v1/user/xxx", 
         methods: ['GET','PUT','DELETE'] 
         }, 
         ... 
@@ -283,7 +284,7 @@ const description = await record.describe(params)
 }
 ```
 
-#### Parameters
+##### Parameters
 
  - **currentUser** - Either a `User` record or a `Session` object can be used to determine what data should be included in the description based upon user privileges.
  - **include** - An object to modify the output.
@@ -372,6 +373,15 @@ Calls `setPostedProps()` and `update()` in a single method call.
 ```js
 await record.updateAndVerify({foo: 'bar', one: 1}, currentUserOrSession);
 ```
+
+### Pseudo Properties
+In addition to all the methods above, every [schema](ving-schema) prop except those of type `virtual` will also get pseudo props added to the record. The means that in addition to using `get('username')` and `set('username', 'adufresne')` methods you can use the pseudo props as getters and setters like this:
+
+```js
+const username = user.username;
+user.username = 'adufresne';
+```
+
 
 ### Privileges
 
