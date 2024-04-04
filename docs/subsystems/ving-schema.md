@@ -153,20 +153,53 @@ These are used to add a parent relationship.
 
 ```
 
+##### Text Props
+
+```js
+{
+    type: "string",
+    name: "memo",
+    required: true,
+    length: 256,
+    default: '',
+    db: (prop) => dbText(prop),
+    zod: (prop) => zodText(prop),
+    view: [],
+    edit: ['owner'],
+},
+
+```
+
+##### MediumText Props
+
+```js
+{
+    type: "string",
+    name: "description",
+    required: true,
+    default: '',
+    db: (prop) => dbMediumText(prop),
+    zod: (prop) => zodMediumText(prop),
+    view: [],
+    edit: ['owner'],
+},
+
+```
+
 ##### Virtual Props
 
 These are used to add a child relationship. They are virtual because they make no modification to the database table they represent.
 ```js
 {
     type: "virtual",
-    name: 'userId',
+    name: 'userId',  // the name of the column in the child table that connects it to this table
     required: false,
     view: ['public'],
     edit: [],
     relation: {
         type: 'child',
-        name: 'apikeys',
-        kind: 'APIKey',
+        name: 'apikeys', // the name of the relationship, think of it like the method name
+        kind: 'APIKey', // the class name of the child table
     },
 },
 ```
