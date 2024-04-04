@@ -1,0 +1,68 @@
+import { baseSchemaProps, dbString, zodString, dbEnum, dbBoolean, dbText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject, dbMediumText, zodMediumText } from '../helpers.mjs';
+
+export const maintenanceRemarkSchema = {
+    kind: 'MaintenanceRemark',
+    tableName: 'maintenanceremarks',
+    owner: ['admin', 'maintenanceManager', 'productionManager'],
+    props: [
+        ...baseSchemaProps,
+        {
+            type: "string",
+            name: "description",
+            required: true,
+            length: 60,
+            default: '',
+            db: (prop) => dbMediumText(prop),
+            zod: (prop) => zodMediumText(prop),
+            view: [],
+            edit: ['owner'],
+        },
+        {
+            type: "enum",
+            name: 'resolution',
+            required: true,
+            length: 20,
+            default: 'n_a',
+            db: (prop) => dbEnum(prop),
+            enums: ['resolved', 'unresolved', 'n_a'],
+            enumLabels: ['Resolved', 'Unresolved', 'N/A'],
+            view: [],
+            edit: ['owner'],
+        },
+        {
+            type: "int",
+            name: "resolutionMinutes",
+            required: false,
+            default: 0,
+            db: (prop) => dbInt(prop),
+            zod: (prop) => zodNumber(prop).positive(),
+            view: ['owner'],
+            edit: ['owner'],
+        },
+        {
+            type: "string",
+            name: "submittedBy",
+            required: true,
+            default: '',
+            length: 64,
+            db: (prop) => dbString(prop),
+            zod: (prop) => zodString(prop),
+            view: ['public'],
+            edit: ['owner'],
+        },
+        {
+            type: "id",
+            name: 'maintenanceTicketId', // the name of the remote record's id in this table
+            required: true,
+            length: 36,
+            db: (prop) => dbRelation(prop),
+            relation: {
+                type: 'parent',
+                name: 'ticket',
+                kind: 'MaintenanceTicket',
+            },
+            view: ['owner'],
+            edit: ['owner'],
+        },
+    ],
+};
