@@ -1,4 +1,4 @@
-import { baseSchemaProps, dbString, zodString, dbInt, dbEnum, dbRelation } from '../helpers.mjs';
+import { baseSchemaProps, dbString, zodString, zodMediumText, dbMediumText, dbInt, dbEnum, dbRelation } from '../helpers.mjs';
 
 export const maintenanceTaskSchema = {
     kind: 'MaintenanceTask',
@@ -7,14 +7,13 @@ export const maintenanceTaskSchema = {
     props: [
         ...baseSchemaProps,
         {
-            type: "mediumText",
+            type: "string",
             name: "description",
             required: true,
             unique: false,
-            length: 128,
             default: '',
-            db: (prop) => dbString(prop),
-            zod: (prop) => zodString(prop),
+            db: (prop) => dbMediumText(prop),
+            zod: (prop) => zodMediumText(prop),
             view: ['owner', 'productionManager'],
             edit: ['owner'],
         },

@@ -1,6 +1,6 @@
 import { baseSchemaProps, dbString, zodString, dbEnum, dbBoolean, dbText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject } from '../helpers.mjs';
 
-export const maintenancescheduleSchema = {
+export const maintenanceScheduleSchema = {
     kind: 'MaintenanceSchedule',
     tableName: 'maintenanceschedules',
     owner: ['admin', 'maintenanceManager'],

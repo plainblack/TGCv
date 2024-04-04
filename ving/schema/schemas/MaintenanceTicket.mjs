@@ -1,4 +1,4 @@
-import { baseSchemaProps, dbString, zodString, dbEnum, dbBoolean, dbText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject } from '../helpers.mjs';
+import { baseSchemaProps, dbString, zodString, zodMediumText, dbEnum, dbBoolean, dbMediumText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject } from '../helpers.mjs';
 
 export const maintenanceTicketSchema = {
     kind: 'MaintenanceTicket',
@@ -7,13 +7,13 @@ export const maintenanceTicketSchema = {
     props: [
         ...baseSchemaProps,
         {
-            type: "mediumText",
+            type: "string",
             name: "description",
             required: true,
             length: 60,
             default: '',
-            db: (prop) => dbString(prop),
-            zod: (prop) => zodString(prop),
+            db: (prop) => dbMediumText(prop),
+            zod: (prop) => zodMediumText(prop),
             view: [],
             edit: ['owner'],
         },
