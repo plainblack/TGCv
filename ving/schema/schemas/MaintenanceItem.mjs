@@ -36,10 +36,9 @@ export const maintenanceItemSchema = {
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
-                name: 'maintenanceItemSet',
+                name: 'itemSet',
                 kind: 'MaintenanceItemSet',
             },
-            default: undefined,
             view: ['owner', 'productionManager'],
             edit: ['owner'],
         },
