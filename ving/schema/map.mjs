@@ -2,7 +2,7 @@ import { findObject } from '#ving/utils/findObject.mjs';
 import { ouch } from '#ving/utils/ouch.mjs';
 import { userSchema } from "#ving/schema/schemas/User.mjs";
 import { apikeySchema } from "#ving/schema/schemas/APIKey.mjs";
-import { maintenancefileSchema } from "#ving/schema/schemas/MaintenanceFile.mjs";
+import { maintenanceFileSchema } from "#ving/schema/schemas/MaintenanceFile.mjs";
 import { maintenanceTicketSchema } from "#ving/schema/schemas/MaintenanceTicket.mjs";
 import { maintenanceScheduleSchema } from "#ving/schema/schemas/MaintenanceSchedule.mjs";
 import { maintenanceItemSchema } from "#ving/schema/schemas/MaintenanceItem.mjs";
@@ -17,7 +17,7 @@ import { s3fileSchema } from "#ving/schema/schemas/S3File.mjs";
 export const vingSchemas = [
     userSchema,
     apikeySchema,
-    maintenancefileSchema,
+    maintenanceFileSchema,
     maintenanceTicketSchema,
     maintenanceScheduleSchema,
     maintenanceItemSchema,
