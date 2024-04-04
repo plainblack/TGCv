@@ -20,5 +20,19 @@ export const maintenanceFileSchema = {
             view: ['owner'],
             edit: ['owner'],
         },
+        {
+            type: "id",
+            name: 'maintenanceTicketId', // the name of the remote record's id in this table
+            required: true,
+            length: 36,
+            db: (prop) => dbRelation(prop),
+            relation: {
+                type: 'parent',
+                name: 'ticket',
+                kind: 'MaintenanceTicket',
+            },
+            view: ['owner'],
+            edit: ['owner'],
+        },
     ],
 };
