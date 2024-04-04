@@ -1,16 +1,7 @@
 import { v4 } from 'uuid';
 import { z } from 'zod';
-import { customType } from 'drizzle-orm/mysql-core';
 export const uuid = v4;
 
-/**
- * Define mediumText as a custom drizzle type
- */
-const mediumText = customType({
-    dataType() {
-        return 'mediumtext';
-    },
-});
 
 /**
  * Interrogates the schema and returns a default value for a string prop as defined in the `default`
@@ -151,15 +142,6 @@ export const dbString = (prop) => {
  */
 export const dbText = (prop) => {
     return `text('${prop.name}').notNull()`;
-}
-
-/**
- * Generates a drizzle schema field definition for a medium text prop setting it to not null
- * @param {Object} prop An object containing the properties of this prop
- * @returns a drizzle field schema definition
- */
-export const dbMediumText = (prop) => {
-    return `mediumText('${prop.name}').notNull()`;
 }
 
 /**
