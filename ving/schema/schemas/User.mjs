@@ -115,6 +115,18 @@ export const userSchema = {
         },
         {
             type: "boolean",
+            name: "productionManager",
+            required: true,
+            filterQualifier: true,
+            default: false,
+            db: (prop) => dbBoolean(prop),
+            enums: [false, true],
+            enumLabels: ["Not Production Manager", "Production Manager"],
+            view: ["owner"],
+            edit: ["admin"],
+        },
+        {
+            type: "boolean",
             name: 'developer',
             required: true,
             filterQualifier: true,

@@ -16,6 +16,7 @@ export const UserTable = mysqlTable('users',
 		verifiedEmail: boolean('verifiedEmail').notNull().default(false),
 		admin: boolean('admin').notNull().default(false),
 		maintenanceManager: boolean('maintenanceManager').notNull().default(false),
+		productionManager: boolean('productionManager').notNull().default(false),
 		developer: boolean('developer').notNull().default(false),
 		avatarType: mysqlEnum('avatarType', ['robot','uploaded']).notNull().default('robot'),
 		avatarId: varchar('avatarId', { length: 36 }).default(null).references(() => S3FileTable.id, {onDelete: "set null", onUpdate: "no action"})
