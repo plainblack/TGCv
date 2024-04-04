@@ -3,7 +3,7 @@ import { baseSchemaProps, dbString, zodString, zodMediumText, dbEnum, dbBoolean,
 export const maintenanceTicketSchema = {
     kind: 'MaintenanceTicket',
     tableName: 'maintenancetickets',
-    owner: ['$userId', 'admin', 'maintenanceManager', 'productionManager'],
+    owner: ['admin', 'maintenanceManager', 'productionManager'],
     props: [
         ...baseSchemaProps,
         {
@@ -63,83 +63,72 @@ export const maintenanceTicketSchema = {
             view: ['public'],
             edit: [],
         },
-        // json field
         {
-            type: "json",
-            name: "metadata",
-            required: false,
-            default: '{}',
-            db: (prop) => dbJson(prop),
-            zod: (prop) => zodJsonObject(prop).passthrough(), // or replace .passthrough() with something like .extends({foo: z.string()})
-            view: ['public'],
-            edit: [],
-        },
-        // boolean field
-        {
-            type: "boolean",
-            name: 'isCool',
+            type: "string",
+            name: "submittedBy",
             required: true,
-            default: false,
-            db: (prop) => dbBoolean(prop),
-            enums: [false, true],
-            enumLabels: ['Not Cool', 'Very Cool'],
-            view: [],
+            default: '',
+            length: 64,
+            db: (prop) => dbString(prop),
+            zod: (prop) => zodString(prop),
+            view: ['public'],
             edit: ['owner'],
         },
+
         // 1:N relationship - aka a relationship to my children
-        /* {
-             type: "virtual",
-             name: 'maintenanceticketId', // the name of this record's id in the remote table
-             required: false,
-             view: ['public'],
-             edit: [],
-             relation: {
-                 type: 'child',
-                 name: 'maintenanceticketcomments',
-                 kind: 'MaintenanceTicketComment',
-             },
-         },*/
-        // N:1 relationship - aka a relationship to my parent
-        /*{
-            type: "id",
-            name: 'maintenanceticketGroupId', // the name of the remote record's id in this table
-            required: true,
-            length: 36,
-            db: (prop) => dbRelation(prop),
-            relation: {
-                type: 'parent',
-                name: 'maintenanceticketgroup',
-                kind: 'MaintenanceTicketGroup',
-            },
-            default: undefined,
+        {
+            type: "virtual",
+            name: 'maintenanceTicketId', // the name of this record's id in the remote table
+            required: false,
             view: ['public'],
-            edit: ['owner'],
-        },*/
-        // a user relationship
+            edit: [],
+            relation: {
+                type: 'child',
+                name: 'remarks',
+                kind: 'MaintenanceRemark',
+            },
+        },
+        {
+            type: "virtual",
+            name: 'maintenanceTicketId', // the name of this record's id in the remote table
+            required: false,
+            view: ['public'],
+            edit: [],
+            relation: {
+                type: 'child',
+                name: 'files',
+                kind: 'MaintenanceFile',
+            },
+        },
         {
             type: "id",
-            name: 'userId',
+            name: 'maintenanceTaskId', // the name of the remote record's id in this table
             required: true,
             length: 36,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
-                name: 'user',
-                kind: 'User',
+                name: 'task',
+                kind: 'MaintenanceTask',
             },
             default: undefined,
             view: ['public'],
             edit: ['owner'],
         },
-        // date field
         {
-            type: "date",
-            name: "startedAt",
+            type: "id",
+            name: 'maintenanceItemId', // the name of the remote record's id in this table
             required: true,
-            default: () => new Date(),
-            db: (prop) => dbDateTime(prop),
+            length: 36,
+            db: (prop) => dbRelation(prop),
+            relation: {
+                type: 'parent',
+                name: 'item',
+                kind: 'MaintenanceItem',
+            },
+            default: undefined,
             view: ['public'],
-            edit: [],
+            edit: ['owner'],
         },
     ],
 };
