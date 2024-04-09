@@ -14,9 +14,11 @@ export class MaintenanceItemSetRecord extends VingRecord {
          */
     async delete() {
 
-        await this.tasks.deleteMany();
+        await (await this.children('tasks')).deleteMany();
 
-        await this.items.deleteMany();
+        await (await this.children('items')).deleteMany();
+
+        await super.delete();
 
     }
 
