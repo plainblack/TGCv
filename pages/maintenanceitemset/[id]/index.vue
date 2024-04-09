@@ -14,6 +14,69 @@
                     v-model="maintenanceitemset.props.status" label="Status" @change="maintenanceitemset.update()" />
             </div>
         </FieldsetItem>
+        <FieldsetItem name="Items">
+            <DataTable :value="maintenanceitems.records" stripedRows @sort="(e) => maintenanceitems.sortDataTable(e)">
+
+                <Column field="props.name" header="Name" sortable>
+                    <template #body="slotProps">
+                        <NuxtLink :to="`/maintenanceitem/${slotProps.data.props.id}`" v-ripple>
+                            {{ slotProps.data.props.name }}
+                        </NuxtLink>
+                    </template>
+                </Column>
+                <Column field="props.status" header="Status" sortable>
+                    <template #body="slotProps">
+                        {{ enum2label(slotProps.data.props.status, maintenanceitems.propsOptions.status) }}
+                    </template>
+                </Column>
+                <Column header="Manage">
+                    <template #body="slotProps">
+                        <NuxtLink v-if="slotProps.data.meta?.isOwner"
+                            :to="`/maintenanceitem/${slotProps.data.props.id}/edit`" class="mr-2 no-underline">
+                            <Button icon="pi pi-pencil" severity="success" title="Edit" alt="Edit Maintenance Item" />
+                        </NuxtLink>
+                        <Button v-if="slotProps.data.meta?.isOwner" title="Delete" alt="Delete Maintenance Item"
+                            icon="pi pi-trash" severity="danger" @click="slotProps.data.delete()" />
+                    </template>
+                </Column>
+            </DataTable>
+            <Pager :kind="maintenanceitems" />
+            <Button icon="pi pi-pencil" label="Create Item" class="mr-2" severity="success"
+                @click="createItems.visible = true" />
+
+            <Dialog v-model:visible="createItems.visible" maximizable modal header="Header" :style="{ width: '75vw' }">
+                <h2 class="mt-0">Create Maintenance Item</h2>
+
+                <Form :send="() => maintenanceitems.create()">
+                    <div class="flex gap-5 flex-column-reverse md:flex-row">
+                        <div class="flex-auto p-fluid">
+
+                            <div class="mb-4">
+                                <FormInput name="name" type="text" v-model="maintenanceitems.new.name" required
+                                    label="Name" />
+                            </div>
+                            <div class="mb-4">
+                                <FormSelect name="status" :options="maintenanceitems.propsOptions?.status"
+                                    v-model="maintenanceitems.new.status" label="Status" />
+                            </div>
+                            <div class="mb-4">
+                                <FormInput name="maintenanceItemSetId" type="text"
+                                    v-model="maintenanceitems.new.maintenanceItemSetId" required
+                                    label="Maintenance Item Set Id" />
+                            </div>
+                            <div>
+                                <Button type="submit" class="w-auto" severity="success">
+                                    <i class="pi pi-plus mr-1"></i> Create Maintenance Item
+                                </Button>
+                            </div>
+                        </div>
+
+                    </div>
+                </Form>
+
+            </Dialog>
+
+        </FieldsetItem>
 
         <FieldsetItem name="Statistics">
 
@@ -59,4 +122,18 @@ const breadcrumbs = [
     { label: 'Maintenance Item Sets', to: '/maintenanceitemset' },
     { label: 'Edit' },
 ];
+const maintenanceitems = useVingKind({
+    listApi: `/api/${restVersion()}/maintenanceitem`,
+    createApi: `/api/${restVersion()}/maintenanceitem`,
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' },
+    newDefaults: { name: '', status: 'in_use', maintenanceItemSetId: '' },
+});
+const createItems = ref({ visible: false, });
+const createTasks = ref({ visible: false, });
+
+
+await Promise.all([
+    maintenanceitems.search(),
+    maintenanceitems.fetchPropsOptions(),
+]);
 </script>
