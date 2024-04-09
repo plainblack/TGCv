@@ -1,4 +1,4 @@
-import { baseSchemaProps, dbString, zodString, dbEnum } from '../helpers.mjs';
+import { baseSchemaProps, dbString, zodString, dbInt, zodNumber, dbEnum } from '../helpers.mjs';
 
 export const maintenanceItemSetSchema = {
     kind: 'MaintenanceItemSet',
@@ -16,6 +16,30 @@ export const maintenanceItemSetSchema = {
             zod: (prop) => zodString(prop),
             view: ['public'],
             edit: ['owner'],
+        },
+        {
+            type: "int",
+            name: "itemCount",
+            filterRange: true,
+            filterQualifier: true,
+            required: false,
+            default: 0,
+            db: (prop) => dbInt(prop),
+            zod: (prop) => zodNumber(prop).positive(),
+            view: ['public'],
+            edit: [],
+        },
+        {
+            type: "int",
+            name: "taskCount",
+            filterRange: true,
+            filterQualifier: true,
+            required: false,
+            default: 0,
+            db: (prop) => dbInt(prop),
+            zod: (prop) => zodNumber(prop).positive(),
+            view: ['public'],
+            edit: [],
         },
         {
             type: "enum",
