@@ -1,1 +1,0 @@
-ALTER TABLE `users` ADD `productionManager` boolean DEFAULT false NOT NULL;

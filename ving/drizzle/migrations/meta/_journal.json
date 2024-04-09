@@ -8,20 +8,6 @@
       "when": 1711990857605,
       "tag": "0000_icy_ego",
       "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1712250898861,
-      "tag": "0001_friendly_fallen_one",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1712264977108,
-      "tag": "0002_broad_trish_tilby",
-      "breakpoints": true
     }
   ]
 }
