@@ -26,6 +26,8 @@
                     {{ enum2label(slotProps.data.props.status, maintenanceitemsets.propsOptions.status) }}
                 </template>
             </Column>
+            <Column field="props.itemCount" header="Item Count" />
+            <Column field="props.taskCount" header="Task Count" />
             <Column header="Manage">
                 <template #body="slotProps">
                     <NuxtLink v-if="slotProps.data.meta?.isOwner" :to="`/maintenanceitemset/${slotProps.data.props.id}`"

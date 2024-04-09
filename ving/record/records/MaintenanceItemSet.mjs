@@ -7,6 +7,18 @@ import { eq } from '#ving/drizzle/orm.mjs';
 export class MaintenanceItemSetRecord extends VingRecord {
     // add custom Record code here
 
+    async countItems() {
+        const items = await this.children('items');
+        this.itemCount = await items.count();
+        await this.update();
+    }
+
+    async countTasks() {
+        const tasks = await this.children('tasks');
+        this.taskCount = await tasks.count();
+        await this.update();
+    }
+
     /**
          * Extends `delete()` in `VingRecord` to delete the associated `MaintenanceTask` and `MaintenanceItem`.
          * 
