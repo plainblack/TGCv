@@ -1,9 +1,10 @@
 import { getContext, renderTemplate, toFile, after, inject } from '@featherscloud/pinion';
+import { camelCase } from 'scule';
 
 const schemaTemplate = ({ name }) =>
-    `import { baseSchemaProps, dbString, zodString, dbEnum, dbBoolean, dbText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject } from '../helpers.mjs';
+    `import { baseSchemaProps, dbString, zodString, dbEnum, dbBoolean, dbText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject, dbMediumText, zodMediumText } from '../helpers.mjs';
 
-export const ${name.toLowerCase()}Schema = {
+export const ${camelCase(name)}Schema = {
     kind: '${name}',
     tableName: '${name.toLowerCase()}s',
     owner: ['$userId', 'admin'],
@@ -108,7 +109,7 @@ export const ${name.toLowerCase()}Schema = {
         // 1:N relationship - aka a relationship to my children
        /* {
             type: "virtual",
-            name: '${name.toLowerCase()}Id', // the name of this record's id in the remote table
+            name: '${camelCase(name)}Id', // the name of this record's id in the remote table
             required: false,
             view: ['public'],
             edit: [],
@@ -121,7 +122,7 @@ export const ${name.toLowerCase()}Schema = {
         // N:1 relationship - aka a relationship to my parent
         /*{
             type: "id",
-            name: '${name.toLowerCase()}GroupId', // the name of the remote record's id in this table
+            name: '${camelCase(name)}GroupId', // the name of the remote record's id in this table
             required: true,
             length: 36,
             db: (prop) => dbRelation(prop),
@@ -167,6 +168,6 @@ export const generateSchema = (params) => {
     const context = { ...getContext({}), ...params };
     return Promise.resolve(context)
         .then(renderTemplate(schemaTemplate(context), toFile(`ving/schema/schemas/${context.name}.mjs`)))
-        .then(inject(`import { ${context.name.toLowerCase()}Schema } from "#ving/schema/schemas/${context.name}.mjs";`, after('import { apikeySchema } from "#ving/schema/schemas/APIKey.mjs";'), toFile('ving/schema/map.mjs')))
-        .then(inject(`    ${context.name.toLowerCase()}Schema,`, after('    apikeySchema,'), toFile('ving/schema/map.mjs')));
+        .then(inject(`import { ${camelCase(context.name)}Schema } from "#ving/schema/schemas/${context.name}.mjs";`, after('import { apikeySchema } from "#ving/schema/schemas/APIKey.mjs";'), toFile('ving/schema/map.mjs')))
+        .then(inject(`    ${camelCase(context.name)}Schema,`, after('    apikeySchema,'), toFile('ving/schema/map.mjs')));
 }

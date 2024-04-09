@@ -6,7 +6,7 @@ const makeWords = (value) => splitByCase(value).join(' ');
 const makeLabel = (value) => upperFirst(splitByCase(value).join(' '));
 
 
-const columns = (schema) => {
+const columns = (name, schema) => {
     let out = '';
     for (const prop of schema.props) {
         if (prop.name == 'email') {
@@ -16,6 +16,32 @@ const columns = (schema) => {
                     <a :href="\`mailto:\${slotProps.data.props.email}\`">{{ slotProps.data.props.email }}</a>
                 </template>
             </Column>`;
+        }
+        else if (['name', 'id'].includes(prop.name)) {
+            out += `
+            <Column field="props.${prop.name}" header="${makeLabel(prop.name)}" sortable>
+                <template #body="slotProps">
+                    <NuxtLink :to="\`/${name.toLowerCase()}/\${slotProps.data.props.id}\`" v-ripple>
+                        {{ slotProps.data.props.${prop.name} }}
+                    </NuxtLink>
+                </template>
+            </Column>`;
+        }
+        else if (['boolean', 'enum'].includes(prop.type)) {
+            out += `
+            <Column field="props.${prop.name}" header="${makeLabel(prop.name)}" sortable>
+                <template #body="slotProps">
+                    {{ enum2label(slotProps.data.props.${prop.name}, ${schema.tableName}.propsOptions.${prop.name}) }}
+                </template>
+            </Column>`;
+        }
+        else if (prop.name == 'userId') {
+            out += `
+        <Column field="props.userId" header="User Id" sortable>
+            <template #body="slotProps">
+                <UserProfileLink :user="slotProps.data.related?.user" />
+            </template>
+        </Column>`;
         }
         else if (prop.type == 'date') {
             out += `
@@ -94,17 +120,17 @@ const indexTemplate = ({ name, schema }) =>
 
     <div class="surface-card p-4 border-1 surface-border border-round">
 
-        <div class="p-inputgroup flex-1">
-            <span class="p-input-icon-left w-full">
+        <InputGroup>
+            <InputGroupAddon>
                 <i class="pi pi-search" />
-                <InputText type="text" placeholder="Search ${makeWords(name)}s" class="w-full" v-model="${schema.tableName}.query.search"
-                    @keydown.enter="${schema.tableName}.search()" />
-            </span>
+            </InputGroupAddon>
+            <InputText type="text" placeholder="${makeWords(name)}s" class="w-full"
+                v-model="${schema.tableName}.query.search" @keydown.enter="${schema.tableName}.search()" />
             <Button label="Search" @click="${schema.tableName}.search()" />
-        </div>
+        </InputGroup>
 
         <DataTable :value="${schema.tableName}.records" stripedRows @sort="(e) => ${schema.tableName}.sortDataTable(e)">
-            ${columns(schema)}
+            ${columns(name, schema)}
             <Column header="Manage">
                 <template #body="slotProps">
                     <NuxtLink :to="\`/${name.toLowerCase()}/\${slotProps.data.props.id}\`" class="mr-2 no-underline">
@@ -162,6 +188,16 @@ const viewProps = (schema) => {
             <div><b>${makeLabel(prop.name)}</b>: {{dt.formatDateTime(${schema.kind.toLowerCase()}.props?.${prop.name})}}</div>
             `;
             }
+            else if (['boolean', 'enum'].includes(prop.type)) {
+                out += `
+            <div><b>${makeLabel(prop.name)}</b>: {{enum2label(${schema.kind.toLowerCase()}.props?.${prop.name}, ${schema.kind.toLowerCase()}.options?.${prop.name})}}</div>
+            `;
+            }
+            else if (prop.name == 'userId') {
+                out += `
+            <div><b>${makeLabel(prop.name)}</b>: <UserProfileLink :user="${schema.kind.toLowerCase()}.related?.user" /></div>
+            `;
+            }
             else if (prop.type != 'virtual') {
                 out += `
             <div><b>${makeLabel(prop.name)}</b>: {{${schema.kind.toLowerCase()}.props?.${prop.name}}}</div>
@@ -202,7 +238,7 @@ const ${name.toLowerCase()} = useVingRecord({
     },
 });
 await ${name.toLowerCase()}.fetch();
-onBeforeRouteLeave(() => ${name}.dispose());
+onBeforeRouteLeave(() => ${name.toLowerCase()}.dispose());
 const dt = useDateTime();
 const breadcrumbs = [
     { label: '${makeWords(name)}s', to: '/${name.toLowerCase()}' },
@@ -217,7 +253,7 @@ const editProps = (schema) => {
             if (['enum', 'boolean'].includes(prop.type)) {
                 out += `
                     <div class="mb-4">
-                        <FormSelect name="${prop.name}" :options="${schema.kind.toLowerCase()}.options.${prop.name}" v-model="${schema.kind.toLowerCase()}.props.${prop.name}" label="${makeLabel(prop.name)}" @change="${schema.kind.toLowerCase()}.update()" />
+                        <FormSelect name="${prop.name}" :options="${schema.kind.toLowerCase()}.options?.${prop.name}" v-model="${schema.kind.toLowerCase()}.props.${prop.name}" label="${makeLabel(prop.name)}" @change="${schema.kind.toLowerCase()}.update()" />
                     </div>`;
             }
             else if (prop.type != 'virtual') {
@@ -295,6 +331,7 @@ const ${name.toLowerCase()} = useVingRecord({
     },
 });
 await ${name.toLowerCase()}.fetch()
+
 const breadcrumbs = [
     { label: '${makeWords(name)}s', to: '/${name.toLowerCase()}' },
     { label: 'View', to: '/${name.toLowerCase()}/'+${name.toLowerCase()}.props.id },

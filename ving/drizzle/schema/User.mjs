@@ -1,4 +1,4 @@
-import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, varchar, text, int, json } from '#ving/drizzle/orm.mjs';
+import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, varchar, text, int, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
 import {S3FileTable} from '#ving/drizzle/schema/S3File.mjs';
 
 
@@ -18,11 +18,12 @@ export const UserTable = mysqlTable('users',
 		maintenanceManager: boolean('maintenanceManager').notNull().default(false),
 		developer: boolean('developer').notNull().default(false),
 		avatarType: mysqlEnum('avatarType', ['robot','uploaded']).notNull().default('robot'),
-		avatarId: varchar('avatarId', { length: 36 }).default(null).references(() => S3FileTable.id, {onDelete: "set null", onUpdate: "no action"})
+		avatarId: varchar('avatarId', { length: 36 }).default(null)
     }, 
     (table) => ({
         usernameIndex: uniqueIndex('usernameIndex').on(table.username),
-		emailIndex: uniqueIndex('emailIndex').on(table.email)
+		emailIndex: uniqueIndex('emailIndex').on(table.email),
+		users_avatar_39d62890_fk: foreignKey({ name: "users_avatar_39d62890_fk", columns: [table.avatarId], foreignColumns: [S3FileTable.id]}).onDelete("set null").onUpdate("no action")
     })
 );
 

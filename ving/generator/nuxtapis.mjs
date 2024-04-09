@@ -8,7 +8,7 @@ import { describeParams } from '#ving/utils/rest.mjs';
 import {defineEventHandler} from 'h3';
 export default defineEventHandler(async (event) => {
     const ${name.toLowerCase()}s = await useKind('${name}');
-    return ${name}s.mint().propOptions(describeParams(event), true);
+    return ${name.toLowerCase()}s.mint().propOptions(describeParams(event), true);
 });`;
 
 const indexPostTemplate = ({ name }) =>
@@ -40,7 +40,7 @@ export default defineEventHandler(async (event) => {
     const { id } = getRouterParams(event);
     const ${name.toLowerCase()} = await ${name.toLowerCase()}s.findOrDie(id);
     const session = obtainSession(event);
-    ${name.toLowerCase()}.canEdit(session);
+    await ${name.toLowerCase()}.canEdit(session);
     await ${name.toLowerCase()}.updateAndVerify(await getBody(event), session);
     return ${name.toLowerCase()}.describe(describeParams(event, session));
 });`;
@@ -64,7 +64,8 @@ export default defineEventHandler(async (event) => {
     const ${name.toLowerCase()}s = await useKind('${name}');
     const { id } = getRouterParams(event);
     const ${name.toLowerCase()} = await ${name.toLowerCase()}s.findOrDie(id);
-    ${name.toLowerCase()}.canEdit(obtainSession(event));
+    const session = obtainSession(event);
+    await ${name.toLowerCase()}.canEdit(session);
     await ${name.toLowerCase()}.delete();
     return ${name.toLowerCase()}.describe(describeParams(event, session));
 });`;
@@ -95,7 +96,7 @@ export default defineEventHandler(async (event) => {
 
 export const generateRest = (params) => {
     const context = { ...getContext({}), ...params };
-    const folderName = `server/api/${ving.getConfig().rest.version}${context.name.toLowerCase()}`;
+    const folderName = `server/api/${ving.getConfig().rest.version}/${context.name.toLowerCase()}`;
     let gen = Promise.resolve(context);
     let filePath = `${folderName}/[id].delete.mjs`;
     if (!(params.skipExisting && fs.existsSync(filePath)))
