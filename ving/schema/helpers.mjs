@@ -78,7 +78,7 @@ export const dateDefault = (prop, skipFunc = false) => {
  * @returns a zod rule
  */
 export const zodString = (prop) => {
-    return z.string().min(1).max(prop.length);
+    return z.string().min(0).max(prop.length);
 }
 
 /**
@@ -105,7 +105,7 @@ export const zodJsonObject = (prop) => {
  * @returns a zod rule
  */
 export const zodText = (prop) => {
-    return z.string().min(1).max(prop.length);
+    return z.string().min(0).max(prop.length);
 }
 
 /**
@@ -114,7 +114,7 @@ export const zodText = (prop) => {
  * @returns a zod rule
  */
 export const zodMediumText = (prop) => {
-    return z.string().min(1).max(162777215);
+    return z.string().min(0).max(162777215);
 }
 
 /**
@@ -229,7 +229,7 @@ export const dbPk = (prop) => {
  * @returns a drizzle field schema definition
  */
 export const dbRelation = (prop) => {
-    return `${dbId(prop)}.references(() => ${prop.relation?.kind}Table.id, {onDelete: ${prop.required ? '"cascade"' : '"set null"'}, onUpdate: ${prop.required ? '"cascade"' : '"no action"'}})`;
+    return `${dbId(prop)}`;
 }
 
 /**
