@@ -44,7 +44,8 @@ export default defineEventHandler(async (event) => {
                     realName: tgcUser.real_name,
                     admin: tgcUser.admin,
                     maintenanceManager: tgcUser.maintenance_manager,
-                    productionManager: tgcUser.production_manager
+                    productionManager: tgcUser.production_manager,
+                    verifyEmail: true,
                 });
                 userCreated = true;
             }
