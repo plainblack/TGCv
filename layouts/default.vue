@@ -80,10 +80,9 @@ const topNav = [
     { label: 'Home', to: '/', icon: 'prime:home' },
     { label: 'Ving Documentation', to: 'https://plainblack.github.io/ving/', icon: "prime:book" },
     {
-        label: 'Sample Dropdown', icon: "prime:thumbs-down", items: [
-            { label: 'Sample 1', to: '#', icon: 'pixelarticons:avatar' },
-            { label: 'Sample 2', to: '#', icon: 'prime:sliders-h' },
-
+        label: 'Maintenance', icon: "wpf:maintenance", items: [
+            { label: 'Equipment', to: '/maintenanceitemset', icon: 'mdi:printer-pos-cog-outline' },
+            { label: 'Tickets', to: '#', icon: 'prime:sliders-h' },
         ]
     },
 ]
