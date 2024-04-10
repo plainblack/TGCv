@@ -27,12 +27,12 @@
 
             <Column field="props.maintenanceItemId" header="Maintenance Item" sortable>
                 <template #body="slotProps">
-                    {{ slotProps.data.related?.item?.props?.name }}
+                    {{ allmaintenanceitems.find(slotProps.data.props?.maintenanceItemId)?.props?.name }}
                 </template>
             </Column>
             <Column field="props.maintenanceTaskId" header="Task" sortable>
                 <template #body="slotProps">
-                    {{ slotProps.data.related?.task?.props?.description }}
+                    {{ allmaintenancetasks.find(slotProps.data.props?.maintenanceTaskId)?.props?.description }}
                 </template>
             </Column>
             <Column field="props.months" header="Months" sortable></Column>
@@ -93,7 +93,7 @@ const dt = useDateTime();
 const maintenanceschedules = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceschedule`,
     createApi: `/api/${restVersion()}/maintenanceschedule`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['item', 'task'], maintenanceItemId: '', maintenanceId: '', },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceItemId: '', maintenanceId: '', },
     newDefaults: { recurrence: 'monthly', maintenanceItemId: '', maintenanceTaskId: '', days: 0, months: 0, weeks: 0, },
 });
 const allmaintenanceitems = useVingKind({
