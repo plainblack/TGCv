@@ -7,18 +7,6 @@ export const maintenanceTicketSchema = {
     props: [
         ...baseSchemaProps,
         {
-            type: "string",
-            name: "name",
-            required: true,
-            filterQuery: true,
-            length: 60,
-            default: '',
-            db: (prop) => dbString(prop),
-            zod: (prop) => zodString(prop),
-            view: [],
-            edit: ['owner'],
-        },
-        {
             type: "int",
             name: "ticketNumber",
             filterQualifier: true,
@@ -72,7 +60,7 @@ export const maintenanceTicketSchema = {
             required: true,
             filterQualifier: true,
             length: 20,
-            default: 'resolved',
+            default: 'unresolved',
             db: (prop) => dbEnum(prop),
             enums: ['resolved', 'unresolved'],
             enumLabels: ['Resolved', 'Unresolved'],

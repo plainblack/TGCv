@@ -4,8 +4,9 @@
     <div class="surface-card p-4 border-1 surface-border border-round">
         <div class="grid">
             <div class="col">
-                <FormSelect :options="maintenanceitems.recordsAsOptions('props', 'name')" name="maintenanceItemIdFilter"
-                    v-model="maintenanceschedules.query.maintenanceItemId" @change="maintenanceschedules.search()">
+                <FormSelect :options="allmaintenanceitems.recordsAsOptions('props', 'name')"
+                    name="maintenanceItemIdFilter" v-model="maintenanceschedules.query.maintenanceItemId"
+                    @change="maintenanceschedules.search()">
                     <template #prepend>
                         <option value="">All Items</option>
                     </template>
@@ -73,18 +74,8 @@
                         <FormInput name="days" type="number" v-model="maintenanceschedules.new.days" label="Days" />
                     </div>
 
-                    <div class="mb-4">
-                        <FormSelect :options="maintenanceitems.recordsAsOptions('props', 'name')"
-                            name="maintenanceItemId" v-model="maintenanceschedules.new.maintenanceItemId"
-                            label="Equipment" @change="updateMaintenanceTasks">
-                        </FormSelect>
-                    </div>
-                    <div class="mb-4">
-                        <FormSelect :options="maintenancetasks.recordsAsOptions('props', 'description')"
-                            name="maintenanceTaskId" v-model="maintenanceschedules.new.maintenanceTaskId"
-                            label="Maintenance Task">
-                        </FormSelect>
-                    </div>
+                    <MaintenanceItemTaskSelector :target="maintenanceschedules"
+                        :maintenanceitems="allmaintenanceitems" />
                     <div>
                         <Button type="submit" class="w-auto" severity="success">
                             <i class="pi pi-plus mr-1"></i> Create Maintenance Schedule
@@ -105,16 +96,12 @@ const maintenanceschedules = useVingKind({
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['item', 'task'], maintenanceItemId: '', maintenanceId: '', },
     newDefaults: { recurrence: 'monthly', maintenanceItemId: '', maintenanceTaskId: '', days: 0, months: 0, weeks: 0, },
 });
-const maintenanceitems = useVingKind({
+const allmaintenanceitems = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceitem`,
     createApi: `/api/${restVersion()}/maintenanceitem`,
     query: { sortBy: 'name' },
 });
-const maintenancetasks = useVingKind({
-    listApi: `/api/${restVersion()}/maintenancetask`,
-    createApi: `/api/${restVersion()}/maintenancetask`,
-    query: { sortBy: 'description' },
-});
+
 const allmaintenancetasks = useVingKind({
     listApi: `/api/${restVersion()}/maintenancetask`,
     createApi: `/api/${restVersion()}/maintenancetask`,
@@ -123,15 +110,9 @@ const allmaintenancetasks = useVingKind({
 await Promise.all([
     maintenanceschedules.search(),
     maintenanceschedules.fetchPropsOptions(),
-    maintenanceitems.all(),
+    allmaintenanceitems.all(),
     allmaintenancetasks.all(),
 ]);
 onBeforeRouteLeave(() => maintenanceschedules.dispose());
-
-const updateMaintenanceTasks = (async () => {
-    const item = maintenanceitems.records.find((item) => { return item.props.id == maintenanceschedules.new.maintenanceItemId });
-    maintenancetasks.query.maintenanceItemSetId = item.props.maintenanceItemSetId;
-    await maintenancetasks.reset().all();
-});
 
 </script>
