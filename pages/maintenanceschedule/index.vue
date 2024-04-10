@@ -4,32 +4,15 @@
     <div class="surface-card p-4 border-1 surface-border border-round">
 
         <InputGroup>
-            <InputGroupAddon>
-                <i class="pi pi-search" />
-            </InputGroupAddon>
-            <InputText type="text" placeholder="Maintenance Schedules" class="w-full"
-                v-model="maintenanceschedules.query.search" @keydown.enter="maintenanceschedules.search()" />
-            <Button label="Search" @click="maintenanceschedules.search()" />
+            <FormSelect :options="maintenanceitems.recordsAsOptions('props', 'name')" name="maintenanceItemIdFilter"
+                v-model="maintenanceschedules.query.maintenanceItemId" label="Equipment"
+                @change="maintenanceschedules.search()">
+            </FormSelect>
         </InputGroup>
 
         <DataTable :value="maintenanceschedules.records" stripedRows
             @sort="(e) => maintenanceschedules.sortDataTable(e)">
 
-            <Column field="props.id" header="Id" sortable>
-                <template #body="slotProps">
-                    <NuxtLink :to="`/maintenanceschedule/${slotProps.data.props.id}`" v-ripple>
-                        {{ slotProps.data.props.id }}
-                    </NuxtLink>
-                </template>
-            </Column>
-            <Column field="props.createdAt" header="Created At" sortable>
-                <template #body="slotProps">
-                    {{ dt.formatDateTime(slotProps.data.props.createdAt) }}
-                </template>
-            </Column>
-            <Column field="props.months" header="Months" sortable></Column>
-            <Column field="props.weeks" header="Weeks" sortable></Column>
-            <Column field="props.days" header="Days" sortable></Column>
             <Column field="props.maintenanceItemId" header="Maintenance Item" sortable>
                 <template #body="slotProps">
                     {{ slotProps.data.related?.item?.props?.name }}
@@ -40,11 +23,12 @@
                     {{ slotProps.data.related?.task?.props?.description }}
                 </template>
             </Column>
+            <Column field="props.months" header="Months" sortable></Column>
+            <Column field="props.weeks" header="Weeks" sortable></Column>
+            <Column field="props.days" header="Days" sortable></Column>
+
             <Column header="Manage">
                 <template #body="slotProps">
-                    <NuxtLink :to="`/maintenanceschedule/${slotProps.data.props.id}`" class="mr-2 no-underline">
-                        <Button icon="pi pi-eye" title="View" alt="View Maintenance Schedule" />
-                    </NuxtLink>
                     <NuxtLink v-if="slotProps.data.meta?.isOwner"
                         :to="`/maintenanceschedule/${slotProps.data.props.id}/edit`" class="mr-2 no-underline">
                         <Button icon="pi pi-pencil" severity="success" title="Edit" alt="Edit Maintenance Schedule" />
@@ -79,14 +63,15 @@
                     </div>
 
                     <div class="mb-4">
-                        <FormSelect :options="vingOptionize(maintenanceitems, 'name')" name="maintenanceItemId"
-                            v-model="maintenanceschedules.new.maintenanceItemId" label="Equipment"
-                            @change="updateMaintenanceTasks">
+                        <FormSelect :options="maintenanceitems.recordsAsOptions('props', 'name')"
+                            name="maintenanceItemId" v-model="maintenanceschedules.new.maintenanceItemId"
+                            label="Equipment" @change="updateMaintenanceTasks">
                         </FormSelect>
                     </div>
                     <div class="mb-4">
-                        <FormSelect :options="vingOptionize(maintenancetasks, 'description')" name="maintenanceTaskId"
-                            v-model="maintenanceschedules.new.maintenanceTaskId" label="Maintenance Task">
+                        <FormSelect :options="maintenancetasks.recordsAsOptions('props', 'description')"
+                            name="maintenanceTaskId" v-model="maintenanceschedules.new.maintenanceTaskId"
+                            label="Maintenance Task">
                         </FormSelect>
                     </div>
                     <div>
@@ -106,7 +91,7 @@ const dt = useDateTime();
 const maintenanceschedules = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceschedule`,
     createApi: `/api/${restVersion()}/maintenanceschedule`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['item', 'task'] },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['item', 'task'], maintenanceItemId: '', },
     newDefaults: { recurrence: 'monthly', maintenanceItemId: '', maintenanceTaskId: '', days: 0, months: 0, weeks: 0, },
 });
 const maintenanceitems = useVingKind({
@@ -125,12 +110,6 @@ await Promise.all([
     maintenanceitems.all(),
 ]);
 onBeforeRouteLeave(() => maintenanceschedules.dispose());
-const vingOptionize = (vingKind, field) => {
-    const options = vingKind.records.map((record) => {
-        return { label: record.props[field], value: record.props.id, }
-    });
-    return options;
-};
 
 const updateMaintenanceTasks = (async () => {
     const item = maintenanceitems.records.find((item) => { return item.props.id == maintenanceschedules.new.maintenanceItemId });
