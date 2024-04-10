@@ -68,6 +68,7 @@ export const maintenanceScheduleSchema = {
             type: "id",
             name: 'maintenanceTaskId',
             required: true,
+            filterQualifier: true,
             length: 36,
             db: (prop) => dbRelation(prop),
             relation: {

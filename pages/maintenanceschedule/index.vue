@@ -2,15 +2,25 @@
     <h1>Maintenance Schedules</h1>
 
     <div class="surface-card p-4 border-1 surface-border border-round">
-
-
-        <FormSelect :options="maintenanceitems.recordsAsOptions('props', 'name')" name="maintenanceItemIdFilter"
-            v-model="maintenanceschedules.query.maintenanceItemId" @change="maintenanceschedules.search()">
-            <template #prepend>
-                <option value="">All Items</option>
-            </template>
-        </FormSelect>
-
+        <div class="grid">
+            <div class="col">
+                <FormSelect :options="maintenanceitems.recordsAsOptions('props', 'name')" name="maintenanceItemIdFilter"
+                    v-model="maintenanceschedules.query.maintenanceItemId" @change="maintenanceschedules.search()">
+                    <template #prepend>
+                        <option value="">All Items</option>
+                    </template>
+                </FormSelect>
+            </div>
+            <div class="col">
+                <FormSelect :options="allmaintenancetasks.recordsAsOptions('props', 'description')"
+                    name="maintenanceTaskIdFilter" v-model="maintenanceschedules.query.maintenanceTaskId"
+                    @change="maintenanceschedules.search()">
+                    <template #prepend>
+                        <option value="">All Tasks</option>
+                    </template>
+                </FormSelect>
+            </div>
+        </div>
         <DataTable :value="maintenanceschedules.records" stripedRows
             @sort="(e) => maintenanceschedules.sortDataTable(e)">
 
@@ -92,7 +102,7 @@ const dt = useDateTime();
 const maintenanceschedules = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceschedule`,
     createApi: `/api/${restVersion()}/maintenanceschedule`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['item', 'task'], maintenanceItemId: '', },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['item', 'task'], maintenanceItemId: '', maintenanceId: '', },
     newDefaults: { recurrence: 'monthly', maintenanceItemId: '', maintenanceTaskId: '', days: 0, months: 0, weeks: 0, },
 });
 const maintenanceitems = useVingKind({
@@ -105,10 +115,16 @@ const maintenancetasks = useVingKind({
     createApi: `/api/${restVersion()}/maintenancetask`,
     query: { sortBy: 'description' },
 });
+const allmaintenancetasks = useVingKind({
+    listApi: `/api/${restVersion()}/maintenancetask`,
+    createApi: `/api/${restVersion()}/maintenancetask`,
+    query: { sortBy: 'description' },
+});
 await Promise.all([
     maintenanceschedules.search(),
     maintenanceschedules.fetchPropsOptions(),
     maintenanceitems.all(),
+    allmaintenancetasks.all(),
 ]);
 onBeforeRouteLeave(() => maintenanceschedules.dispose());
 
