@@ -168,7 +168,7 @@ const breadcrumbs = [
 const maintenanceitems = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceitem`,
     createApi: `/api/${restVersion()}/maintenanceitem`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceItemSetId: maintenanceitemset.props.id },
     newDefaults: { name: '', status: 'in_use', maintenanceItemSetId: maintenanceitemset.props.id },
 });
 await Promise.all([
@@ -178,7 +178,7 @@ await Promise.all([
 const maintenancetasks = useVingKind({
     listApi: `/api/${restVersion()}/maintenancetask`,
     createApi: `/api/${restVersion()}/maintenancetask`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceItemSetId: maintenanceitemset.props.id },
     newDefaults: { description: '', maintenanceItemSetId: maintenanceitemset.props.id },
 });
 await Promise.all([

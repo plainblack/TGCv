@@ -81,9 +81,9 @@ const topNav = [
     { label: 'Ving Documentation', to: 'https://plainblack.github.io/ving/', icon: "prime:book" },
     {
         label: 'Maintenance', icon: "wpf:maintenance", items: [
-            { label: 'Equipment', to: '/maintenanceitemset', icon: 'mdi:printer-pos-cog-outline' },
             { label: 'Tickets', to: '#', icon: 'prime:sliders-h' },
-        ]
+            { label: 'Equipment', to: '/maintenanceitemset', icon: 'mdi:printer-pos-cog-outline' },
+            { label: 'Schedule', to: '/maintenanceschedule', icon: 'healthicons:i-schedule-school-date-time' },]
     },
 ]
 

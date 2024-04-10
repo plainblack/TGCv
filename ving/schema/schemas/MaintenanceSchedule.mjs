@@ -47,14 +47,14 @@ export const maintenanceScheduleSchema = {
         },
         {
             type: "id",
-            name: 'maintenanceItemSetId',
+            name: 'maintenanceItemId',
             required: true,
             length: 36,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
-                name: 'maintenanceItemSet',
-                kind: 'MaintenanceItemSet',
+                name: 'item',
+                kind: 'MaintenanceItem',
             },
             default: undefined,
             view: ['owner'],
@@ -68,7 +68,7 @@ export const maintenanceScheduleSchema = {
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
-                name: 'maintenanceTask',
+                name: 'task',
                 kind: 'MaintenanceTask',
             },
             default: undefined,

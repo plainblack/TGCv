@@ -21,6 +21,7 @@ export const maintenanceTaskSchema = {
             type: "id",
             name: 'maintenanceItemSetId',
             required: true,
+            filterQualifier: true,
             db: (prop) => dbRelation(prop),
             view: ['owner', 'productionManager'],
             edit: ['owner'],

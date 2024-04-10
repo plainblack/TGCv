@@ -33,6 +33,7 @@ export const maintenanceItemSchema = {
             name: 'maintenanceItemSetId',
             required: true,
             length: 36,
+            filterQualifier: true,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',

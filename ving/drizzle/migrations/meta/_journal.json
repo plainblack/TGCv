@@ -15,6 +15,13 @@
       "when": 1712688079472,
       "tag": "0001_amazing_longshot",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1712769620987,
+      "tag": "0002_keen_hobgoblin",
+      "breakpoints": true
     }
   ]
 }
