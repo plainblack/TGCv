@@ -27,21 +27,19 @@
                     {{ dt.formatDateTime(slotProps.data.props.createdAt) }}
                 </template>
             </Column>
-            <Column field="props.updatedAt" header="Updated At" sortable>
-                <template #body="slotProps">
-                    {{ dt.formatDateTime(slotProps.data.props.updatedAt) }}
-                </template>
-            </Column>
-            <Column field="props.recurrence" header="Recurrence" sortable>
-                <template #body="slotProps">
-                    {{ enum2label(slotProps.data.props.recurrence, maintenanceschedules.propsOptions.recurrence) }}
-                </template>
-            </Column>
             <Column field="props.months" header="Months" sortable></Column>
             <Column field="props.weeks" header="Weeks" sortable></Column>
             <Column field="props.days" header="Days" sortable></Column>
-            <Column field="props.maintenanceItemSetId" header="Maintenance Item Set Id" sortable></Column>
-            <Column field="props.maintenanceTaskId" header="Maintenance Task Id" sortable></Column>
+            <Column field="props.maintenanceItemId" header="Maintenance Item" sortable>
+                <template #body="slotProps">
+                    {{ slotProps.data.related?.item?.props?.name }}
+                </template>
+            </Column>
+            <Column field="props.maintenanceTaskId" header="Task" sortable>
+                <template #body="slotProps">
+                    {{ slotProps.data.related?.task?.props?.description }}
+                </template>
+            </Column>
             <Column header="Manage">
                 <template #body="slotProps">
                     <NuxtLink :to="`/maintenanceschedule/${slotProps.data.props.id}`" class="mr-2 no-underline">
@@ -70,13 +68,14 @@
                             v-model="maintenanceschedules.new.recurrence" label="Recurrence" />
                     </div>
                     <div class="mb-4">
-                        <FormInput name="months" type="text" v-model="maintenanceschedules.new.months" label="Months" />
+                        <FormInput name="months" type="number" v-model="maintenanceschedules.new.months"
+                            label="Months" />
                     </div>
                     <div class="mb-4">
-                        <FormInput name="weeks" type="text" v-model="maintenanceschedules.new.weeks" label="Weeks" />
+                        <FormInput name="weeks" type="number" v-model="maintenanceschedules.new.weeks" label="Weeks" />
                     </div>
                     <div class="mb-4">
-                        <FormInput name="days" type="text" v-model="maintenanceschedules.new.days" label="Days" />
+                        <FormInput name="days" type="number" v-model="maintenanceschedules.new.days" label="Days" />
                     </div>
 
                     <div class="mb-4">
@@ -107,8 +106,8 @@ const dt = useDateTime();
 const maintenanceschedules = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceschedule`,
     createApi: `/api/${restVersion()}/maintenanceschedule`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' },
-    newDefaults: { recurrence: 'monthly', maintenanceItemId: '', maintenanceTaskId: '', days: '', months: '', weeks: '', },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['item', 'task'] },
+    newDefaults: { recurrence: 'monthly', maintenanceItemId: '', maintenanceTaskId: '', days: 0, months: 0, weeks: 0, },
 });
 const maintenanceitems = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceitem`,
@@ -130,7 +129,6 @@ const vingOptionize = (vingKind, field) => {
     const options = vingKind.records.map((record) => {
         return { label: record.props[field], value: record.props.id, }
     });
-    console.log(options);
     return options;
 };
 

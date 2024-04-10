@@ -22,6 +22,7 @@ export const maintenanceScheduleSchema = {
             type: "integer",
             name: 'months',
             required: false,
+            default: 0,
             db: (prop) => dbInt(prop),
             zod: (prop) => zodNumber(prop).gte(0).lte(12),
             view: ['owner'],
@@ -31,6 +32,7 @@ export const maintenanceScheduleSchema = {
             type: "integer",
             name: 'weeks',
             required: false,
+            default: 0,
             db: (prop) => dbInt(prop),
             zod: (prop) => zodNumber(prop).gte(0).lte(5),
             view: ['owner'],
@@ -39,6 +41,7 @@ export const maintenanceScheduleSchema = {
         {
             type: "integer",
             name: 'days',
+            default: 0,
             required: false,
             db: (prop) => dbInt(prop),
             zod: (prop) => zodNumber(prop).gte(0).lte(31),
