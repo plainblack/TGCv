@@ -5,8 +5,7 @@
 
 
         <FormSelect :options="maintenanceitems.recordsAsOptions('props', 'name')" name="maintenanceItemIdFilter"
-            v-model="maintenanceschedules.query.maintenanceItemId" label="Equipment"
-            @change="maintenanceschedules.search()">
+            v-model="maintenanceschedules.query.maintenanceItemId" @change="maintenanceschedules.search()">
             <template #prepend>
                 <option value="">All Items</option>
             </template>
