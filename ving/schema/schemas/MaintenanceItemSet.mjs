@@ -10,6 +10,7 @@ export const maintenanceItemSetSchema = {
             type: "string",
             name: "name",
             required: true,
+            filterQuery: true,
             length: 60,
             default: '',
             db: (prop) => dbString(prop),

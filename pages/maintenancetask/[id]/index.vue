@@ -52,6 +52,7 @@ const maintenancetask = useVingRecord({
 await maintenancetask.fetch()
 
 const breadcrumbs = [
+    { label: 'Maintenance Item Sets', to: '/maintenanceitemset' },
     { label: `${maintenancetask.related.itemSet.props.name}`, to: `/maintenanceitemset/${maintenancetask.related.itemSet.props.id}` },
     { label: 'Edit Task' },
 ];

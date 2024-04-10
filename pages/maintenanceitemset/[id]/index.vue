@@ -161,7 +161,7 @@ await maintenanceitemset.fetch()
 
 const breadcrumbs = [
     { label: 'Maintenance Item Sets', to: '/maintenanceitemset' },
-    { label: 'Edit' },
+    { label: `${maintenanceitemset.props.name}` },
 ];
 const maintenanceitems = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceitem`,
