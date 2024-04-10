@@ -1,45 +1,62 @@
 <template>
     <Crumbtrail :crumbs="breadcrumbs" />
-    <h1>{{maintenanceitem.props?.name}}</h1>
-    <div v-if="maintenanceitem.props?.id" class="surface-card p-4 border-1 surface-border border-round flex-auto">
-        
-            <div><b>Id</b>: {{maintenanceitem.props?.id}}</div>
-            
-            <div><b>Created At</b>: {{dt.formatDateTime(maintenanceitem.props?.createdAt)}}</div>
-            
-            <div><b>Updated At</b>: {{dt.formatDateTime(maintenanceitem.props?.updatedAt)}}</div>
-            
-            <div><b>Name</b>: {{maintenanceitem.props?.name}}</div>
-            
-            <div><b>Status</b>: {{enum2label(maintenanceitem.props?.status, maintenanceitem.options?.status)}}</div>
-            
-            <div><b>Maintenance Item Set Id</b>: {{maintenanceitem.props?.maintenanceItemSetId}}</div>
-            
-    </div>
-    <div class="mt-3" v-if="maintenanceitem.meta?.isOwner">
-        <NuxtLink :to="`/maintenanceitem/${maintenanceitem.props?.id}/edit`" class="no-underline mr-2 mb-2">
-            <Button severity="success" title="Edit" alt="Edit Maintenance Item"><i class="pi pi-pencil mr-1"></i> Edit</Button>
-        </NuxtLink>
-        <Button @click="maintenanceitem.delete()" severity="danger" title="Delete" alt="Delete Maintenance Item"><i class="pi pi-trash mr-1"></i> Delete</Button>
-    </div>
+    <h1>Edit Maintenance Item</h1>
+
+    <FieldsetNav v-if="maintenanceitem.props">
+        <FieldsetItem name="Properties">
+
+            <div class="mb-4">
+                <FormInput name="name" type="text" v-model="maintenanceitem.props.name" required label="Name"
+                    @change="maintenanceitem.update()" />
+            </div>
+            <div class="mb-4">
+                <FormSelect name="status" :options="maintenanceitem.options?.status"
+                    v-model="maintenanceitem.props.status" label="Status" @change="maintenanceitem.update()" />
+            </div>
+        </FieldsetItem>
+
+        <FieldsetItem name="Statistics">
+
+            <div class="mb-4"><b>Id</b>: {{ maintenanceitem.props?.id }}</div>
+
+            <div class="mb-4"><b>Created At</b>: {{ dt.formatDateTime(maintenanceitem.props.createdAt) }}</div>
+
+            <div class="mb-4"><b>Updated At</b>: {{ dt.formatDateTime(maintenanceitem.props.updatedAt) }}</div>
+
+        </FieldsetItem>
+
+        <FieldsetItem name="Actions">
+            <Button @click="maintenanceitem.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
+                alt="Delete Maintenance Item"><i class="pi pi-trash mr-1"></i> Delete</Button>
+        </FieldsetItem>
+
+    </FieldsetNav>
 </template>
-  
+
 <script setup>
+definePageMeta({
+    middleware: ['auth']
+});
 const route = useRoute();
+const dt = useDateTime();
+const notify = useNotifyStore();
 const id = route.params.id.toString();
 const maintenanceitem = useVingRecord({
     id,
     fetchApi: `/api/${restVersion()}/maintenanceitem/${id}`,
-    query: { includeMeta: true, includeOptions: true },
+    createApi: `/api/${restVersion()}/maintenanceitem`,
+    query: { includeMeta: true, includeOptions: true, includeRelated: ['itemSet'] },
+    onUpdate() {
+        notify.success('Updated Maintenance Item.');
+    },
     async onDelete() {
         await navigateTo('/maintenanceitem');
     },
 });
+
 await maintenanceitem.fetch();
-onBeforeRouteLeave(() => maintenanceitem.dispose());
-const dt = useDateTime();
 const breadcrumbs = [
-    { label: 'Maintenance Items', to: '/maintenanceitem' },
-    { label: 'View' },
+    { label: `${maintenanceitem.related.itemSet.props.name}`, to: `/maintenanceitemset/${maintenanceitem.related.itemSet.props.id}` },
+    { label: 'Edit Item' },
 ];
 </script>

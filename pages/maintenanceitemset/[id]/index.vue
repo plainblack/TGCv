@@ -32,7 +32,7 @@
                 <Column header="Manage">
                     <template #body="slotProps">
                         <NuxtLink v-if="slotProps.data.meta?.isOwner"
-                            :to="`/maintenanceitem/${slotProps.data.props.id}/edit`" class="mr-2 no-underline">
+                            :to="`/maintenanceitem/${slotProps.data.props.id}`" class="mr-2 no-underline">
                             <Button icon="pi pi-pencil" severity="success" title="Edit" alt="Edit Maintenance Item" />
                         </NuxtLink>
                         <Button v-if="slotProps.data.meta?.isOwner" title="Delete" alt="Delete Maintenance Item"
@@ -59,11 +59,6 @@
                                 <FormSelect name="status" :options="maintenanceitems.propsOptions?.status"
                                     v-model="maintenanceitems.new.status" label="Status" />
                             </div>
-                            <div class="mb-4">
-                                <FormInput name="maintenanceItemSetId" type="text"
-                                    v-model="maintenanceitems.new.maintenanceItemSetId" required
-                                    label="Maintenance Item Set Id" />
-                            </div>
                             <div>
                                 <Button type="submit" class="w-auto" severity="success">
                                     <i class="pi pi-plus mr-1"></i> Create Maintenance Item
@@ -76,6 +71,52 @@
 
             </Dialog>
 
+        </FieldsetItem>
+
+        <FieldsetItem name="Tasks">
+            <DataTable :value="maintenancetasks.records" stripedRows @sort="(e) => maintenancetasks.sortDataTable(e)">
+                <Column field="props.description" header="Description" sortable>
+                    <template #body="slotProps">
+                        <NuxtLink :to="`/maintenancetask/${slotProps.data.props.id}`" v-ripple>
+                            {{ slotProps.data.props.description }}
+                        </NuxtLink>
+                    </template>
+                </Column>
+                <Column header="Manage">
+                    <template #body="slotProps">
+                        <NuxtLink v-if="slotProps.data.meta?.isOwner"
+                            :to="`/maintenancetask/${slotProps.data.props.id}`" class="mr-2 no-underline">
+                            <Button icon="pi pi-pencil" severity="success" title="Edit" alt="Edit Maintenance Task" />
+                        </NuxtLink>
+                        <Button v-if="slotProps.data.meta?.isOwner" title="Delete" alt="Delete Maintenance Task"
+                            icon="pi pi-trash" severity="danger" @click="slotProps.data.delete()" />
+                    </template>
+                </Column>
+            </DataTable>
+            <Pager :kind="maintenancetasks" />
+            <Button icon="pi pi-pencil" label="Create Task" class="mr-2" severity="success"
+                @click="createTasks.visible = true" />
+            <Dialog v-model:visible="createTasks.visible" maximizable modal header="Header" :style="{ width: '75vw' }">
+
+                <h2 class="mt-0">Create Maintenance Task</h2>
+
+                <Form :send="() => maintenancetasks.create()">
+                    <div class="flex gap-5 flex-column-reverse md:flex-row">
+                        <div class="flex-auto p-fluid">
+
+                            <div class="mb-4">
+                                <FormInput name="description" type="text" v-model="maintenancetasks.new.description"
+                                    required label="Description" />
+                            </div>
+                            <div>
+                                <Button type="submit" class="w-auto" severity="success">
+                                    <i class="pi pi-plus mr-1"></i> Create Maintenance Task
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </Form>
+            </Dialog>
         </FieldsetItem>
 
         <FieldsetItem name="Statistics">
@@ -126,14 +167,28 @@ const maintenanceitems = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceitem`,
     createApi: `/api/${restVersion()}/maintenanceitem`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' },
-    newDefaults: { name: '', status: 'in_use', maintenanceItemSetId: '' },
+    newDefaults: { name: '', status: 'in_use', maintenanceItemSetId: maintenanceitemset.props.id },
 });
-const createItems = ref({ visible: false, });
-const createTasks = ref({ visible: false, });
-
-
 await Promise.all([
     maintenanceitems.search(),
     maintenanceitems.fetchPropsOptions(),
 ]);
+const maintenancetasks = useVingKind({
+    listApi: `/api/${restVersion()}/maintenancetask`,
+    createApi: `/api/${restVersion()}/maintenancetask`,
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' },
+    newDefaults: { description: '', maintenanceItemSetId: maintenanceitemset.props.id },
+});
+await Promise.all([
+    maintenancetasks.search(),
+    maintenancetasks.fetchPropsOptions(),
+]);
+const createItems = ref({ visible: false, });
+const createTasks = ref({ visible: false, });
+
+onBeforeRouteLeave(() => {
+    maintenanceitems.dispose();
+    maintenancetasks.dispose();
+});
+
 </script>
