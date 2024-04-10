@@ -193,7 +193,7 @@ class VingKind {
      */
     create(props = {}, options = {}) {
         const self = this;
-        const newProps = _.defaultsDeep({}, self.new, props);
+        const newProps = _.defaultsDeep({}, props, self.new);
         const newRecord = self.mint({ props: newProps });
         const addIt = function () {
             if (options?.unshift || self.#behavior?.unshift) {
@@ -378,6 +378,23 @@ class VingKind {
      */
     partialUpdate(index, props, options) {
         return this.records[index].partialUpdate(props, options);
+    }
+
+    /**
+     * Turns the list of records into an array compatible with various components such as FormSelect and Autocomplete
+     * Usage: `users.recordsAsOptions('meta','displayName')`
+     * 
+     * @param {'props'|'meta'|'extra'} section One of the describe section names such as `props`, or `meta`, or `extra`.
+     * @param {string} field The name of the field within the `section` that will serve as the labelf for this option list.
+     * @returns {Object[]} An array of objects with `label` and `value` attributes.
+     */
+    recordsAsOptions(section, field) {
+        return this.records.map(u => {
+            return {
+                value: u.props?.id,
+                label: u[section][field]
+            }
+        })
     }
 
     /**
