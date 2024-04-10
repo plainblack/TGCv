@@ -81,20 +81,12 @@
                     <MaintenanceItemTaskSelector :target="maintenancetickets" :maintenanceitems="allmaintenanceitems" />
 
                     <div class="mb-4">
-                        <FormInput name="description" type="text" v-model="maintenancetickets.new.description" required
-                            label="Description" />
-                    </div>
-                    <div class="mb-4">
-                        <FormSelect name="type" :options="maintenancetickets.propsOptions?.type"
-                            v-model="maintenancetickets.new.type" label="Type" />
+                        <FormInput name="description" type="textarea" v-model="maintenancetickets.new.description"
+                            required label="Description" />
                     </div>
                     <div class="mb-4">
                         <FormSelect name="severity" :options="maintenancetickets.propsOptions?.severity"
                             v-model="maintenancetickets.new.severity" label="Severity" />
-                    </div>
-                    <div class="mb-4">
-                        <FormSelect name="status" :options="maintenancetickets.propsOptions?.status"
-                            v-model="maintenancetickets.new.status" label="Status" />
                     </div>
                     <div class="mb-4">
                         <FormInput name="submittedBy" type="text" v-model="maintenancetickets.new.submittedBy" required
@@ -118,7 +110,7 @@ const maintenancetickets = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceticket`,
     createApi: `/api/${restVersion()}/maintenanceticket`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceTaskId: '', maintenanceItemId: '', },
-    newDefaults: { name: '', description: '', type: 'routine', severity: 'working', status: 'resolved', submittedBy: '', maintenanceTaskId: '', maintenanceItemId: '' },
+    newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', maintenanceTaskId: '', maintenanceItemId: '' },
 });
 const allmaintenanceitems = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceitem`,

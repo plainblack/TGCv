@@ -11,7 +11,7 @@ CREATE TRIGGER `trig_maintenanceticket`
             SET NEW.ticketNumber = 1;
         END IF;
         IF NEW.ticketNumber = 1 THEN 
-            insert into `seq` (name,id,val) values ('maintenanceticket', 1);
+            insert into `seq` (name,val) values ('maintenanceticket', 1);
         END IF;
     END;$$
 DELIMITER ;

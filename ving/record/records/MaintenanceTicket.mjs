@@ -20,6 +20,11 @@ export class MaintenanceTicketRecord extends VingRecord {
         return out;
     }
 
+    async insert() {
+        await super.insert();
+        await this.refresh(); //Needed to get the projectNumber from the db.
+    };
+
 
     /**
          * Extends `delete()` in `VingRecord` to delete the associated `MaintenanceRemark` and `MaintenanceFile`.
