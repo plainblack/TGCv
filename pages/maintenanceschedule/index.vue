@@ -3,12 +3,14 @@
 
     <div class="surface-card p-4 border-1 surface-border border-round">
 
-        <InputGroup>
-            <FormSelect :options="maintenanceitems.recordsAsOptions('props', 'name')" name="maintenanceItemIdFilter"
-                v-model="maintenanceschedules.query.maintenanceItemId" label="Equipment"
-                @change="maintenanceschedules.search()">
-            </FormSelect>
-        </InputGroup>
+
+        <FormSelect :options="maintenanceitems.recordsAsOptions('props', 'name')" name="maintenanceItemIdFilter"
+            v-model="maintenanceschedules.query.maintenanceItemId" label="Equipment"
+            @change="maintenanceschedules.search()">
+            <template #prepend>
+                <option value="">All Items</option>
+            </template>
+        </FormSelect>
 
         <DataTable :value="maintenanceschedules.records" stripedRows
             @sort="(e) => maintenanceschedules.sortDataTable(e)">
