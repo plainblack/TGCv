@@ -1,20 +1,15 @@
 <template>
     <Crumbtrail :crumbs="breadcrumbs" />
-    <h1>{{ maintenanceticket.props?.name }}</h1>
+    <h1>{{ maintenanceticket.meta?.fullName }}</h1>
     <div v-if="maintenanceticket.props?.id" class="surface-card p-4 border-1 surface-border border-round flex-auto">
 
-        <div><b>Id</b>: {{ maintenanceticket.props?.id }}
-            <CopyToClipboard :text="maintenanceticket.props?.id" />
+        <div><b>Task</b>: {{ maintenanceticket.related?.task.props.description }}
+            <CopyToClipboard :text="maintenanceticket.props?.maintenanceTaskId" />
         </div>
 
-        <div><b>Created At</b>: {{ dt.formatDateTime(maintenanceticket.props?.createdAt) }}</div>
-
-        <div><b>Updated At</b>: {{ dt.formatDateTime(maintenanceticket.props?.updatedAt) }}</div>
-
-        <div><b>Name</b>: {{ maintenanceticket.props?.name }}</div>
-
-        <div><b>Ticket Number</b>: {{ maintenanceticket.props?.ticketNumber }}</div>
-
+        <div><b>Item</b>: {{ maintenanceticket.related?.item.props.name }}
+            <CopyToClipboard :text="maintenanceticket.props?.maintenanceItemId" />
+        </div>
         <div><b>Description</b>: {{ maintenanceticket.props?.description }}</div>
 
         <div><b>Type</b>: {{ enum2label(maintenanceticket.props?.type, maintenanceticket.options?.type) }}</div>
@@ -28,13 +23,14 @@
 
         <div><b>Submitted By</b>: {{ maintenanceticket.props?.submittedBy }}</div>
 
-        <div><b>Maintenance Task Id</b>: {{ maintenanceticket.props?.maintenanceTaskId }}
-            <CopyToClipboard :text="maintenanceticket.props?.maintenanceTaskId" />
+        <div><b>Id</b>: {{ maintenanceticket.props?.id }}
+            <CopyToClipboard :text="maintenanceticket.props?.id" />
         </div>
 
-        <div><b>Maintenance Item Id</b>: {{ maintenanceticket.props?.maintenanceItemId }}
-            <CopyToClipboard :text="maintenanceticket.props?.maintenanceItemId" />
-        </div>
+        <div><b>Created At</b>: {{ dt.formatDateTime(maintenanceticket.props?.createdAt) }}</div>
+
+        <div><b>Updated At</b>: {{ dt.formatDateTime(maintenanceticket.props?.updatedAt) }}</div>
+
 
     </div>
     <div class="mt-3" v-if="maintenanceticket.meta?.isOwner">
@@ -53,7 +49,7 @@ const id = route.params.id.toString();
 const maintenanceticket = useVingRecord({
     id,
     fetchApi: `/api/${restVersion()}/maintenanceticket/${id}`,
-    query: { includeMeta: true, includeOptions: true },
+    query: { includeMeta: true, includeOptions: true, includeRelated: ['item', 'task'] },
     async onDelete() {
         await navigateTo('/maintenanceticket');
     },
