@@ -191,6 +191,7 @@ const createTasks = ref({ visible: false, });
 onBeforeRouteLeave(() => {
     maintenanceitems.dispose();
     maintenancetasks.dispose();
+    maintenanceitemset.dispose();
 });
 
 </script>

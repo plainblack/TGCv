@@ -62,4 +62,5 @@ const breadcrumbs = [
     { label: `${maintenanceitem.related.itemSet.props.name}`, to: `/maintenanceitemset/${maintenanceitem.related.itemSet.props.id}` },
     { label: 'Edit Item' },
 ];
+onBeforeRouteLeave(() => maintenanceitem.dispose());
 </script>

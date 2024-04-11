@@ -27,4 +27,7 @@ const updateMaintenanceTasks = (async () => {
     maintenancetasks.query.maintenanceItemSetId = item.props.maintenanceItemSetId;
     await maintenancetasks.reset().all();
 });
+onBeforeRouteLeave(() => {
+    maintenancetasks.dispose();
+});
 </script>

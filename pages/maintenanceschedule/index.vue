@@ -113,6 +113,10 @@ await Promise.all([
     allmaintenanceitems.all(),
     allmaintenancetasks.all(),
 ]);
-onBeforeRouteLeave(() => maintenanceschedules.dispose());
+onBeforeRouteLeave(() => {
+    maintenanceschedules.dispose()
+    allmaintenanceitems.dispose()
+    allmaintenancetasks.dispose()
+});
 
 </script>
