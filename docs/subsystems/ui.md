@@ -187,7 +187,7 @@ Slots:
 
 ```html
 <FormSelect>
-    <template v-slot="prepend">
+    <template #prepend>
         <option value="foo">Foo</option>
     </template>
 </FormSelect>
@@ -228,8 +228,16 @@ Place this in your layouts so the user has an indication that there are some bac
 </client-only>
 ```
 
+
+### UserAvatar
+Displays the user's avatar next to their display name.
+
+```html
+<UserAvatar :user="user" />
+```
+
 ### UserProfileLink
-Creates a link to a user profile including the user's avatar.
+Wraps the `UserAvatar` component in a `NuxtLink` pointing to the user's profile page.
 
 ```html
 <UserProfileLink :user="user" />
