@@ -11,26 +11,18 @@
                     @change="maintenanceschedule.update()" />
             </div>
             <div class="mb-4">
-                <FormInput name="months" type="text" v-model="maintenanceschedule.props.months" label="Months"
+                <FormInput name="months" type="number" v-model="maintenanceschedule.props.months" label="Months"
                     @change="maintenanceschedule.update()" />
             </div>
             <div class="mb-4">
-                <FormInput name="weeks" type="text" v-model="maintenanceschedule.props.weeks" label="Weeks"
+                <FormInput name="weeks" type="number" v-model="maintenanceschedule.props.weeks" label="Weeks"
                     @change="maintenanceschedule.update()" />
             </div>
             <div class="mb-4">
-                <FormInput name="days" type="text" v-model="maintenanceschedule.props.days" label="Days"
+                <FormInput name="days" type="number" v-model="maintenanceschedule.props.days" label="Days"
                     @change="maintenanceschedule.update()" />
             </div>
-            <div class="mb-4">
-                <FormInput name="maintenanceItemSetId" type="text"
-                    v-model="maintenanceschedule.props.maintenanceItemSetId" required label="Maintenance Item Set Id"
-                    @change="maintenanceschedule.update()" />
-            </div>
-            <div class="mb-4">
-                <FormInput name="maintenanceTaskId" type="text" v-model="maintenanceschedule.props.maintenanceTaskId"
-                    required label="Maintenance Task Id" @change="maintenanceschedule.update()" />
-            </div>
+            <MaintenanceItemTaskSelectorEdit :target="maintenanceschedule" />
         </FieldsetItem>
 
         <FieldsetItem name="Statistics">
