@@ -49,8 +49,16 @@
                 </template>
             </Column>
             <Column field="props.submittedBy" header="By" sortable></Column>
-            <Column field="props.maintenanceTaskId" header="Task" sortable></Column>
-            <Column field="props.maintenanceItemId" header="Item" sortable></Column>
+            <Column field="props.maintenanceItemId" header="Maintenance Item" sortable>
+                <template #body="slotProps">
+                    {{ allmaintenanceitems.find(slotProps.data.props?.maintenanceItemId)?.props?.name }}
+                </template>
+            </Column>
+            <Column field="props.maintenanceTaskId" header="Task" sortable>
+                <template #body="slotProps">
+                    {{ allmaintenancetasks.find(slotProps.data.props?.maintenanceTaskId)?.props?.description }}
+                </template>
+            </Column>
             <Column field="props.updatedAt" header="Updated At" sortable>
                 <template #body="slotProps">
                     {{ dt.formatDateTime(slotProps.data.props.updatedAt) }}
