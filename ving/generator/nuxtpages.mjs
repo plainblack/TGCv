@@ -63,10 +63,10 @@ const prop2type = (prop) => {
     if (prop.name == 'email') {
         return 'email';
     }
-    if (prop.type == 'number') {
+    if (prop.type == 'int') {
         return 'number';
     }
-    if (prop.type == 'string' && prop.length > 256) {
+    if (prop.type == 'string' && (prop.length > 256 || prop.length == undefined)) {
         return 'textarea';
     }
     else {
@@ -261,6 +261,15 @@ const editProps = (schema) => {
                         <FormSelect name="${prop.name}" :options="${schema.kind.toLowerCase()}.options?.${prop.name}" v-model="${schema.kind.toLowerCase()}.props.${prop.name}" label="${makeLabel(prop.name)}" @change="${schema.kind.toLowerCase()}.update()" />
                     </div>`;
             }
+            else if (prop.type == 'id' && prop?.relation?.type == 'parent' && prop.relation?.kind == 'S3File') {
+                out += `
+                    <div class="mb-4">
+                        <client-only>
+                            <Dropzone :acceptedFiles="['.png', '.jpg', '.gif']" :afterUpload="(s3file) => ${schema.kind.toLowerCase()}.importS3File('${prop?.relation?.name}', s3file.props?.id)"
+                                :maxFiles="1" :resizeHeight="300" :resizeWidth="300" resizeMethod="crop"></Dropzone>
+                        </client-only>
+                    </div>`;
+            }
             else if (prop.type != 'virtual') {
                 out += `
                     <div class="mb-4">
@@ -341,6 +350,7 @@ const ${name.toLowerCase()} = useVingRecord({
     },
 });
 await ${name.toLowerCase()}.fetch()
+onBeforeRouteLeave(() => ${name.toLowerCase()}.dispose());
 
 const breadcrumbs = [
     { label: '${makeWords(name)}s', to: '/${name.toLowerCase()}' },
