@@ -29,14 +29,6 @@
                 <FormInput name="submittedBy" type="text" v-model="maintenanceticket.props.submittedBy" required
                     label="Submitted By" @change="maintenanceticket.update()" />
             </div>
-            <div class="mb-4">
-                <FormInput name="maintenanceTaskId" type="text" v-model="maintenanceticket.props.maintenanceTaskId"
-                    required label="Maintenance Task Id" @change="maintenanceticket.update()" />
-            </div>
-            <div class="mb-4">
-                <FormInput name="maintenanceItemId" type="text" v-model="maintenanceticket.props.maintenanceItemId"
-                    required label="Maintenance Item Id" @change="maintenanceticket.update()" />
-            </div>
         </FieldsetItem>
 
         <FieldsetItem name="Statistics">
