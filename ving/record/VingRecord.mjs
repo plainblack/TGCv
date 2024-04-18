@@ -1,7 +1,7 @@
 import { findVingSchema } from '#ving/schema/map.mjs';
 import ving from '#ving/index.mjs';
 import _ from 'lodash';
-import { eq, asc, desc, and, ne, sql, getTableName } from '#ving/drizzle/orm.mjs';
+import { eq, asc, desc, and, ne, sql, getTableName, count, sum, avg, min, max } from '#ving/drizzle/orm.mjs';
 import { stringDefault, booleanDefault, numberDefault, dateDefault } from '#ving/schema/helpers.mjs';
 
 /**
@@ -121,6 +121,22 @@ export class VingRecord {
         }
         const schema = findVingSchema(getTableName(this.table));
         throw ving.ouch(403, `You do not have the privileges to access ${schema.kind}.`)
+    }
+
+    /**
+     * Creates a new record based upon the props of an old one. Note that this doesn't save the new record to the database, you'll need to call `insert()` on it to do that.
+     * 
+     * Usage: `const newRecord = this.copy()`
+     * 
+     * @returns {Object} a newly minted record based upon the original props
+     */
+    async copy() {
+        const schema = findVingSchema(getTableName(this.table));
+        const kind = await ving.useKind(schema.kind);
+        let props = { ...this.getAll() };
+        delete props.id;
+        delete props.createdAt;
+        return kind.mint(props);
     }
 
     /**
@@ -632,30 +648,67 @@ export class VingKind {
     }
 
     /**
-     * Creates a new record based upon the props of an old one. Note that this doesn't save the new record to the database, you'll need to call `insert()` on it to do that.
-     * 
-     * Usage: `const newRecord = Users.copy(user.getAll())`
-     * 
-     * @param {Object} originalProps a list of props to be copied
-     * @returns a newly minted record based upon the original props
-     */
-    copy(originalProps) {
-        let props = { ...originalProps };
-        delete props.id;
-        delete props.createdAt;
-        return this.mint(props);
-    }
-
-    /**
      * Get the number of records of this kind
      * 
      * Usage: `const numberOfUsers = await Users.count()`
      * 
      * @param {Object} where A drizzle where clause
-     * @returns A count of the records
+     * @returns {number} A count of the records
      */
     async count(where) {
-        return (await this.db.select({ count: sql`count(*)`.as('count') }).from(this.table).where(this.calcWhere(where)))[0].count;
+        return (await this.db.select({ value: count() }).from(this.table).where(this.calcWhere(where)))[0].value;
+    }
+
+    /**
+     * Sum the values of a field of this kind
+     * 
+     * Usage: `await S3Files.sum('sizeInBytes')`
+     * 
+     * @param {string} field The name of the column to sum
+     * @param {Object} where A drizzle where clause
+     * @returns {number} A count of the records
+     */
+    async sum(field, where) {
+        return (await this.db.select({ value: sum(this.table[field]) }).from(this.table).where(this.calcWhere(where)))[0].value;
+    }
+
+    /**
+     * Average the values of a field of this kind
+     * 
+     * Usage: `await S3Files.avg('sizeInBytes')`
+     * 
+     * @param {string} field The name of the column to average
+     * @param {Object} where A drizzle where clause
+     * @returns {number} A count of the records
+     */
+    async avg(field, where) {
+        return (await this.db.select({ value: avg(this.table[field]) }).from(this.table).where(this.calcWhere(where)))[0].value;
+    }
+
+    /**
+     * Get the minimum value for a field of this kind
+     * 
+     * Usage: `await S3Files.min('sizeInBytes')`
+     * 
+     * @param {string} field The name of the column to get the minimum
+     * @param {Object} where A drizzle where clause
+     * @returns {number} A count of the records
+     */
+    async min(field, where) {
+        return (await this.db.select({ value: min(this.table[field]) }).from(this.table).where(this.calcWhere(where)))[0].value;
+    }
+
+    /**
+    * Get the maximum value for a field of this kind. 
+    * 
+    * Usage: `await S3Files.max('sizeInBytes')`
+    * 
+    * @param {string} field The name of the column to get the maximum
+    * @param {Object} where A drizzle where clause
+    * @returns {number} A count of the records
+    */
+    async max(field, where) {
+        return (await this.db.select({ value: max(this.table[field]) }).from(this.table).where(this.calcWhere(where)))[0].value;
     }
 
     /**
