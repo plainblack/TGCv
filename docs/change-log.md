@@ -3,6 +3,9 @@ outline: deep
 ---
 # Change Log
 
+## 2024-04-12
+* Moved copy() from VingKind to VingRecord as its easier to use and less fragile.
+
 ## 2024-04-11
 * Made currentUserStore more fault tollerant.
 * Implemented: add required to FormSelect #95
@@ -17,6 +20,7 @@ outline: deep
 * Fixed: drizzle kit is now interactive #93
 * Fixed: cannot dispose useVingRecord on edit page #102
 * Added UserAvatar component.
+* Added min, max, sum, and avg methods to VingKind.
 
 ## 2024-04-10
 * Implemented: filterQualifier: true should be in the examples for all relation ids #96
