@@ -1,5 +1,6 @@
 import { VingRecord, VingKind } from "#ving/record/VingRecord.mjs";
-import { eq } from '#ving/drizzle/orm.mjs';
+import { sum } from '#ving/drizzle/orm.mjs';
+import ving from '#ving/index.mjs';
 
 /** Management of individual MaintenanceTickets.
  * @class
@@ -15,7 +16,6 @@ export class MaintenanceTicketRecord extends VingRecord {
     async describe(params = {}) {
         const out = await super.describe(params);
         if (params?.include?.meta && out.meta) {
-            out.meta.fullName = '#' + this.projectNumber + ' ' + this.name;
         }
         return out;
     }
@@ -24,7 +24,15 @@ export class MaintenanceTicketRecord extends VingRecord {
         await super.insert();
         await this.refresh(); //Needed to get the projectNumber from the db.
     };
-
+    /**
+         * Count the number of minutes in all `MaintenanceRemark`s.
+         * 
+         */
+    async sumResolutionMinutes() {
+        const remarks = await this.children('remarks');
+        this.resolutionMinutes = await remarks.sum('resolutionMinutes');
+        this.update();
+    }
 
     /**
          * Extends `delete()` in `VingRecord` to delete the associated `MaintenanceRemark` and `MaintenanceFile`.
