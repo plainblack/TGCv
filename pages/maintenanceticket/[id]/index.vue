@@ -32,6 +32,7 @@
 
 
     </div>
+    <MaintenanceRemark v-for="remark in maintenanceremarks.records" :key="remark.props?.id" :remark="remark"/>
     <div class="mt-5 surface-card p-5 border-1 surface-border border-round">
         <h2 class="mt-0">Comments</h2>
         <div class="mt-5 surface-card p-5 border-1 surface-border border-round" v-for="remark in maintenanceremarks.records">
@@ -111,6 +112,7 @@
 <script setup>
 const route = useRoute();
 const id = route.params.id.toString();
+
 const maintenanceticket = useVingRecord({
     id,
     fetchApi: `/api/${restVersion()}/maintenanceticket/${id}`,
@@ -122,7 +124,7 @@ const maintenanceticket = useVingRecord({
 const maintenanceremarks = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceremark`,
     createApi: `/api/${restVersion()}/maintenanceremark`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', },
     newDefaults: { description: '', resolution: 'n_a',resolutionMinutes: 0, submittedBy: '', maintenanceTicketId: maintenanceticket.props.id },
     async onCreate() {
         await maintenanceticket.fetch();
