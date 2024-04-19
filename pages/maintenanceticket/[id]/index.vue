@@ -55,77 +55,6 @@
     </div>
     <div class="surface-card p-4 border-1 surface-border border-round">
 
-        <InputGroup>
-            <InputGroupAddon>
-                <i class="pi pi-search" />
-            </InputGroupAddon>
-            <InputText type="text" placeholder="Maintenance Remarks" class="w-full"
-                v-model="maintenanceremarks.query.search" @keydown.enter="maintenanceremarks.search()" />
-            <Button label="Search" @click="maintenanceremarks.search()" />
-        </InputGroup>
-
-        <DataTable :value="maintenanceremarks.records" stripedRows @sort="(e) => maintenanceremarks.sortDataTable(e)">
-            
-            <Column field="props.description" header="Description" sortable></Column>
-            <Column field="props.resolution" header="Resolution">
-                <template #body="slotProps">
-                    {{ enum2label(slotProps.data.props.resolution, maintenanceremarks.propsOptions.resolution) }}
-                </template>
-            </Column>
-            <Column field="props.resolutionMinutes" header="Resolution Minutes"></Column>
-            <Column field="props.submittedBy" header="Submitted By" sortable></Column>
-            <Column field="props.createdAt" header="Created At" sortable>
-                <template #body="slotProps">
-                    {{ dt.formatDateTime(slotProps.data.props.createdAt) }}
-                </template>
-            </Column>
-            <Column field="props.updatedAt" header="Updated At" sortable>
-                <template #body="slotProps">
-                    {{ dt.formatDateTime(slotProps.data.props.updatedAt) }}
-                </template>
-            </Column>
-            <Column header="Manage">
-                <template #body="slotProps">
-                    <NuxtLink v-if="slotProps.data.meta?.isOwner" :to="`/maintenanceremark/${slotProps.data.props.id}/edit`" class="mr-2 no-underline">
-                        <Button icon="pi pi-pencil" severity="success" title="Edit" alt="Edit Maintenance Remark" />
-                    </NuxtLink>
-                    <Button v-if="slotProps.data.meta?.isOwner"  title="Delete" alt="Delete Maintenance Remark" icon="pi pi-trash" severity="danger" @click="slotProps.data.delete()" />
-                </template>
-            </Column>
-        </DataTable>
-        <Pager :kind="maintenanceremarks" />
-    </div>
-    <div class="mt-5 surface-card p-5 border-1 surface-border border-round">
-        <h2 class="mt-0">Create Maintenance Remark</h2>
-
-        <Form :send="() => maintenanceremarks.create()">
-            <div class="flex gap-5 flex-column-reverse md:flex-row">
-                <div class="flex-auto p-fluid">
-                    
-                    <div class="mb-4">
-                        <FormInput name="description" type="text" v-model="maintenanceremarks.new.description" required label="Description" />
-                    </div>
-                    <div class="mb-4">
-                        <FormSelect name="resolution" :options="maintenanceremarks.propsOptions?.resolution" v-model="maintenanceremarks.new.resolution" label="Resolution" />
-                    </div>
-                    <div class="mb-4">
-                        <FormInput name="submittedBy" type="text" v-model="maintenanceremarks.new.submittedBy" required label="Submitted By" />
-                    </div>
-                    <div class="mb-4">
-                        <FormInput name="resolutionMinutes" type="number" v-model="maintenanceremarks.new.resolutionMinutes" label="Time Spent" />
-                    </div>
-                    <div>
-                        <Button type="submit" class="w-auto" severity="success">
-                        <i class="pi pi-plus mr-1"></i> Create Maintenance Remark
-                        </Button>
-                    </div>
-                </div>
-
-            </div>
-        </Form>
-    </div>
-    <div class="surface-card p-4 border-1 surface-border border-round">
-
 <DataTable :value="maintenancefiles.records" stripedRows @sort="(e) => maintenancefiles.sortDataTable(e)">
     
     <Column field="props.createdAt" header="Created At" sortable>
@@ -210,9 +139,9 @@ const maintenancefiles = useVingKind({
 });
 
 const uploadMaintenanceFile = async (s3file) => {
-    const response = await maintenancefiles.create();
+    const response = await maintenancefiles.create({s3FileId: s3file.props?.id});
     const file = maintenancefiles.find(response.data?.props?.id);
-    file.importS3File('s3file', s3file.props?.id);
+    await file.importS3File('s3file', s3file.props?.id);
 };
 
 await Promise.all([
