@@ -1,10 +1,10 @@
-name: ving
+name: tgcv
 runtime:
   name: nodejs
   options:
     typescript: false
 main: Pulumi.mjs
-description: Set up AWS services for Ving
+description: Set up AWS services for TGCv
 config:
   pulumi:tags:
     value:
