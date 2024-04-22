@@ -32,61 +32,9 @@
 
 
     </div>
+    <MaintenanceFile v-for="file in maintenancefiles.records" :key="file.props.id" :mFile="file" />
     <MaintenanceRemark v-for="remark in maintenanceremarks.records" :key="remark.props?.id" :remark="remark"/>
-    <div class="mt-5 surface-card p-5 border-1 surface-border border-round">
-        <h2 class="mt-0">Comments</h2>
-        <div class="mt-5 surface-card p-5 border-1 surface-border border-round" v-for="remark in maintenanceremarks.records">
-            <h3 class="mt-0">{{ remark.props.submittedBy }} at {{ dt.formatDateTime(remark.props.updatedAt) }}</h3>
-            <div v-if="! remark.props.editing">{{ remark.props.description }}</div>
-            <div v-else>
-                <div>
-                    <FormInput name="description" type="text" v-model="remark.props.description" required
-                    label="Description"/>
-                </div>
-                <div>
-                    <Button class="w-auto" severity="success" title="Save" alt="Save" @click="remark.update(); remark.props.editing=false;">
-                        <i class="pi pi-plus mr-1"></i> Save
-                    </Button>
-            </div>
-            </div>
-            <div> 
-                <Button icon="pi pi-pencil" severity="success" title="Edit" alt="Edit Comment" @click="remark.props.editing = true" />
-                <Button v-if="remark.meta?.isOwner"  title="Delete" alt="Delete Comment" icon="pi pi-trash" severity="danger" @click="remark.delete()" /></div>
-        </div>
-    </div>
-    <div class="surface-card p-4 border-1 surface-border border-round">
 
-<DataTable :value="maintenancefiles.records" stripedRows @sort="(e) => maintenancefiles.sortDataTable(e)">
-    
-    <Column field="props.createdAt" header="Created At" sortable>
-        <template #body="slotProps">
-            {{ dt.formatDateTime(slotProps.data.props.createdAt) }}
-        </template>
-    </Column>
-    <Column field="props.updatedAt" header="Updated At" sortable>
-        <template #body="slotProps">
-            {{ dt.formatDateTime(slotProps.data.props.updatedAt) }}
-        </template>
-    </Column>
-    <Column field="props.s3FileId" header="File" sortable>
-        <template #body="slotProps">
-            <img :src="slotProps.data.related?.s3file?.meta?.thumbnailUrl" />
-        </template>
-    </Column>
-    <Column header="Manage">
-        <template #body="slotProps">
-            <NuxtLink :to="`/maintenancefile/${slotProps.data.props.id}`" class="mr-2 no-underline">
-                <Button icon="pi pi-eye"  title="View" alt="View Maintenance File" />
-            </NuxtLink>
-            <NuxtLink v-if="slotProps.data.meta?.isOwner" :to="`/maintenancefile/${slotProps.data.props.id}/edit`" class="mr-2 no-underline">
-                <Button icon="pi pi-pencil" severity="success" title="Edit" alt="Edit Maintenance File" />
-            </NuxtLink>
-            <Button v-if="slotProps.data.meta?.isOwner"  title="Delete" alt="Delete Maintenance File" icon="pi pi-trash" severity="danger" @click="slotProps.data.delete()" />
-        </template>
-    </Column>
-</DataTable>
-<Pager :kind="maintenancefiles" />
-</div>
     <div class="mt-5 surface-card p-5 border-1 surface-border border-round">
         <h2 class="mt-0">Add Files</h2>
         <div class="mb-4">
