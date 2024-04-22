@@ -43,7 +43,7 @@
 
                 <div class="col-8">
                     <div class="mb-4">
-                        <FormInput name="description" type="textarea" v-model="maintenanceremarks.new.description"
+                        <FormInput name="description" type="markdown" v-model="maintenanceremarks.new.description"
                             required label="Description" />
                     </div>
                 </div>
