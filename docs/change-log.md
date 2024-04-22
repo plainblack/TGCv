@@ -3,10 +3,23 @@ outline: deep
 ---
 # Change Log
 
+## 2024-04-22
+* Added MarkdownInput form control component for editing markdown text.
+* Added MarkdownView component for viewing markdown text.
+* Integrated MarkdownInput into FormInput component so you can just set "type" equal to "markdown" and display the input.
+* Added a `bio` field to the User that can be edited in their profile settings and displayed on their profile page.
+* NOTE: Due to the above change you should regenerate your drizzle tables and run a migration.
+
+## 2024-04-20
+* Fixed a bug where the rest generator would incorrectly generate child relationship api.
+* Added an empty layout.
+
 ## 2024-04-19
 * Fixed a problem where the default values set by a parent on child records wasn't being respected.
 * Update lambda file upload function to handle CSV files and other file types by returning the file size.
 * Update S3File Record to allow SVG file uploads and sets the iconf type for files that aren't bitmaps.
+* Make useVingRecord aware of extra state.
+* Fix count() on VingRecord.
 
 ## 2024-04-18
 * Cast result of sum() and avg() to number.
