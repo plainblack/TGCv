@@ -6,10 +6,6 @@
         <FieldsetItem name="Properties">
 
             <div class="mb-4">
-                <FormInput name="name" type="text" v-model="maintenanceticket.props.name" required label="Name"
-                    @change="maintenanceticket.update()" />
-            </div>
-            <div class="mb-4">
                 <FormInput name="description" type="text" v-model="maintenanceticket.props.description" required
                     label="Description" @change="maintenanceticket.update()" />
             </div>
