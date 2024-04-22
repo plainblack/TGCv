@@ -33,14 +33,48 @@
 
     </div>
     <MaintenanceFile v-for="file in maintenancefiles.records" :key="file.props.id" :mFile="file" />
-    <MaintenanceRemark v-for="remark in maintenanceremarks.records" :key="remark.props?.id" :remark="remark"/>
+    <div class="mt-5 surface-card p-5 border-1 surface-border border-round">
+        <h2 class="mt-0">Add Comment</h2>
+
+        <Form :send="() => maintenanceremarks.create()">
+            <div class="grid">
+
+                <div class="col-8">
+                    <div class="mb-4">
+                        <FormInput name="description" type="textarea" v-model="maintenanceremarks.new.description"
+                            required label="Description" />
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="mb-4">
+                        <FormSelect name="resolution" :options="maintenanceremarks.propsOptions?.resolution"
+                            v-model="maintenanceremarks.new.resolution" label="Resolution" />
+                    </div>
+                    <div class="mb-4">
+                        <FormInput name="submittedBy" type="text" v-model="maintenanceremarks.new.submittedBy" required
+                            label="Submitted By" />
+                    </div>
+                    <div class="mb-4">
+                        <FormInput name="resolutionMinutes" type="number"
+                            v-model="maintenanceremarks.new.resolutionMinutes" label="Time Spent" />
+                    </div>
+                    <div>
+                        <Button type="submit" class="w-auto" severity="success">
+                            <i class="pi pi-plus mr-1"></i> Add Comment
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        </Form>
+    </div>
+
+    <MaintenanceRemark v-for="remark in maintenanceremarks.records" :key="remark.props?.id" :remark="remark" />
 
     <div class="mt-5 surface-card p-5 border-1 surface-border border-round">
         <h2 class="mt-0">Add Files</h2>
         <div class="mb-4">
             <client-only>
-                <Dropzone
-                    :acceptedFiles="['.png', '.jpeg', '.jpg', '.gif', '.pdf', '.tiff', '.svg', '.dxf', '.csv']"
+                <Dropzone :acceptedFiles="['.png', '.jpeg', '.jpg', '.gif', '.pdf', '.tiff', '.svg', '.dxf', '.csv']"
                     :afterUpload="uploadMaintenanceFile">
                 </Dropzone>
             </client-only>
@@ -73,7 +107,7 @@ const maintenanceremarks = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceremark`,
     createApi: `/api/${restVersion()}/maintenanceremark`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', },
-    newDefaults: { description: '', resolution: 'n_a',resolutionMinutes: 0, submittedBy: '', maintenanceTicketId: maintenanceticket.props.id },
+    newDefaults: { description: '', resolution: 'n_a', resolutionMinutes: 0, submittedBy: '', maintenanceTicketId: maintenanceticket.props.id },
     async onCreate() {
         await maintenanceticket.fetch();
     },
@@ -89,7 +123,7 @@ const maintenancefiles = useVingKind({
 });
 
 const uploadMaintenanceFile = async (s3file) => {
-    const response = await maintenancefiles.create({s3FileId: s3file.props?.id});
+    const response = await maintenancefiles.create({ s3FileId: s3file.props?.id });
     const file = maintenancefiles.find(response.data?.props?.id);
     await file.importS3File('s3file', s3file.props?.id);
 };
