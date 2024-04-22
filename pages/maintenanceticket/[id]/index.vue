@@ -109,7 +109,7 @@ const maintenanceremarks = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceremark`,
     createApi: `/api/${restVersion()}/maintenanceremark`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', },
-    newDefaults: { description: '', resolution: 'n_a', resolutionMinutes: 0, submittedBy: '', maintenanceTicketId: maintenanceticket.props.id },
+    newDefaults: { description: '', resolution: 'n_a', resolutionMinutes: 0, submittedBy: '', maintenanceTicketId: maintenanceticket.props?.id },
     async onCreate() {
         await maintenanceticket.fetch();
     },
@@ -121,7 +121,7 @@ const maintenancefiles = useVingKind({
     listApi: `/api/${restVersion()}/maintenancefile`,
     createApi: `/api/${restVersion()}/maintenancefile`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['s3file'], },
-    newDefaults: { s3FileId: '', maintenanceTicketId: maintenanceticket.props.id },
+    newDefaults: { s3FileId: '', maintenanceTicketId: maintenanceticket.props?.id },
 });
 
 const uploadMaintenanceFile = async (s3file) => {
