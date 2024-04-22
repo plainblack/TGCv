@@ -22,8 +22,10 @@ export class MaintenanceRemarkRecord extends VingRecord {
     async set(key, value) {
         const out = super.set(key, value);
         if (key == 'resolution' && value == 'resolved') {
+            console.log("Update parent ticket");
             const ticket = await this.parent('ticket');
             ticket.status = 'resolved';
+            console.log("Ticket id: " + ticket.get('id'));
             await ticket.update();
         }
         return out;
