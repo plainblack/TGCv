@@ -6,7 +6,7 @@
         <FieldsetItem name="Properties">
 
             <div class="mb-4">
-                <FormInput name="description" type="text" v-model="maintenanceticket.props.description" required
+                <FormInput name="description" type="markdown" v-model="maintenanceticket.props.description" required
                     label="Description" @change="maintenanceticket.update()" />
             </div>
             <div class="mb-4">

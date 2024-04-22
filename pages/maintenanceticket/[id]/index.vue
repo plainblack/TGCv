@@ -9,7 +9,9 @@
         <div><b>Task</b>: {{ maintenanceticket.related?.task.props.description }}
             <CopyToClipboard :text="maintenanceticket.props?.maintenanceTaskId" />
         </div>
-        <div><b>Description</b>: {{ maintenanceticket.props?.description }}</div>
+        <div><b>Description</b>:
+            <MarkdownView :text="maintenanceticket.props?.description" />
+        </div>
 
         <div><b>Type</b>: {{ enum2label(maintenanceticket.props?.type, maintenanceticket.options?.type) }}</div>
 

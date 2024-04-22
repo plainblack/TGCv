@@ -4,9 +4,8 @@
     <div class="surface-card p-4 border-1 surface-border border-round">
         <div class="grid">
             <div class="col">
-                <FormSelect :options="maintenancetickets.propsOptions?.type"
-                    name="typeFilter" v-model="maintenancetickets.query.type"
-                    @change="maintenancetickets.search()">
+                <FormSelect :options="maintenancetickets.propsOptions?.type" name="typeFilter"
+                    v-model="maintenancetickets.query.type" @change="maintenancetickets.search()">
                     <template #prepend>
                         <option value="">All Types</option>
                     </template>
@@ -98,7 +97,7 @@
                     <MaintenanceItemTaskSelector :target="maintenancetickets" :maintenanceitems="allmaintenanceitems" />
 
                     <div class="mb-4">
-                        <FormInput name="description" type="textarea" v-model="maintenancetickets.new.description"
+                        <FormInput name="description" type="markdown" v-model="maintenancetickets.new.description"
                             required label="Description" />
                     </div>
                     <div class="mb-4">
@@ -130,7 +129,7 @@ const dt = useDateTime();
 const maintenancetickets = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceticket`,
     createApi: `/api/${restVersion()}/maintenanceticket`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceTaskId: '', maintenanceItemId: '', type: 'needs_help',},
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceTaskId: '', maintenanceItemId: '', type: 'needs_help', },
     newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', maintenanceTaskId: '', maintenanceItemId: '' },
 });
 const allmaintenanceitems = useVingKind({
