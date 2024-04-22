@@ -18,6 +18,16 @@ export class MaintenanceRemarkRecord extends VingRecord {
         await super.delete();
         await ticket.sumResolutionMinutes();
     }
+
+    async set(key, value) {
+        const out = super.set(key, value);
+        if (key == 'resolution' && value == 'resolved') {
+            const ticket = await this.parent('ticket');
+            ticket.resolution == 'resolved';
+            await ticket.update();
+        }
+        return out;
+    }
 }
 
 /** Management of all MaintenanceRemarks.

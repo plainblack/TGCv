@@ -23,11 +23,22 @@ export class MaintenanceTicketRecord extends VingRecord {
     async insert() {
         await super.insert();
         await this.refresh(); //Needed to get the projectNumber from the db.
+        if (this.get('status') == 'needs_help') {
+            this.sendSlackPing();
+        }
     };
+
+    async update() {
+        await super.update();
+        if (this.get('status') == 'needs_help') {
+            this.sendSlackPing();
+        }
+    };
+
     /**
-         * Count the number of minutes in all `MaintenanceRemark`s.
-         * 
-         */
+     * Count the number of minutes in all `MaintenanceRemark`s.
+     * 
+     */
     async sumResolutionMinutes() {
         const remarks = await this.children('remarks');
         this.resolutionMinutes = await remarks.sum('resolutionMinutes');
@@ -46,6 +57,10 @@ export class MaintenanceTicketRecord extends VingRecord {
         await (await this.children('files')).deleteMany();
 
         await super.delete();
+    }
+
+    async sendSlackPing() {
+        //do a bunch of slack stuff
     }
 
 }
