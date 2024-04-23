@@ -9,8 +9,7 @@ export class MaintenanceRemarkRecord extends VingRecord {
     // add custom Record code here
     async insert() {
         await super.insert();
-        const ticket = await this.parent('ticket');
-        await ticket.sumResolutionMinutes();
+        await this.updateTicket();
     }
 
     async delete() {
@@ -19,17 +18,33 @@ export class MaintenanceRemarkRecord extends VingRecord {
         await ticket.sumResolutionMinutes();
     }
 
-    async set(key, value) {
+    async update() {
+        await super.update();
+        await this.updateTicket();
+    }
+
+    #markParentResolved = false;
+
+    set(key, value) {
         const out = super.set(key, value);
         if (key == 'resolution' && value == 'resolved') {
             console.log("Update parent ticket");
-            const ticket = await this.parent('ticket');
-            ticket.status = 'resolved';
-            console.log("Ticket id: " + ticket.get('id'));
-            await ticket.update();
+            this.#markParentResolved = true;
         }
         return out;
     }
+
+    async updateTicket() {
+        const ticket = await this.parent('ticket');
+        if (this.#markParentResolved) {
+            ticket.status = 'resolved';
+            console.log("Ticket id: " + ticket.get('id'));
+            await ticket.update();
+            this.#markParentResolved = false;
+        }
+        await ticket.sumResolutionMinutes();
+    };
+
 }
 
 /** Management of all MaintenanceRemarks.
