@@ -30,7 +30,7 @@
         <FieldsetItem name="Statistics">
 
             <div class="mb-4"><b>Id</b>: {{ maintenanceticket.props?.id }}
-                <CopyToClipboard :text="maintenanceticket.props?.id" />
+                <CopyToClipboard size="xs" :text="maintenanceticket.props?.id" />
             </div>
 
             <div class="mb-4"><b>Created At</b>: {{ dt.formatDateTime(maintenanceticket.props.createdAt) }}</div>

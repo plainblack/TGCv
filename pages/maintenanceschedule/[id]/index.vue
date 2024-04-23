@@ -4,7 +4,7 @@
     <div v-if="maintenanceschedule.props?.id" class="surface-card p-4 border-1 surface-border border-round flex-auto">
 
         <div><b>Id</b>: {{ maintenanceschedule.props?.id }}
-            <CopyToClipboard :text="maintenanceschedule.props?.id" />
+            <CopyToClipboard size="xs" :text="maintenanceschedule.props?.id" />
         </div>
 
         <div><b>Created At</b>: {{ dt.formatDateTime(maintenanceschedule.props?.createdAt) }}</div>
@@ -21,11 +21,11 @@
         <div><b>Days</b>: {{ maintenanceschedule.props?.days }}</div>
 
         <div><b>Maintenance Item Set Id</b>: {{ maintenanceschedule.props?.maintenanceItemSetId }}
-            <CopyToClipboard :text="maintenanceschedule.props?.maintenanceItemSetId" />
+            <CopyToClipboard size="xs" :text="maintenanceschedule.props?.maintenanceItemSetId" />
         </div>
 
         <div><b>Maintenance Task Id</b>: {{ maintenanceschedule.props?.maintenanceTaskId }}
-            <CopyToClipboard :text="maintenanceschedule.props?.maintenanceTaskId" />
+            <CopyToClipboard size="xs" :text="maintenanceschedule.props?.maintenanceTaskId" />
         </div>
 
     </div>

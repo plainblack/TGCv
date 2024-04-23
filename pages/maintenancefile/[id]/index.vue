@@ -3,15 +3,15 @@
     <h1>{{maintenancefile.props?.id}}</h1>
     <div v-if="maintenancefile.props?.id" class="surface-card p-4 border-1 surface-border border-round flex-auto">
         
-            <div><b>Id</b>: {{maintenancefile.props?.id}} <CopyToClipboard :text="maintenancefile.props?.id" /></div>
+            <div><b>Id</b>: {{maintenancefile.props?.id}} <CopyToClipboard size="xs" :text="maintenancefile.props?.id" /></div>
             
             <div><b>Created At</b>: {{dt.formatDateTime(maintenancefile.props?.createdAt)}}</div>
             
             <div><b>Updated At</b>: {{dt.formatDateTime(maintenancefile.props?.updatedAt)}}</div>
             
-            <div><b>S3 File Id</b>: {{maintenancefile.props?.s3FileId}} <CopyToClipboard :text="maintenancefile.props?.s3FileId" /></div>
+            <div><b>S3 File Id</b>: {{maintenancefile.props?.s3FileId}} <CopyToClipboard size="xs" :text="maintenancefile.props?.s3FileId" /></div>
             
-            <div><b>Maintenance Ticket Id</b>: {{maintenancefile.props?.maintenanceTicketId}} <CopyToClipboard :text="maintenancefile.props?.maintenanceTicketId" /></div>
+            <div><b>Maintenance Ticket Id</b>: {{maintenancefile.props?.maintenanceTicketId}} <CopyToClipboard size="xs" :text="maintenancefile.props?.maintenanceTicketId" /></div>
             
     </div>
     <div class="mt-3" v-if="maintenancefile.meta?.isOwner">

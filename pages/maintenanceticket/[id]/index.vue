@@ -4,10 +4,10 @@
     <div v-if="maintenanceticket.props?.id" class="surface-card p-4 border-1 surface-border border-round flex-auto">
 
         <div><b>Item</b>: {{ maintenanceticket.related?.item.props.name }}
-            <CopyToClipboard :text="maintenanceticket.props?.maintenanceItemId" />
+            <CopyToClipboard size="xs" :text="maintenanceticket.props?.maintenanceItemId" />
         </div>
         <div><b>Task</b>: {{ maintenanceticket.related?.task.props.description }}
-            <CopyToClipboard :text="maintenanceticket.props?.maintenanceTaskId" />
+            <CopyToClipboard size="xs" :text="maintenanceticket.props?.maintenanceTaskId" />
         </div>
         <div><b>Description</b>:
             <MarkdownView :text="maintenanceticket.props?.description" />
@@ -25,7 +25,7 @@
         <div><b>Submitted By</b>: {{ maintenanceticket.props?.submittedBy }}</div>
 
         <div><b>Id</b>: {{ maintenanceticket.props?.id }}
-            <CopyToClipboard :text="maintenanceticket.props?.id" />
+            <CopyToClipboard size="xs" :text="maintenanceticket.props?.id" />
         </div>
 
         <div><b>Created At</b>: {{ dt.formatDateTime(maintenanceticket.props?.createdAt) }}</div>
