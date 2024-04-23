@@ -30,7 +30,7 @@
                         name="admin" label="Admin" />
                 </div>
                 <div class="mb-4">
-                    <FormSelect @change="user.update()" v-model="user.props.maintenanceManager" :options="user.options?.maintenanceManager"
+                    <FormInput type="select" @change="user.update()" v-model="user.props.maintenanceManager" :options="user.options?.maintenanceManager"
                         name="maintenanceManager" label="Maintenance Manager" />
                 </div> 
            </FieldsetItem>

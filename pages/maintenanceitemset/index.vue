@@ -53,7 +53,7 @@
                             label="Name" />
                     </div>
                     <div class="mb-4">
-                        <FormSelect name="status" :options="maintenanceitemsets.propsOptions?.status"
+                        <FormInput type="select" name="status" :options="maintenanceitemsets.propsOptions?.status"
                             v-model="maintenanceitemsets.new.status" label="Status" />
                     </div>
                     <div>

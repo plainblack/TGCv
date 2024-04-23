@@ -1,13 +1,13 @@
 <template>
     <div class="mb-4">
-        <FormSelect :options="maintenanceitems.recordsAsOptions('props', 'name')" name="maintenanceItemId"
+        <FormInput type="select" :options="maintenanceitems.recordsAsOptions('props', 'name')" name="maintenanceItemId"
             v-model="target.new.maintenanceItemId" label="Equipment" @change="updateMaintenanceTasks">
-        </FormSelect>
+        </FormInput>
     </div>
     <div class="mb-4">
-        <FormSelect :options="maintenancetasks.recordsAsOptions('props', 'description')" name="maintenanceTaskId"
+        <FormInput type="select" :options="maintenancetasks.recordsAsOptions('props', 'description')" name="maintenanceTaskId"
             v-model="target.new.maintenanceTaskId" label="Maintenance Task">
-        </FormSelect>
+        </FormInput>
     </div>
 </template>
 

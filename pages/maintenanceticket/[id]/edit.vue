@@ -10,15 +10,15 @@
                     label="Description" @change="maintenanceticket.update()" />
             </div>
             <div class="mb-4">
-                <FormSelect name="type" :options="maintenanceticket.options?.type"
+                <FormInput type="select" name="type" :options="maintenanceticket.options?.type"
                     v-model="maintenanceticket.props.type" label="Type" @change="maintenanceticket.update()" />
             </div>
             <div class="mb-4">
-                <FormSelect name="severity" :options="maintenanceticket.options?.severity"
+                <FormInput type="select" name="severity" :options="maintenanceticket.options?.severity"
                     v-model="maintenanceticket.props.severity" label="Severity" @change="maintenanceticket.update()" />
             </div>
             <div class="mb-4">
-                <FormSelect name="status" :options="maintenanceticket.options?.status"
+                <FormInput type="select" name="status" :options="maintenanceticket.options?.status"
                     v-model="maintenanceticket.props.status" label="Status" @change="maintenanceticket.update()" />
             </div>
             <div class="mb-4">

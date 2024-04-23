@@ -49,7 +49,7 @@
                 </div>
                 <div class="col-4">
                     <div class="mb-4">
-                        <FormSelect name="resolution" :options="maintenanceremarks.propsOptions?.resolution"
+                        <FormInput type="select" name="resolution" :options="maintenanceremarks.propsOptions?.resolution"
                             v-model="maintenanceremarks.new.resolution" label="Resolution" />
                     </div>
                     <div class="mb-4">

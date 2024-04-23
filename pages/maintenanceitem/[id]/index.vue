@@ -10,7 +10,7 @@
                     @change="maintenanceitem.update()" />
             </div>
             <div class="mb-4">
-                <FormSelect name="status" :options="maintenanceitem.options?.status"
+                <FormInput type="select" name="status" :options="maintenanceitem.options?.status"
                     v-model="maintenanceitem.props.status" label="Status" @change="maintenanceitem.update()" />
             </div>
         </FieldsetItem>

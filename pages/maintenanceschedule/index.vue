@@ -4,22 +4,22 @@
     <div class="surface-card p-4 border-1 surface-border border-round">
         <div class="grid">
             <div class="col">
-                <FormSelect :options="allmaintenanceitems.recordsAsOptions('props', 'name')"
+                <FormInput type="select" :options="allmaintenanceitems.recordsAsOptions('props', 'name')"
                     name="maintenanceItemIdFilter" v-model="maintenanceschedules.query.maintenanceItemId"
                     @change="maintenanceschedules.search()">
                     <template #prepend>
                         <option value="">All Items</option>
                     </template>
-                </FormSelect>
+                </FormInput>
             </div>
             <div class="col">
-                <FormSelect :options="allmaintenancetasks.recordsAsOptions('props', 'description')"
+                <FormInput type="select" :options="allmaintenancetasks.recordsAsOptions('props', 'description')"
                     name="maintenanceTaskIdFilter" v-model="maintenanceschedules.query.maintenanceTaskId"
                     @change="maintenanceschedules.search()">
                     <template #prepend>
                         <option value="">All Tasks</option>
                     </template>
-                </FormSelect>
+                </FormInput>
             </div>
         </div>
         <DataTable :value="maintenanceschedules.records" stripedRows
@@ -60,7 +60,7 @@
                 <div class="flex-auto p-fluid">
 
                     <div class="mb-4">
-                        <FormSelect name="recurrence" :options="maintenanceschedules.propsOptions?.recurrence"
+                        <FormInput type="select" name="recurrence" :options="maintenanceschedules.propsOptions?.recurrence"
                             v-model="maintenanceschedules.new.recurrence" label="Recurrence" />
                     </div>
                     <div class="mb-4">

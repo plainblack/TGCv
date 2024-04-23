@@ -4,30 +4,30 @@
     <div class="surface-card p-4 border-1 surface-border border-round">
         <div class="grid">
             <div class="col">
-                <FormSelect :options="maintenancetickets.propsOptions?.type" name="typeFilter"
+                <FormInput type="select" :options="maintenancetickets.propsOptions?.type" name="typeFilter"
                     v-model="maintenancetickets.query.type" @change="maintenancetickets.search()">
                     <template #prepend>
                         <option value="">All Types</option>
                     </template>
-                </FormSelect>
+                </FormInput>
             </div>
             <div class="col">
-                <FormSelect :options="allmaintenanceitems.recordsAsOptions('props', 'name')"
+                <FormInput type="select" :options="allmaintenanceitems.recordsAsOptions('props', 'name')"
                     name="maintenanceItemIdFilter" v-model="maintenancetickets.query.maintenanceItemId"
                     @change="maintenancetickets.search()">
                     <template #prepend>
                         <option value="">All Items</option>
                     </template>
-                </FormSelect>
+                </FormInput>
             </div>
             <div class="col">
-                <FormSelect :options="allmaintenancetasks.recordsAsOptions('props', 'description')"
+                <FormInput type="select" :options="allmaintenancetasks.recordsAsOptions('props', 'description')"
                     name="maintenanceTaskIdFilter" v-model="maintenancetickets.query.maintenanceTaskId"
                     @change="maintenancetickets.search()">
                     <template #prepend>
                         <option value="">All Tasks</option>
                     </template>
-                </FormSelect>
+                </FormInput>
             </div>
             <div class="col-6">
                 <InputGroup>
@@ -101,11 +101,11 @@
                             required label="Description" />
                     </div>
                     <div class="mb-4">
-                        <FormSelect name="type" :options="maintenancetickets.propsOptions?.type"
+                        <FormInput type="select" name="type" :options="maintenancetickets.propsOptions?.type"
                             v-model="maintenancetickets.new.type" label="Type" />
                     </div>
                     <div class="mb-4">
-                        <FormSelect name="severity" :options="maintenancetickets.propsOptions?.severity"
+                        <FormInput type="select" name="severity" :options="maintenancetickets.propsOptions?.severity"
                             v-model="maintenancetickets.new.severity" label="Severity" />
                     </div>
                     <div class="mb-4">

@@ -6,7 +6,7 @@
         <FieldsetItem name="Properties">
 
             <div class="mb-4">
-                <FormSelect name="recurrence" :options="maintenanceschedule.options?.recurrence"
+                <FormInput type="select" name="recurrence" :options="maintenanceschedule.options?.recurrence"
                     v-model="maintenanceschedule.props.recurrence" label="Recurrence"
                     @change="maintenanceschedule.update()" />
             </div>
