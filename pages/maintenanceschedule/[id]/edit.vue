@@ -47,6 +47,8 @@
         </FieldsetItem>
 
     </FieldsetNav>
+    <MaintenanceScheduleExamples />
+
 </template>
 
 <script setup>

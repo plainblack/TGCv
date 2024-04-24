@@ -60,7 +60,8 @@
                 <div class="flex-auto p-fluid">
 
                     <div class="mb-4">
-                        <FormInput type="select" name="recurrence" :options="maintenanceschedules.propsOptions?.recurrence"
+                        <FormInput type="select" name="recurrence"
+                            :options="maintenanceschedules.propsOptions?.recurrence"
                             v-model="maintenanceschedules.new.recurrence" label="Recurrence" />
                     </div>
                     <div class="mb-4">
@@ -86,6 +87,7 @@
             </div>
         </Form>
     </div>
+    <MaintenanceScheduleExamples />
 </template>
 
 <script setup>
