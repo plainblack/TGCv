@@ -29,6 +29,15 @@
                     </template>
                 </FormInput>
             </div>
+            <div class="col">
+                <FormInput type="select" :options="maintenancetickets.propsOptions?.status"
+                    name="maintenanceStatusFilter" v-model="maintenancetickets.query.status"
+                    @change="maintenancetickets.search()">
+                    <template #prepend>
+                        <option value="">Open or closed</option>
+                    </template>
+                </FormInput>
+            </div>
             <div class="col-6">
                 <InputGroup>
                     <InputGroupAddon>
@@ -51,77 +60,63 @@
                     </NuxtLink>
                 </template>
             </Column>
-            <Column field="props.type" header="Type" sortable>
+            <Column field="props.type" header="Type" sortable v-if="maintenancetickets.query.type == ''"">
                 <template #body="slotProps">
-                    {{ enum2label(slotProps.data.props.type, maintenancetickets.propsOptions.type) }}
-                </template>
-            </Column>
-            <Column field="props.submittedBy" header="By" sortable></Column>
-            <Column field="props.maintenanceItemId" header="Maintenance Item" sortable>
-                <template #body="slotProps">
-                    {{ allmaintenanceitems.find(slotProps.data.props?.maintenanceItemId)?.props?.name }}
-                </template>
-            </Column>
-            <Column field="props.maintenanceTaskId" header="Task" sortable>
-                <template #body="slotProps">
-                    {{ allmaintenancetasks.find(slotProps.data.props?.maintenanceTaskId)?.props?.description }}
-                </template>
-            </Column>
-            <Column field="props.updatedAt" header="Updated At" sortable>
-                <template #body="slotProps">
-                    {{ dt.formatDateTime(slotProps.data.props.updatedAt) }}
-                </template>
-            </Column>
-            <Column header="Manage">
-                <template #body="slotProps">
-                    <NuxtLink :to="`/maintenanceticket/${slotProps.data.props.id}`" class="mr-2 no-underline">
-                        <Button icon="pi pi-eye" title="View" alt="View Maintenance Ticket" />
-                    </NuxtLink>
-                    <NuxtLink v-if="slotProps.data.meta?.isOwner"
-                        :to="`/maintenanceticket/${slotProps.data.props.id}/edit`" class="mr-2 no-underline">
-                        <Button icon="pi pi-pencil" severity="success" title="Edit" alt="Edit Maintenance Ticket" />
-                    </NuxtLink>
-                    <Button v-if="slotProps.data.meta?.isOwner" title="Delete" alt="Delete Maintenance Ticket"
-                        icon="pi pi-trash" severity="danger" @click="slotProps.data.delete()" />
-                </template>
-            </Column>
-        </DataTable>
-        <Pager :kind="maintenancetickets" />
-    </div>
-    <div class="mt-5 surface-card p-5 border-1 surface-border border-round">
-        <h2 class="mt-0">Create Maintenance Ticket</h2>
+                {{ enum2label(slotProps.data.props.type, maintenancetickets.propsOptions.type) }}
+</template>
+</Column>
+<Column field="props.maintenanceItemId" header="Maintenance Item" sortable>
+    <template #body="slotProps">
+        {{ allmaintenanceitems.find(slotProps.data.props?.maintenanceItemId)?.props?.name }}
+    </template>
+</Column>
+<Column field="props.maintenanceTaskId" header="Task" sortable>
+    <template #body="slotProps">
+        {{ allmaintenancetasks.find(slotProps.data.props?.maintenanceTaskId)?.props?.description }}
+    </template>
+</Column>
+<Column field="props.updatedAt" header="Updated At" sortable>
+    <template #body="slotProps">
+        {{ dt.formatDate(slotProps.data.props.updatedAt) }}
+    </template>
+</Column>
+</DataTable>
+<Pager :kind="maintenancetickets" />
+</div>
+<div class="mt-5 surface-card p-5 border-1 surface-border border-round">
+    <h2 class="mt-0">Create Maintenance Ticket</h2>
 
-        <Form :send="() => maintenancetickets.create()">
-            <div class="flex gap-5 flex-column-reverse md:flex-row">
-                <div class="flex-auto p-fluid">
-                    <MaintenanceItemTaskSelector :target="maintenancetickets" :maintenanceitems="allmaintenanceitems" />
+    <Form :send="() => maintenancetickets.create()">
+        <div class="flex gap-5 flex-column-reverse md:flex-row">
+            <div class="flex-auto p-fluid">
+                <MaintenanceItemTaskSelector :target="maintenancetickets" :maintenanceitems="allmaintenanceitems" />
 
-                    <div class="mb-4">
-                        <FormInput name="description" type="markdown" v-model="maintenancetickets.new.description"
-                            required label="Description" />
-                    </div>
-                    <div class="mb-4">
-                        <FormInput type="select" name="type" :options="maintenancetickets.propsOptions?.type"
-                            v-model="maintenancetickets.new.type" label="Type" />
-                    </div>
-                    <div class="mb-4">
-                        <FormInput type="select" name="severity" :options="maintenancetickets.propsOptions?.severity"
-                            v-model="maintenancetickets.new.severity" label="Severity" />
-                    </div>
-                    <div class="mb-4">
-                        <FormInput name="submittedBy" type="text" v-model="maintenancetickets.new.submittedBy" required
-                            label="Submitted By" />
-                    </div>
-                    <div>
-                        <Button type="submit" class="w-auto" severity="success">
-                            <i class="pi pi-plus mr-1"></i> Create Maintenance Ticket
-                        </Button>
-                    </div>
+                <div class="mb-4">
+                    <FormInput name="description" type="markdown" v-model="maintenancetickets.new.description" required
+                        label="Description" />
                 </div>
-
+                <div class="mb-4">
+                    <FormInput type="select" name="type" :options="maintenancetickets.propsOptions?.type"
+                        v-model="maintenancetickets.new.type" label="Type" />
+                </div>
+                <div class="mb-4">
+                    <FormInput type="select" name="severity" :options="maintenancetickets.propsOptions?.severity"
+                        v-model="maintenancetickets.new.severity" label="Severity" />
+                </div>
+                <div class="mb-4">
+                    <FormInput name="submittedBy" type="text" v-model="maintenancetickets.new.submittedBy" required
+                        label="Submitted By" />
+                </div>
+                <div>
+                    <Button type="submit" class="w-auto" severity="success">
+                        <i class="pi pi-plus mr-1"></i> Create Maintenance Ticket
+                    </Button>
+                </div>
             </div>
-        </Form>
-    </div>
+
+        </div>
+    </Form>
+</div>
 </template>
 
 <script setup>
@@ -129,7 +124,7 @@ const dt = useDateTime();
 const maintenancetickets = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceticket`,
     createApi: `/api/${restVersion()}/maintenanceticket`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceTaskId: '', maintenanceItemId: '', type: 'needs_help', },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceTaskId: '', maintenanceItemId: '', type: 'needs_help', status: 'unresolved' },
     newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', maintenanceTaskId: '', maintenanceItemId: '' },
 });
 const allmaintenanceitems = useVingKind({
