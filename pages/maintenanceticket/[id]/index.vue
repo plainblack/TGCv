@@ -49,7 +49,8 @@
                 </div>
                 <div class="col-4">
                     <div class="mb-4">
-                        <FormInput type="select" name="resolution" :options="maintenanceremarks.propsOptions?.resolution"
+                        <FormInput type="select" name="resolution"
+                            :options="maintenanceremarks.propsOptions?.resolution"
                             v-model="maintenanceremarks.new.resolution" label="Resolution" />
                     </div>
                     <div class="mb-4">
@@ -76,8 +77,7 @@
         <h2 class="mt-0">Add Files</h2>
         <div class="mb-4">
             <client-only>
-                <Dropzone :acceptedFiles="['.png', '.jpeg', '.jpg', '.gif', '.pdf', '.tiff', '.svg', '.dxf', '.csv']"
-                    :afterUpload="uploadMaintenanceFile">
+                <Dropzone :afterUpload="uploadMaintenanceFile">
                 </Dropzone>
             </client-only>
         </div>
