@@ -15,23 +15,23 @@
                                 label="Use As Display Name" />
                         </div>
                         <div class="mb-4">
-                            <FormInput type="markdown" @change="currentUser.update()"  v-model="currentUser.props.bio" name="bio"  />
-                        </div>
-                        <div class="mb-4">
                             <FormInput type="select" @change="currentUser.update()" v-model="currentUser.props.avatarType"
                                 :options="currentUser.options?.avatarType" name="avatarType" label="Avatar Type" />
                         </div>
                         <div v-if="currentUser.props.avatarType == 'uploaded'" class="mb-4">
                             <client-only>
-                                <Dropzone :acceptedFiles="['.png', '.jpg', '.gif']"
+                                <Dropzone :acceptedFiles="currentUser.meta?.acceptedFileExtensions?.avatar"
                                     :afterUpload="currentUser.importAvatar" :maxFiles="1" :resizeHeight="300"
                                     :resizeWidth="300" resizeMethod="crop"></Dropzone>
                             </client-only>
                         </div>
+                        <div class="mb-4">
+                            <FormInput type="markdown" @change="currentUser.update()" label="Bio"  v-model="currentUser.props.bio" name="bio"  />
+                        </div>
 
                     </div>
                     <div class="flex flex-column align-items-center flex-or">
-                        <span class="font-medium text-900 mb-2">Profile Picture</span>
+                        <span class="font-medium text-900 mb-2">Avatar</span>
                         <Avatar :image="currentUser.meta?.avatarUrl" alt="user avatar" class="h-10rem w-10rem"
                             shape="circle" />
                     </div>
