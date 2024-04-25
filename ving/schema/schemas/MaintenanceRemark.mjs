@@ -10,7 +10,6 @@ export const maintenanceRemarkSchema = {
             type: "string",
             name: "description",
             required: true,
-            length: 60,
             default: '',
             db: (prop) => dbMediumText(prop),
             zod: (prop) => zodMediumText(prop),
