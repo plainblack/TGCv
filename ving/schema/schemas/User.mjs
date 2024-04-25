@@ -152,7 +152,7 @@ export const userSchema = {
         {
             type: "string",
             name: "bio",
-            required: true,
+            required: false,
             default: '',
             db: (prop) => dbMediumText(prop),
             zod: (prop) => zodMediumText(prop),
@@ -166,6 +166,7 @@ export const userSchema = {
             length: 36,
             db: (prop) => dbRelation(prop),
             relation: {
+                acceptedFileExtensions: ['png', 'jpeg', 'jpg', 'gif'],
                 type: 'parent',
                 name: 'avatar',
                 kind: 'S3File',
