@@ -8,7 +8,15 @@ export const makeBaseTable = (schema) => {
         if (prop.type != 'virtual') {
             columns.push(`${prop.name}: ${prop.db(prop)}`)
             if (prop.unique) {
-                specialConstraints.push(`${prop.name}Index: uniqueIndex('${prop.name}Index').on(table.${prop.name})`);
+                if (prop.uniqueQualifiers && prop.uniqueQualifiers.length) {
+                    const fields = [prop.name, ...prop.uniqueQualifiers];
+                    const composite = fields.join('_');
+                    const key = composite.substring(0, 48) + '_' + miniHash(composite) + '_uq';
+                    specialConstraints.push(`${key}: unique('${key}').on(table.${fields.join(', table.')})`);
+                }
+                else {
+                    specialConstraints.push(`${prop.name}Index: uniqueIndex('${prop.name}Index').on(table.${prop.name})`);
+                }
             }
             if (prop.relation && ['parent', 'sibling'].includes(prop.relation.type)) {
                 const composite = [schema.tableName, prop.relation.name].join('_');
@@ -36,7 +44,7 @@ export const makeTable = ({ schema }) => {
             references.push(`import {${prop.relation.kind}Table} from '#ving/drizzle/schema/${prop.relation.kind}.mjs';`);
         }
     }
-    return `import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, varchar, text, int, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
+    return `import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, unique, varchar, text, int, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
 ${references.join("\n")}
 
 ${makeBaseTable(schema)}
