@@ -35,6 +35,11 @@
                     {{ allmaintenancetasks.find(slotProps.data.props?.maintenanceTaskId)?.props?.description }}
                 </template>
             </Column>
+            <Column field="props.description" header="Description" sortable>
+                <template #body="slotProps">
+                    <MarkdownView :text="slotProps.data.props?.description" />
+                </template>
+            </Column>
             <Column field="props.months" header="Months" sortable></Column>
             <Column field="props.weeks" header="Weeks" sortable></Column>
             <Column field="props.days" header="Days" sortable></Column>
@@ -77,6 +82,10 @@
 
                     <MaintenanceItemTaskSelector :target="maintenanceschedules"
                         :maintenanceitems="allmaintenanceitems" />
+                    <div class="mb-4">
+                        <FormInput name="description" type="markdown" v-model="maintenanceschedules.new.description"
+                            required label="Description" />
+                    </div>
                     <div>
                         <Button type="submit" class="w-auto" severity="success">
                             <i class="pi pi-plus mr-1"></i> Create Maintenance Schedule
@@ -96,7 +105,7 @@ const maintenanceschedules = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceschedule`,
     createApi: `/api/${restVersion()}/maintenanceschedule`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceItemId: '', maintenanceId: '', },
-    newDefaults: { recurrence: 'monthly', maintenanceItemId: '', maintenanceTaskId: '', days: 0, months: 0, weeks: 0, },
+    newDefaults: { recurrence: 'monthly', maintenanceItemId: '', maintenanceTaskId: '', days: 0, months: 0, weeks: 0, description: '', },
 });
 const allmaintenanceitems = useVingKind({
     listApi: `/api/${restVersion()}/maintenanceitem`,

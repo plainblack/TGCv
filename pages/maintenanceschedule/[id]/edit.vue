@@ -23,6 +23,10 @@
                     @change="maintenanceschedule.update()" />
             </div>
             <MaintenanceItemTaskSelectorEdit :target="maintenanceschedule" />
+            <div class="mb-4">
+                <FormInput name="description" type="markdown" v-model="maintenanceschedule.props.description" required
+                    label="Description" @change="maintenanceschedule.update()" />
+            </div>
         </FieldsetItem>
 
         <FieldsetItem name="Statistics">
@@ -31,9 +35,9 @@
                 <CopyToClipboard size="xs" :text="maintenanceschedule.props?.id" />
             </div>
 
-            <div class="mb-4"><b>Created At</b>: {{ dt.formatDateTime(maintenanceschedule.props.createdAt) }}</div>
+            <div class="mb-4"><b>Created At</b>: {{ dt.formatDateTime(maintenanceschedule.props?.createdAt) }}</div>
 
-            <div class="mb-4"><b>Updated At</b>: {{ dt.formatDateTime(maintenanceschedule.props.updatedAt) }}</div>
+            <div class="mb-4"><b>Updated At</b>: {{ dt.formatDateTime(maintenanceschedule.props?.updatedAt) }}</div>
 
         </FieldsetItem>
 
