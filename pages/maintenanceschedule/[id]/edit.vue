@@ -79,7 +79,6 @@ await maintenanceschedule.fetch()
 
 const breadcrumbs = [
     { label: 'Maintenance Schedules', to: '/maintenanceschedule' },
-    { label: 'View', to: '/maintenanceschedule/' + maintenanceschedule.props.id },
     { label: 'Edit' },
 ];
 onBeforeRouteLeave(() => {
