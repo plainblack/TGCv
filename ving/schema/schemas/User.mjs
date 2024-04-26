@@ -203,4 +203,4 @@ export const userSchema = {
     ],
 };
 
-export const RoleOptions = ["admin", "maintenanceManager", "developer", "verifiedEmail"];
+export const RoleOptions = ["admin", "maintenanceManager", "productionManager", "developer", "verifiedEmail"];

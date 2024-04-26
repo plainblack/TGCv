@@ -47,6 +47,7 @@ export const maintenanceItemSetSchema = {
             name: "status",
             required: true,
             default: 'in_use',
+            length: 16,
             db: (prop) => dbEnum(prop),
             enums: ['in_use', 'retired'],
             enumLabels: ['In use', 'Retired'],
@@ -57,6 +58,7 @@ export const maintenanceItemSetSchema = {
             type: "virtual",
             name: 'maintenanceItemSetId',
             required: false,
+            default: undefined,
             view: ['public'],
             edit: [],
             relation: {
@@ -69,6 +71,7 @@ export const maintenanceItemSetSchema = {
             type: "virtual",
             name: 'maintenanceItemSetId',
             required: true,
+            default: undefined,
             view: ['public'],
             edit: [],
             relation: {

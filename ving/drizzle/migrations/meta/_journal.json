@@ -43,6 +43,13 @@
       "when": 1713823265434,
       "tag": "0005_fluffy_blob",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1714149283960,
+      "tag": "0006_common_wolverine",
+      "breakpoints": true
     }
   ]
 }

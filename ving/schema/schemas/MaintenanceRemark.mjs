@@ -11,6 +11,7 @@ export const maintenanceRemarkSchema = {
             name: "description",
             required: true,
             default: '',
+            length: 16777215,
             db: (prop) => dbMediumText(prop),
             zod: (prop) => zodMediumText(prop),
             view: [],
@@ -54,6 +55,7 @@ export const maintenanceRemarkSchema = {
             name: 'maintenanceTicketId', // the name of the remote record's id in this table
             required: true,
             length: 36,
+            default: undefined,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',

@@ -1,4 +1,4 @@
-import { baseSchemaProps, dbString, zodString, dbEnum, dbBoolean, dbText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject } from '../helpers.mjs';
+import { baseSchemaProps, dbString, zodString, dbEnum, dbBoolean, dbMediumText, zodMediumText, dbText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject } from '../helpers.mjs';
 
 export const maintenanceScheduleSchema = {
     kind: 'MaintenanceSchedule',
@@ -19,7 +19,7 @@ export const maintenanceScheduleSchema = {
             edit: ['owner'],
         },
         {
-            type: "integer",
+            type: "int",
             name: 'months',
             required: false,
             default: 0,
@@ -29,7 +29,7 @@ export const maintenanceScheduleSchema = {
             edit: ['owner'],
         },
         {
-            type: "integer",
+            type: "int",
             name: 'weeks',
             required: false,
             default: 0,
@@ -39,7 +39,7 @@ export const maintenanceScheduleSchema = {
             edit: ['owner'],
         },
         {
-            type: "integer",
+            type: "int",
             name: 'days',
             default: 0,
             required: false,
@@ -85,6 +85,7 @@ export const maintenanceScheduleSchema = {
             name: "description",
             required: false,
             default: '',
+            length: 16777215,
             db: (prop) => dbMediumText(prop),
             zod: (prop) => zodMediumText(prop),
             view: [],
@@ -98,7 +99,7 @@ export const maintenanceScheduleSchema = {
             length: 255,
             db: (prop) => dbString(prop),
             zod: (prop) => zodString(prop),
-            view: ['private'],
+            view: [],
             edit: ['owner'],
         },
     ],

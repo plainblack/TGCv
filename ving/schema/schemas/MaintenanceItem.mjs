@@ -22,6 +22,7 @@ export const maintenanceItemSchema = {
             name: "status",
             required: true,
             default: 'in_use',
+            length: 16,
             db: (prop) => dbEnum(prop),
             enums: ['in_use', 'retired'],
             enumLabels: ['In use', 'Retired'],
@@ -34,6 +35,7 @@ export const maintenanceItemSchema = {
             required: true,
             length: 36,
             filterQualifier: true,
+            default: undefined,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',

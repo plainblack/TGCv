@@ -1,4 +1,4 @@
-import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, varchar, text, int, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
+import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, unique, varchar, text, int, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
 import {MaintenanceTaskTable} from '#ving/drizzle/schema/MaintenanceTask.mjs';
 import {MaintenanceItemTable} from '#ving/drizzle/schema/MaintenanceItem.mjs';
 

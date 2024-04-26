@@ -1,4 +1,4 @@
-import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, varchar, text, int, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
+import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, unique, varchar, text, int, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
 import {MaintenanceItemTable} from '#ving/drizzle/schema/MaintenanceItem.mjs';
 import {MaintenanceTaskTable} from '#ving/drizzle/schema/MaintenanceTask.mjs';
 
@@ -13,7 +13,9 @@ export const MaintenanceScheduleTable = mysqlTable('maintenanceschedules',
 		weeks: int('weeks').notNull().default(0),
 		days: int('days').notNull().default(0),
 		maintenanceItemId: varchar('maintenanceItemId', { length: 36 }).notNull(),
-		maintenanceTaskId: varchar('maintenanceTaskId', { length: 36 }).notNull()
+		maintenanceTaskId: varchar('maintenanceTaskId', { length: 36 }).notNull(),
+		description: mediumText('description').notNull(),
+		jobsId: varchar('jobsId', { length: 255 }).notNull().default('')
     }, 
     (table) => ({
         maintenanceschedules_item_7745e177_fk: foreignKey({ name: "maintenanceschedules_item_7745e177_fk", columns: [table.maintenanceItemId], foreignColumns: [MaintenanceItemTable.id]}).onDelete("cascade").onUpdate("cascade"),
