@@ -3,10 +3,22 @@ outline: deep
 ---
 # Change Log
 
+## 2024-04-26
+* Removed all the client-only component tags as the hydration mismatches have been fixed.
+* Check to make sure a job handler exists before allowing a job to be created.
+* Implemented: CLI should let you search for jobs by handler name #125
+* Fixed a bug in job worker where it could not error properly from a job handler that didn't exist.
+
 ## 2024-04-25
 * Fixed a bug where ving record fields of type 'int' were not being initialized properly.
 * Removed unnecessary validation on Dropzone.
 * Upgraded to Nuxt 3.11.2 from 3.10.0.
+* Merged VarChar, Text, and MediumText examples in docs into a String Examples section.
+* Renamed dbString to dbVarChar, but kept an alias as dbString.
+* Built ving schema validation system.
+* Fixed a bunch of bugs in the ving schema documentation.
+* Moved extensionMap from ving/record/records/S3File.mjs to ving/schema/schemas/S3File.mjs.
+* Upgraded from mysql2 3.3.4 to 3.9.7.
 * NOTE: run "npm i"
 
 ## 2024-04-24
