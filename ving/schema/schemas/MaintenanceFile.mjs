@@ -11,7 +11,7 @@ export const maintenanceFileSchema = {
             name: 's3FileId', // the name of the remote record's id in this table
             required: true,
             length: 36,
-            acceptedFileExtensions: ['png', 'jpeg', 'jpg', 'gif', 'pdf', 'tiff', 'svg', 'dxf', 'csv']
+            acceptedFileExtensions: ['png', 'jpeg', 'jpg', 'gif', 'pdf', 'tiff', 'svg', 'dxf', 'csv'],
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
