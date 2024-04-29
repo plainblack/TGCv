@@ -33,11 +33,11 @@ const examples = [
         days: 4,
     },
     {
-        example: "Last day of every month",
+        example: "First day of every month",
         recurrence: "Monthly",
         months: 0,
         weeks: 0,
-        days: -1,
+        days: 1,
     },
     {
         example: "Tenth day of every month",
