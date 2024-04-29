@@ -1,4 +1,5 @@
 import ving from '#ving/index.mjs';
+import { ofetch } from 'ofetch';
 
 export const verifyTGCUserSession = async (sessionId) => {
     try {
@@ -23,33 +24,28 @@ export const getTGCAdminSession = async () => {
 };
 
 export const fetchTGCAdminSession = async () => {
-    const fod = new FormData;
-    fod.append("username", process.env.TGC_SITE_USERNAME);
-    fod.append("password", process.env.TGC_SITE_PASS);
-    fod.append("api_key_id", process.env.TGC_SITE_API_KEY);
 
     const response = await tgcClient("/api/session", {
         method: "POST",
-        "Content-Type": "multipart/form-data",
-        body: fod,
+        body: {
+            username: process.env.TGC_SITE_USERNAME,
+            password: process.env.TGC_SITE_PASS,
+            api_key_id: process.env.TGC_SITE_API_KEY,
+        }
     });
-    return response;
+    return response.result;
 }
 
-const tgcClient = async (slug, params) => {
+export const tgcClient = async (slug, params) => {
     let url = process.env.TGC_SITE_URL + slug;
-    const response = await fetch(url, params);
-    const data = await response.text();
-    let json;
+    let response;
     try {
-        json = JSON.parse(data);
-        if (json.error?.code) {
-            throw ving.ouch(json.error.code, json.error.message);
-        }
+        response = await ofetch(url, params);
     }
-    catch (e) {
-        console.log(e);
-        throw ving.ouch(500, `Could not fetch ${slug}`);
-    }
-    return json.result;
+    catch (err) {
+        throw ving.ouch(err.data.error.code, err.data.error.message, err.data.error.data);
+    };
+
+    response = await ofetch(url, params);
+    return response;
 };
