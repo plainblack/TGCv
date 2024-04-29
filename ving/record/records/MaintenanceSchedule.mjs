@@ -1,6 +1,6 @@
 import { VingRecord, VingKind, } from "#ving/record/VingRecord.mjs";
 import { useKind } from '#ving/record/VingKind.mjs';
-import { killJob, addJob } from '#ving/jobs/queue.mjs';
+import ving from '#ving/index.mjs';
 
 /** Management of individual MaintenanceSchedules.
  * @class
@@ -9,15 +9,14 @@ export class MaintenanceScheduleRecord extends VingRecord {
     // add custom Record code here
     async insert() {
         await super.insert();
-        await addJob()
-        await this.updateJob();
+        await this.createJob();
     }
 
     async delete() {
         const myId = this.get('id');
         const jobId = this.get('jobsId');
         await super.delete();
-        const result = await killJob(jobId);
+        const result = await ving.killJob(jobId);
         if (!result) {
             ving.log('MaintenanceSchedule').error(`Could not close job ${jobId} for schedule ${myId}`);
         }
@@ -30,13 +29,38 @@ export class MaintenanceScheduleRecord extends VingRecord {
 
     async createTicket() {
         const Tickets = await useKind('MaintenanceTicket');
-        const ticket = Tickets.mint({});
-        ticket.set('type') = 'routine';
-        ticket.set('submittedBy') = 'TGC';
-        ticket.set('description') = schedule.get('description');
-        ticket.set('maintenanceTaskId') = schedule.get('maintenanceTaskId');
-        ticket.set('maintenanceItemId') = schedule.get('maintenanceItemId');
-        ticket.insert();
+        await Tickets.create({
+            type: 'routine',
+            submittedBy: 'TGC',
+            description: this.description,
+            maintenanceTaskId: this.maintenanceTaskId,
+            maintenanceItemId: this.maintenanceItemId,
+        });
+    }
+
+    async createJob() {
+        //Hour Minute DayOfMonth Month DayOfWeek
+        let cronSpec = '1 10 ';
+        let dayOfMonth = 0;
+        if (this.weeks >= 1) {
+            dayOfMonth += (this.weeks * 7 + this.days)
+        }
+        else {
+            dayOfMonth += this.days;
+        }
+        if (this.recurrence == 'daily') {
+            cronSpec += '* * *';
+        }
+        else if (this.recurrence == 'weekly') {
+            cronSpec += '* * ' + this.days;
+        }
+        else if (this.recurrence == 'monthly') {
+            cronSpec += dayOfMonth + ' * *';
+        }
+        else if (this.recurrence == 'yearly') {
+            cronSpec += `${dayOfMonth} ${this.months} *`;
+        }
+        await ving.addJob('CreateTicketFromSchedule', { id: this.id }, { cron: cronSpec });
     }
 
 }
