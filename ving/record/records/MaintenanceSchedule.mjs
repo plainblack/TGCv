@@ -6,7 +6,6 @@ import ving from '#ving/index.mjs';
  * @class
  */
 export class MaintenanceScheduleRecord extends VingRecord {
-    // add custom Record code here
     async insert() {
         await super.insert();
         await this.createJob();
@@ -24,7 +23,15 @@ export class MaintenanceScheduleRecord extends VingRecord {
 
     async update() {
         await super.update();
-        await this.updateJob();
+        const myId = this.get('id');
+        const jobId = this.get('jobsId');
+        const result = await ving.killJob(jobId);
+        if (!result) {
+            ving.log('MaintenanceSchedule').error(`Could not close job ${jobId} for schedule ${myId}`);
+        }
+        else {
+            this.createJob();
+        }
     }
 
     async createTicket() {
