@@ -1,5 +1,5 @@
 import ving from '#ving/index.mjs';
-import { useKind } from '#ving/record/VingKind.mjs';
+import { useKind } from '#ving/record/utils.mjs';
 
 /**
  * This handler deletes a S3File if it does not achieve a ready state by the time this job runs. 
