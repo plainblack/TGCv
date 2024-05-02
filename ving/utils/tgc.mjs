@@ -5,8 +5,8 @@ export const verifyTGCUserSession = async (sessionId) => {
     try {
         const tgcAdminSession = await getTGCAdminSession();
         const session = await tgcClient(`/api/session/${sessionId}?session_id=${tgcAdminSession.id}`);
-        const user = await tgcClient(`/api/user/${session.user_id}?session_id=${tgcAdminSession.id}`);
-        return user;
+        const user = await tgcClient(`/api/user/${session.result.user_id}?session_id=${tgcAdminSession.id}`);
+        return user.result;
     }
     catch (e) {
         return undefined;
