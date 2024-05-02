@@ -1,5 +1,5 @@
 import { VingRecord, VingKind, } from "#ving/record/VingRecord.mjs";
-import { useKind } from '#ving/record/VingKind.mjs';
+import { useKind } from '#ving/record/utils.mjs';
 import ving from '#ving/index.mjs';
 
 /** Management of individual MaintenanceSchedules.
