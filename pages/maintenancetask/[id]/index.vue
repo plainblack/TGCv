@@ -41,8 +41,8 @@ const notify = useNotify();
 const id = route.params.id.toString();
 const maintenancetask = useVingRecord({
     id,
-    fetchApi: `/api/${restVersion()}/maintenancetask/${id}`,
-    createApi: `/api/${restVersion()}/maintenancetask`,
+    fetchApi: `/api/${useRestVersion()}/maintenancetask/${id}`,
+    createApi: `/api/${useRestVersion()}/maintenancetask`,
     query: { includeMeta: true, includeOptions: true, includeRelated: ['itemSet'] },
     onUpdate() {
         notify.success('Updated Maintenance Task.');

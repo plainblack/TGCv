@@ -45,8 +45,8 @@ const notify = useNotify();
 const id = route.params.id.toString();
 const maintenanceitem = useVingRecord({
     id,
-    fetchApi: `/api/${restVersion()}/maintenanceitem/${id}`,
-    createApi: `/api/${restVersion()}/maintenanceitem`,
+    fetchApi: `/api/${useRestVersion()}/maintenanceitem/${id}`,
+    createApi: `/api/${useRestVersion()}/maintenanceitem`,
     query: { includeMeta: true, includeOptions: true, includeRelated: ['itemSet'] },
     onUpdate() {
         notify.success('Updated Maintenance Item.');

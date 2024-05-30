@@ -17,13 +17,13 @@ const props = defineProps({
 });
 
 const maintenancetasks = useVingKind({
-    listApi: `/api/${restVersion()}/maintenancetask`,
-    createApi: `/api/${restVersion()}/maintenancetask`,
+    listApi: `/api/${useRestVersion()}/maintenancetask`,
+    createApi: `/api/${useRestVersion()}/maintenancetask`,
     query: { sortBy: 'description' },
 });
 const maintenanceitems = useVingKind({
-    listApi: `/api/${restVersion()}/maintenanceitem`,
-    createApi: `/api/${restVersion()}/maintenanceitem`,
+    listApi: `/api/${useRestVersion()}/maintenanceitem`,
+    createApi: `/api/${useRestVersion()}/maintenanceitem`,
     query: { sortBy: 'name' },
 });
 await Promise.all([

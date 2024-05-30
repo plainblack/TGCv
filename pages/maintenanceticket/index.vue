@@ -123,19 +123,19 @@
 <script setup>
 const dt = useDateTime();
 const maintenancetickets = useVingKind({
-    listApi: `/api/${restVersion()}/maintenanceticket`,
-    createApi: `/api/${restVersion()}/maintenanceticket`,
+    listApi: `/api/${useRestVersion()}/maintenanceticket`,
+    createApi: `/api/${useRestVersion()}/maintenanceticket`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceTaskId: '', maintenanceItemId: '', type: 'needs_help', status: 'unresolved' },
     newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', maintenanceTaskId: '', maintenanceItemId: '' },
 });
 const allmaintenanceitems = useVingKind({
-    listApi: `/api/${restVersion()}/maintenanceitem`,
-    createApi: `/api/${restVersion()}/maintenanceitem`,
+    listApi: `/api/${useRestVersion()}/maintenanceitem`,
+    createApi: `/api/${useRestVersion()}/maintenanceitem`,
     query: { sortBy: 'name' },
 });
 const allmaintenancetasks = useVingKind({
-    listApi: `/api/${restVersion()}/maintenancetask`,
-    createApi: `/api/${restVersion()}/maintenancetask`,
+    listApi: `/api/${useRestVersion()}/maintenancetask`,
+    createApi: `/api/${useRestVersion()}/maintenancetask`,
     query: { sortBy: 'description' },
 });
 await Promise.all([

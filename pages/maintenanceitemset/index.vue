@@ -71,8 +71,8 @@
 <script setup>
 const dt = useDateTime();
 const maintenanceitemsets = useVingKind({
-    listApi: `/api/${restVersion()}/maintenanceitemset`,
-    createApi: `/api/${restVersion()}/maintenanceitemset`,
+    listApi: `/api/${useRestVersion()}/maintenanceitemset`,
+    createApi: `/api/${useRestVersion()}/maintenanceitemset`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' },
     newDefaults: { name: '', status: 'in_use' },
     onCreate: async (data) => { console.log(data); await navigateTo(`/maintenanceitemset/${data.props.id}`) },

@@ -101,20 +101,20 @@
 <script setup>
 const dt = useDateTime();
 const maintenanceschedules = useVingKind({
-    listApi: `/api/${restVersion()}/maintenanceschedule`,
-    createApi: `/api/${restVersion()}/maintenanceschedule`,
+    listApi: `/api/${useRestVersion()}/maintenanceschedule`,
+    createApi: `/api/${useRestVersion()}/maintenanceschedule`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceItemId: '', maintenanceId: '', },
     newDefaults: { recurrence: 'monthly', maintenanceItemId: '', maintenanceTaskId: '', days: 0, months: 0, weeks: 0, description: '', },
 });
 const allmaintenanceitems = useVingKind({
-    listApi: `/api/${restVersion()}/maintenanceitem`,
-    createApi: `/api/${restVersion()}/maintenanceitem`,
+    listApi: `/api/${useRestVersion()}/maintenanceitem`,
+    createApi: `/api/${useRestVersion()}/maintenanceitem`,
     query: { sortBy: 'name' },
 });
 
 const allmaintenancetasks = useVingKind({
-    listApi: `/api/${restVersion()}/maintenancetask`,
-    createApi: `/api/${restVersion()}/maintenancetask`,
+    listApi: `/api/${useRestVersion()}/maintenancetask`,
+    createApi: `/api/${useRestVersion()}/maintenancetask`,
     query: { sortBy: 'description' },
 });
 await Promise.all([

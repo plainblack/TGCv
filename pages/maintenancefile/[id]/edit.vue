@@ -51,8 +51,8 @@ const notify = useNotify();
 const id = route.params.id.toString();
 const maintenancefile = useVingRecord({
     id,
-    fetchApi: `/api/${restVersion()}/maintenancefile/${id}`,
-    createApi: `/api/${restVersion()}/maintenancefile`,
+    fetchApi: `/api/${useRestVersion()}/maintenancefile/${id}`,
+    createApi: `/api/${useRestVersion()}/maintenancefile`,
     query: { includeMeta: true, includeOptions: true },
     onUpdate() {
         notify.success('Updated Maintenance File.');

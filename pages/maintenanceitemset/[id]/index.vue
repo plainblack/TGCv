@@ -150,8 +150,8 @@ const notify = useNotify();
 const id = route.params.id.toString();
 const maintenanceitemset = useVingRecord({
     id,
-    fetchApi: `/api/${restVersion()}/maintenanceitemset/${id}`,
-    createApi: `/api/${restVersion()}/maintenanceitemset`,
+    fetchApi: `/api/${useRestVersion()}/maintenanceitemset/${id}`,
+    createApi: `/api/${useRestVersion()}/maintenanceitemset`,
     query: { includeMeta: true, includeOptions: true },
     onUpdate() {
         notify.success('Updated Maintenance Item Set.');
@@ -167,8 +167,8 @@ const breadcrumbs = [
     { label: `${maintenanceitemset.props.name}` },
 ];
 const maintenanceitems = useVingKind({
-    listApi: `/api/${restVersion()}/maintenanceitem`,
-    createApi: `/api/${restVersion()}/maintenanceitem`,
+    listApi: `/api/${useRestVersion()}/maintenanceitem`,
+    createApi: `/api/${useRestVersion()}/maintenanceitem`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceItemSetId: maintenanceitemset.props.id },
     newDefaults: { name: '', status: 'in_use', maintenanceItemSetId: maintenanceitemset.props.id },
 });
@@ -177,8 +177,8 @@ await Promise.all([
     maintenanceitems.fetchPropsOptions(),
 ]);
 const maintenancetasks = useVingKind({
-    listApi: `/api/${restVersion()}/maintenancetask`,
-    createApi: `/api/${restVersion()}/maintenancetask`,
+    listApi: `/api/${useRestVersion()}/maintenancetask`,
+    createApi: `/api/${useRestVersion()}/maintenancetask`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceItemSetId: maintenanceitemset.props.id },
     newDefaults: { description: '', maintenanceItemSetId: maintenanceitemset.props.id },
 });

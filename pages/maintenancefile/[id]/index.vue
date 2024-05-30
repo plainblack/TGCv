@@ -27,7 +27,7 @@ const route = useRoute();
 const id = route.params.id.toString();
 const maintenancefile = useVingRecord({
     id,
-    fetchApi: `/api/${restVersion()}/maintenancefile/${id}`,
+    fetchApi: `/api/${useRestVersion()}/maintenancefile/${id}`,
     query: { includeMeta: true, includeOptions: true },
     async onDelete() {
         await navigateTo('/maintenancefile');

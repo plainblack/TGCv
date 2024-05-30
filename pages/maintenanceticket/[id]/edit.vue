@@ -67,8 +67,8 @@ const notify = useNotify();
 const id = route.params.id.toString();
 const maintenanceticket = useVingRecord({
     id,
-    fetchApi: `/api/${restVersion()}/maintenanceticket/${id}`,
-    createApi: `/api/${restVersion()}/maintenanceticket`,
+    fetchApi: `/api/${useRestVersion()}/maintenanceticket/${id}`,
+    createApi: `/api/${useRestVersion()}/maintenanceticket`,
     query: { includeMeta: true, includeOptions: true },
     onUpdate() {
         notify.success('Updated Maintenance Ticket.');

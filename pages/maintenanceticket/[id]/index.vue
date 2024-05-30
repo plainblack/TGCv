@@ -99,15 +99,15 @@ const id = route.params.id.toString();
 
 const maintenanceticket = useVingRecord({
     id,
-    fetchApi: `/api/${restVersion()}/maintenanceticket/${id}`,
+    fetchApi: `/api/${useRestVersion()}/maintenanceticket/${id}`,
     query: { includeMeta: true, includeOptions: true, includeRelated: ['item', 'task'] },
     async onDelete() {
         await navigateTo('/maintenanceticket');
     },
 });
 const maintenanceremarks = useVingKind({
-    listApi: `/api/${restVersion()}/maintenanceremark`,
-    createApi: `/api/${restVersion()}/maintenanceremark`,
+    listApi: `/api/${useRestVersion()}/maintenanceremark`,
+    createApi: `/api/${useRestVersion()}/maintenanceremark`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', },
     newDefaults: { description: '', resolution: 'n_a', resolutionMinutes: 0, submittedBy: '', maintenanceTicketId: maintenanceticket.props?.id },
     async onCreate() {
@@ -118,8 +118,8 @@ const maintenanceremarks = useVingKind({
     }
 });
 const maintenancefiles = useVingKind({
-    listApi: `/api/${restVersion()}/maintenancefile`,
-    createApi: `/api/${restVersion()}/maintenancefile`,
+    listApi: `/api/${useRestVersion()}/maintenancefile`,
+    createApi: `/api/${useRestVersion()}/maintenancefile`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['s3file'], },
     newDefaults: { s3FileId: '', maintenanceTicketId: maintenanceticket.props?.id },
 });

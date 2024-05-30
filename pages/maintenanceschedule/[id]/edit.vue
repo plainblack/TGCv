@@ -65,8 +65,8 @@ const notify = useNotify();
 const id = route.params.id.toString();
 const maintenanceschedule = useVingRecord({
     id,
-    fetchApi: `/api/${restVersion()}/maintenanceschedule/${id}`,
-    createApi: `/api/${restVersion()}/maintenanceschedule`,
+    fetchApi: `/api/${useRestVersion()}/maintenanceschedule/${id}`,
+    createApi: `/api/${useRestVersion()}/maintenanceschedule`,
     query: { includeMeta: true, includeOptions: true },
     onUpdate() {
         notify.success('Updated Maintenance Schedule.');

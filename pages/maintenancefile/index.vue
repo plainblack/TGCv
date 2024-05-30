@@ -75,8 +75,8 @@
 <script setup>
 const dt = useDateTime();
 const maintenancefiles = useVingKind({
-    listApi: `/api/${restVersion()}/maintenancefile`,
-    createApi: `/api/${restVersion()}/maintenancefile`,
+    listApi: `/api/${useRestVersion()}/maintenancefile`,
+    createApi: `/api/${useRestVersion()}/maintenancefile`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' },
     newDefaults: { s3FileId: '', maintenanceTicketId: '' },
 });
