@@ -21,7 +21,6 @@ export const maintenanceRemarkSchema = {
             type: "enum",
             name: 'resolution',
             required: true,
-            length: 20,
             default: 'n_a',
             db: (prop) => dbEnum(prop),
             enums: ['resolved', 'unresolved', 'n_a'],
@@ -54,7 +53,6 @@ export const maintenanceRemarkSchema = {
             type: "id",
             name: 'maintenanceTicketId', // the name of the remote record's id in this table
             required: true,
-            length: 36,
             default: undefined,
             db: (prop) => dbRelation(prop),
             relation: {

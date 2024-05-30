@@ -1,11 +1,11 @@
-import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, unique, varchar, text, int, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
+import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, unique, char, varchar, text, int, bigint, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
 import {MaintenanceTaskTable} from '#ving/drizzle/schema/MaintenanceTask.mjs';
 import {MaintenanceItemTable} from '#ving/drizzle/schema/MaintenanceItem.mjs';
 
 
 export const MaintenanceTicketTable = mysqlTable('maintenancetickets',
     {
-        id: varchar('id', { length: 36 }).notNull().default('uuid-will-be-generated').primaryKey(),
+        id: bigint('id', {mode:'number', unsigned: true}).notNull().autoincrement().primaryKey(),
 		createdAt: timestamp('createdAt').defaultNow().notNull(),
 		updatedAt: timestamp('updatedAt').defaultNow().notNull().onUpdateNow(),
 		ticketNumber: int('ticketNumber').notNull().default(0),
@@ -15,8 +15,8 @@ export const MaintenanceTicketTable = mysqlTable('maintenancetickets',
 		status: mysqlEnum('status', ['resolved','unresolved']).notNull().default('unresolved'),
 		resolutionMinutes: int('resolutionMinutes').notNull().default(0),
 		submittedBy: varchar('submittedBy', { length: 64 }).notNull().default(''),
-		maintenanceTaskId: varchar('maintenanceTaskId', { length: 36 }).notNull(),
-		maintenanceItemId: varchar('maintenanceItemId', { length: 36 }).notNull()
+		maintenanceTaskId: bigint('maintenanceTaskId', {mode:'number', unsigned: true}).notNull(),
+		maintenanceItemId: bigint('maintenanceItemId', {mode:'number', unsigned: true}).notNull()
     }, 
     (table) => ({
         maintenancetickets_task_1206e190_fk: foreignKey({ name: "maintenancetickets_task_1206e190_fk", columns: [table.maintenanceTaskId], foreignColumns: [MaintenanceTaskTable.id]}).onDelete("cascade").onUpdate("cascade"),

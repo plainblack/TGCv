@@ -10,7 +10,6 @@ export const maintenanceScheduleSchema = {
             type: "enum",
             name: "recurrence",
             required: true,
-            length: 20,
             default: 'monthly',
             db: (prop) => dbEnum(prop),
             enums: ['yearly', 'monthly', 'weekly', 'daily'],
@@ -53,7 +52,6 @@ export const maintenanceScheduleSchema = {
             name: 'maintenanceItemId',
             required: true,
             filterQualifier: true,
-            length: 36,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
@@ -69,7 +67,6 @@ export const maintenanceScheduleSchema = {
             name: 'maintenanceTaskId',
             required: true,
             filterQualifier: true,
-            length: 36,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',

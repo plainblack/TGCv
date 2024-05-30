@@ -24,7 +24,6 @@ export const maintenanceTaskSchema = {
             required: true,
             filterQualifier: true,
             default: undefined,
-            length: 36,
             db: (prop) => dbRelation(prop),
             view: ['owner', 'productionManager'],
             edit: ['owner'],

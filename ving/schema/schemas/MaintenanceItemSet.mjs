@@ -47,7 +47,6 @@ export const maintenanceItemSetSchema = {
             name: "status",
             required: true,
             default: 'in_use',
-            length: 16,
             db: (prop) => dbEnum(prop),
             enums: ['in_use', 'retired'],
             enumLabels: ['In use', 'Retired'],

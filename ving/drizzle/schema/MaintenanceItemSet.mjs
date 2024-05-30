@@ -1,10 +1,10 @@
-import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, unique, varchar, text, int, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
+import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, unique, char, varchar, text, int, bigint, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
 
 
 
 export const MaintenanceItemSetTable = mysqlTable('maintenanceitemsets',
     {
-        id: varchar('id', { length: 36 }).notNull().default('uuid-will-be-generated').primaryKey(),
+        id: bigint('id', {mode:'number', unsigned: true}).notNull().autoincrement().primaryKey(),
 		createdAt: timestamp('createdAt').defaultNow().notNull(),
 		updatedAt: timestamp('updatedAt').defaultNow().notNull().onUpdateNow(),
 		name: varchar('name', { length: 60 }).notNull().default(''),

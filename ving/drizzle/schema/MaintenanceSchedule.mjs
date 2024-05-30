@@ -1,19 +1,19 @@
-import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, unique, varchar, text, int, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
+import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, unique, char, varchar, text, int, bigint, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
 import {MaintenanceItemTable} from '#ving/drizzle/schema/MaintenanceItem.mjs';
 import {MaintenanceTaskTable} from '#ving/drizzle/schema/MaintenanceTask.mjs';
 
 
 export const MaintenanceScheduleTable = mysqlTable('maintenanceschedules',
     {
-        id: varchar('id', { length: 36 }).notNull().default('uuid-will-be-generated').primaryKey(),
+        id: bigint('id', {mode:'number', unsigned: true}).notNull().autoincrement().primaryKey(),
 		createdAt: timestamp('createdAt').defaultNow().notNull(),
 		updatedAt: timestamp('updatedAt').defaultNow().notNull().onUpdateNow(),
 		recurrence: mysqlEnum('recurrence', ['yearly','monthly','weekly','daily']).notNull().default('monthly'),
 		months: int('months').notNull().default(0),
 		weeks: int('weeks').notNull().default(0),
 		days: int('days').notNull().default(0),
-		maintenanceItemId: varchar('maintenanceItemId', { length: 36 }).notNull(),
-		maintenanceTaskId: varchar('maintenanceTaskId', { length: 36 }).notNull(),
+		maintenanceItemId: bigint('maintenanceItemId', {mode:'number', unsigned: true}).notNull(),
+		maintenanceTaskId: bigint('maintenanceTaskId', {mode:'number', unsigned: true}).notNull(),
 		description: mediumText('description').notNull(),
 		jobsId: varchar('jobsId', { length: 255 }).notNull().default('')
     }, 

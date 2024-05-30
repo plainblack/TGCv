@@ -10,7 +10,6 @@ export const maintenanceFileSchema = {
             type: "id",
             name: 's3FileId', // the name of the remote record's id in this table
             required: true,
-            length: 36,
             default: undefined,
             acceptedFileExtensions: ['png', 'jpeg', 'jpg', 'gif', 'pdf', 'tiff', 'svg', 'dxf', 'csv'],
             db: (prop) => dbRelation(prop),
@@ -26,7 +25,6 @@ export const maintenanceFileSchema = {
             type: "id",
             name: 'maintenanceTicketId', // the name of the remote record's id in this table
             required: true,
-            length: 36,
             default: undefined,
             db: (prop) => dbRelation(prop),
             relation: {

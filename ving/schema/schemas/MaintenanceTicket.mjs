@@ -33,7 +33,6 @@ export const maintenanceTicketSchema = {
             name: 'type',
             required: true,
             filterQualifier: true,
-            length: 20,
             default: 'routine',
             db: (prop) => dbEnum(prop),
             enums: ['routine', 'needs_help'],
@@ -46,7 +45,6 @@ export const maintenanceTicketSchema = {
             name: 'severity',
             required: true,
             filterQualifier: true,
-            length: 20,
             default: 'working',
             db: (prop) => dbEnum(prop),
             enums: ['working', 'intermittent', 'down'],
@@ -59,7 +57,6 @@ export const maintenanceTicketSchema = {
             name: 'status',
             required: true,
             filterQualifier: true,
-            length: 20,
             default: 'unresolved',
             db: (prop) => dbEnum(prop),
             enums: ['resolved', 'unresolved'],
@@ -97,6 +94,7 @@ export const maintenanceTicketSchema = {
             required: false,
             view: ['public'],
             edit: [],
+            default: undefined,
             relation: {
                 type: 'child',
                 name: 'remarks',
@@ -109,6 +107,7 @@ export const maintenanceTicketSchema = {
             required: false,
             view: ['public'],
             edit: [],
+            default: undefined,
             relation: {
                 type: 'child',
                 name: 'files',
@@ -120,7 +119,6 @@ export const maintenanceTicketSchema = {
             name: 'maintenanceTaskId', // the name of the remote record's id in this table
             required: true,
             filterQualifier: true,
-            length: 36,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
@@ -136,7 +134,6 @@ export const maintenanceTicketSchema = {
             name: 'maintenanceItemId', // the name of the remote record's id in this table
             required: true,
             filterQualifier: true,
-            length: 36,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
