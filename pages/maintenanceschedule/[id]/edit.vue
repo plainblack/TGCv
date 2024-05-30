@@ -8,24 +8,24 @@
             <div class="mb-4">
                 <FormInput type="select" name="recurrence" :options="maintenanceschedule.options?.recurrence"
                     v-model="maintenanceschedule.props.recurrence" label="Recurrence"
-                    @change="maintenanceschedule.update()" />
+                    @change="maintenanceschedule.save('recurrence')" />
             </div>
             <div class="mb-4">
                 <FormInput name="months" type="number" v-model="maintenanceschedule.props.months" label="Months"
-                    @change="maintenanceschedule.update()" />
+                    @change="maintenanceschedule.save('months')" />
             </div>
             <div class="mb-4">
                 <FormInput name="weeks" type="number" v-model="maintenanceschedule.props.weeks" label="Weeks"
-                    @change="maintenanceschedule.update()" />
+                    @change="maintenanceschedule.save('weeks')" />
             </div>
             <div class="mb-4">
                 <FormInput name="days" type="number" v-model="maintenanceschedule.props.days" label="Days"
-                    @change="maintenanceschedule.update()" />
+                    @change="maintenanceschedule.save('days')" />
             </div>
             <MaintenanceItemTaskSelectorEdit :target="maintenanceschedule" />
             <div class="mb-4">
                 <FormInput name="description" type="markdown" v-model="maintenanceschedule.props.description" required
-                    label="Description" @change="maintenanceschedule.update()" />
+                    label="Description" @change="maintenanceschedule.save('description')" />
             </div>
         </FieldsetItem>
 

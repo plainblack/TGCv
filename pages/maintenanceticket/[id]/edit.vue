@@ -7,23 +7,25 @@
 
             <div class="mb-4">
                 <FormInput name="description" type="markdown" v-model="maintenanceticket.props.description" required
-                    label="Description" @change="maintenanceticket.update()" />
+                    label="Description" @change="maintenanceticket.save('description')" />
             </div>
             <div class="mb-4">
                 <FormInput type="select" name="type" :options="maintenanceticket.options?.type"
-                    v-model="maintenanceticket.props.type" label="Type" @change="maintenanceticket.update()" />
+                    v-model="maintenanceticket.props.type" label="Type" @change="maintenanceticket.save('type')" />
             </div>
             <div class="mb-4">
                 <FormInput type="select" name="severity" :options="maintenanceticket.options?.severity"
-                    v-model="maintenanceticket.props.severity" label="Severity" @change="maintenanceticket.update()" />
+                    v-model="maintenanceticket.props.severity" label="Severity"
+                    @change="maintenanceticket.save('severity')" />
             </div>
             <div class="mb-4">
                 <FormInput type="select" name="status" :options="maintenanceticket.options?.status"
-                    v-model="maintenanceticket.props.status" label="Status" @change="maintenanceticket.update()" />
+                    v-model="maintenanceticket.props.status" label="Status"
+                    @change="maintenanceticket.save('status')" />
             </div>
             <div class="mb-4">
                 <FormInput name="submittedBy" type="text" v-model="maintenanceticket.props.submittedBy" required
-                    label="Submitted By" @change="maintenanceticket.update()" />
+                    label="Submitted By" @change="maintenanceticket.save('submittedBy')" />
             </div>
         </FieldsetItem>
 

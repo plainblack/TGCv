@@ -7,7 +7,7 @@
 
             <div class="mb-4">
                 <FormInput name="description" type="text" v-model="maintenancetask.props.description" required
-                    label="Description" @change="maintenancetask.update()" />
+                    label="Description" @change="maintenancetask.save('description')" />
             </div>
         </FieldsetItem>
 

@@ -7,11 +7,12 @@
 
             <div class="mb-4">
                 <FormInput name="name" type="text" v-model="maintenanceitemset.props.name" required label="Name"
-                    @change="maintenanceitemset.update()" />
+                    @change="maintenanceitemset.save('name')" />
             </div>
             <div class="mb-4">
                 <FormInput type="select" name="status" :options="maintenanceitemset.options?.status"
-                    v-model="maintenanceitemset.props.status" label="Status" @change="maintenanceitemset.update()" />
+                    v-model="maintenanceitemset.props.status" label="Status"
+                    @change="maintenanceitemset.save('status')" />
             </div>
         </FieldsetItem>
         <FieldsetItem name="Items">

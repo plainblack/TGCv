@@ -13,7 +13,7 @@
             </div>
             <div class="mb-4">
                 <FormInput name="maintenanceTicketId" type="text" v-model="maintenancefile.props.maintenanceTicketId"
-                    required label="Maintenance Ticket Id" @change="maintenancefile.update()" />
+                    required label="Maintenance Ticket Id" @change="maintenancefile.save('maintenanceTicketId')" />
             </div>
         </FieldsetItem>
 
