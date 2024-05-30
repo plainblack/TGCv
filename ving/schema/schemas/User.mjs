@@ -1,4 +1,4 @@
-import { baseSchemaProps, dbVarChar, zodString, dbEnum, dbBoolean, dbRelation, dbMediumText, zodMediumText } from '../helpers.mjs';
+import { baseSchemaProps, dbVarChar, zodString, dbEnum, dbBoolean, dbRelation, dbMediumText } from '../helpers.mjs';
 
 export const userSchema = {
     kind: 'User',
@@ -58,7 +58,6 @@ export const userSchema = {
             type: "enum",
             name: "passwordType",
             required: false,
-            length: 20,
             default: 'bcrypt',
             db: (prop) => dbEnum(prop),
             enums: ['bcrypt'],
@@ -70,7 +69,6 @@ export const userSchema = {
             type: "enum",
             name: 'useAsDisplayName',
             required: true,
-            length: 20,
             default: 'username',
             db: (prop) => dbEnum(prop),
             enums: ['username', 'email', 'realName'],
@@ -129,7 +127,6 @@ export const userSchema = {
             type: "enum",
             name: 'avatarType',
             required: true,
-            length: 20,
             default: 'robot',
             db: (prop) => dbEnum(prop),
             enums: ['robot', 'uploaded'],
@@ -144,7 +141,7 @@ export const userSchema = {
             default: '',
             length: 16777215,
             db: (prop) => dbMediumText(prop),
-            zod: (prop) => zodMediumText(prop),
+            zod: (prop) => zodString(prop),
             view: ['public'],
             edit: ['owner'],
         },
@@ -152,7 +149,6 @@ export const userSchema = {
             type: "id",
             name: 'avatarId',
             required: false,
-            length: 36,
             db: (prop) => dbRelation(prop),
             relation: {
                 acceptedFileExtensions: ['png', 'jpeg', 'jpg', 'gif'],
@@ -160,7 +156,7 @@ export const userSchema = {
                 name: 'avatar',
                 kind: 'S3File',
             },
-            default: null,
+            default: undefined,
             view: ['public'],
             edit: ['owner'],
         },
@@ -170,6 +166,7 @@ export const userSchema = {
             required: false,
             view: ['public'],
             edit: [],
+            default: undefined,
             relation: {
                 type: 'child',
                 name: 'apikeys',
@@ -182,6 +179,7 @@ export const userSchema = {
             required: false,
             view: ['public'],
             edit: [],
+            default: undefined,
             relation: {
                 type: 'child',
                 name: 's3files',

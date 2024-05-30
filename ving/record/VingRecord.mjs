@@ -1,8 +1,9 @@
 import { findVingSchema } from '#ving/schema/map.mjs';
 import ving from '#ving/index.mjs';
-import { isObject, isUndefined, isNil, isNull } from '#ving/utils/identify.mjs';
+import { isObject, isUndefined, isNil, isNull, isNumber } from '#ving/utils/identify.mjs';
 import { eq, asc, desc, and, ne, sql, getTableName, count, sum, avg, min, max } from '#ving/drizzle/orm.mjs';
 import { stringDefault, booleanDefault, numberDefault, dateDefault } from '#ving/schema/helpers.mjs';
+import { parseId, stringifyId } from '#ving/utils/int2str.mjs';
 
 /**
  * Creates a select list options datastructure from the `enums` and `enumLabels` on a ving schema.
@@ -47,6 +48,7 @@ export class VingRecord {
 
     #deleted = false;
     #props = {};
+    #dirty = [];
     #inserted = false;
 
     /** 
@@ -120,6 +122,7 @@ export class VingRecord {
             return true;
         }
         const schema = findVingSchema(getTableName(this.table));
+        ving.log('VingRecord').warn(`${currentUser.get('id')} does not have the privileges to access ${schema.kind} id ${this.get('id')}.`);
         throw ving.ouch(403, `You do not have the privileges to access ${schema.kind}.`)
     }
 
@@ -170,12 +173,11 @@ export class VingRecord {
         const include = params.include || {};
         const isOwner = !isUndefined(currentUser) && await this.isOwner(currentUser);
         const schema = findVingSchema(getTableName(this.table));
-        let out = { props: {} };
-        out.props.id = this.get('id');
+        let out = { props: { id: this.idAsString(schema.kind) } };
         if (include?.links) {
             const vingConfig = await ving.getConfig();
             out.links = { base: { href: `/api/${vingConfig.rest.version}/${schema.kind?.toLowerCase()}`, methods: ['GET', 'POST'] } };
-            out.links.self = { href: `${out.links.base.href}/${this.#props.id}`, methods: ['GET', 'PUT', 'DELETE'] };
+            out.links.self = { href: `${out.links.base.href}/${out.props.id}`, methods: ['GET', 'PUT', 'DELETE'] };
         }
         if (include?.options) {
             out.options = await this.propOptions(params);
@@ -200,6 +202,8 @@ export class VingRecord {
         }
 
         for (const field of schema.props) {
+            if (field.name == 'id') // already done
+                continue;
 
             // determine field visibility
             const roles = [...field.view, ...field.edit];
@@ -212,7 +216,10 @@ export class VingRecord {
             const fieldName = field.name.toString();
 
             // props
-            out.props[field.name] = this.#props[field.name];
+            if (field.type == 'id')
+                out.props[field.name] = stringifyId(this.#props[field.name], field.relation?.kind || schema.kind);
+            else
+                out.props[field.name] = this.#props[field.name];
 
             // links 
             if (isObject(out.links)
@@ -222,6 +229,8 @@ export class VingRecord {
             ) {
                 let lower = field.relation.name.toLowerCase();
                 out.links[lower] = { href: `${out.links.self.href}/${lower}`, methods: ['GET'] };
+                if (field.relation.type == 'child')
+                    out.links[lower].methods.push('DELETE');
             }
 
             // relations
@@ -268,6 +277,22 @@ export class VingRecord {
     }
 
     /**
+     * Gets the encrypted stringified version of this record's ID, used in rest endpoints and other external places.
+     * @param {string} kind - Optional, it will use the kind of this record if not set.
+     * @returns {string} encrypted id
+     * @example
+     * user.idAsString()
+     */
+    idAsString(kind) {
+        let k = kind;
+        if (!k) {
+            const schema = findVingSchema(getTableName(this.table));
+            k = schema.kind;
+        }
+        return stringifyId(this.get('id'), k);
+    }
+
+    /**
      * Inserts the current record into the database
      * @example
      * await user.insert()
@@ -275,10 +300,13 @@ export class VingRecord {
     async insert() {
         if (this.#inserted) {
             const schema = findVingSchema(getTableName(this.table));
+            ving.log('VingRecord').error(`${schema.kind} already inserted as ${this.get('id')}`)
             throw ving.ouch(409, `${schema.kind} already inserted`);
         }
         this.#inserted = true;
-        await this.db.insert(this.table).values(this.#props);
+        this.#dirty = [];
+        const result = await this.db.insert(this.table).values(this.#props);
+        this.#props.id = result[0].insertId;
     }
 
     /**
@@ -338,13 +366,19 @@ export class VingRecord {
     /**
      * Returns the schema of the named parent prop, which can be useful for looking up special attributes.
      * @param {string} name The name of the parent prop to find.
+     * @throws 404 if prop can't be found.
      * @returns {object} A ving schema prop schema.
      * @example
      * user.parentPropSchema('avatar')
      */
     parentPropSchema(name) {
         const schema = findVingSchema(getTableName(this.table));
-        return ving.findObject(schema.props, obj => obj.relation?.name == name);
+        const found = schema.props.find(obj => obj.relation?.name == name);
+        if (isUndefined(found)) {
+            ving.log('VingRecord').error(`cannot find parent prop by ${name} in ving schema ${schema.kind}`);
+            throw ving.ouch(404, `cannot find parent prop by ${name} in ving schema ${schema.kind}`);
+        }
+        return found;
     }
 
     /**
@@ -368,7 +402,9 @@ export class VingRecord {
      */
     async children(name) {
         const schema = findVingSchema(getTableName(this.table));
-        const prop = ving.findObject(schema.props, obj => obj.relation?.name == name);
+        const prop = schema.props.find(obj => obj.relation?.name == name);
+        if (isUndefined(prop))
+            throw ouch(404, `cannot find child prop by ${name} in ${schema.kind}`);
         const kind = await ving.useKind(prop.relation.kind);
         if (isUndefined(kind.table[prop.name]))
             ving.log('VingRecord').error(`${schema.kind} has an invalid virtual prop name called ${name}`);
@@ -447,6 +483,7 @@ export class VingRecord {
                 }
                 else {
                     const formatted = result.error.format();
+                    ving.log('VingRecord').error(key.toString() + ': ' + formatted._errors.join('.') + '.');
                     throw ving.ouch(442, key.toString() + ': ' + formatted._errors.join('.') + '.', key);
                 }
             }
@@ -454,8 +491,11 @@ export class VingRecord {
                 this.flushParentCache();
         }
         else {
+            ving.log('VingRecord').error(key.toString() + ' is not a prop');
             throw ving.ouch(400, key.toString() + ' is not a prop', key);
         }
+        if (value != this.#props[key] && !this.#dirty.includes(key))
+            this.#dirty.push(key);
         return this.#props[key] = value;
     }
 
@@ -494,44 +534,46 @@ export class VingRecord {
 
         for (const field of schema.props) {
             const fieldName = field.name.toString();
-            const param = params[field.name];
+            const param = field.type == 'id' && !isNil(params[field.name]) && !isNumber(params[field.name]) ? parseId(params[field.name]) : params[field.name];
             const roles = [...field.edit];
             const editable = (roles.includes('owner') && (isOwner || !this.isInserted)) || (currentUser?.isaRole(roles));
-            if (!editable) {
+            if (!editable) { // skip it if the field isn't editable
                 continue;
             }
-            if (isUndefined(param) || (field.relation && field.relation.type != 'parent')) {
+            if (isUndefined(param)) { // skip it if the field is undefined 
                 continue;
             }
-            if (param === '' && field.required) {
+            if (field.relation && field.relation.type != 'parent') { // skip it if it is a relation that isn't a parent
+                continue;
+            }
+            if (param === '' && field.required) { // error if an empty value is assigned to a required field
+                ving.log('VingRecord').warn(`${fieldName} is required in ${schema.kind}.`);
                 throw ving.ouch(441, `${fieldName} is required.`, fieldName);
             }
-            if (!isUndefined(field.name) && !isUndefined(param)) {
-                if (field.unique) {
-                    const query = this.db.select({ count: sql`count(*)`.as('count') }).from(this.table);
-                    let where = eq(this.table[field.name], params[field.name]);
-                    if (this.isInserted)
-                        where = and(where, ne(this.table.id, this.get('id')));
-                    if (field.uniqueQualifiiers) {
-                        for (const qualifier of field.uniqueQualifiiers) {
-                            where = and(where, eq(this.table[qualifier], params[qualifier] || this.get(qualifier)));
-                        }
-                    }
-                    let count = (await query.where(where))[0].count
-                    if (count > 0) {
-                        ving.log('VingRecord').warning(`${this.get('id')} unique check failed on ${field.name.toString()}`)
-                        throw ving.ouch(409, `${field.name.toString()} must be unique, but ${params[field.name]} has already been used.`, field.name)
+            if (field.unique) { // do if field is marked unique
+                const query = this.db.select({ count: sql`count(*)`.as('count') }).from(this.table);
+                let where = eq(this.table[field.name], params[field.name]);
+                if (this.isInserted) // check against own id if it is already inserted
+                    where = and(where, ne(this.table.id, this.get('id')));
+                if (field.uniqueQualifiiers) { // add a clause for each uniqueQualifier
+                    for (const qualifier of field.uniqueQualifiiers) {
+                        where = and(where, eq(this.table[qualifier], params[qualifier] || this.get(qualifier)));
                     }
                 }
-                if (!isNull(param)) {
-                    this.set(field.name, param);
-                    if (field.relation && field.relation.type == 'parent') {
-                        const parent = await this.parent(field.relation.name);
-                        if (!field.relation.skipOwnerCheck)
-                            await parent.canEdit(currentUser);
-                    }
+                let count = (await query.where(where))[0].count
+                if (count > 0) { // error if we find any duplicates
+                    ving.log('VingRecord').warn(`${isNil(this.get('id')) ? 'new record' : this.get('id').toString()} unique check failed on ${field.name.toString()}`)
+                    throw ving.ouch(409, `${field.name.toString()} must be unique, but ${params[field.name]} has already been used.`, field.name)
                 }
-
+            }
+            if (isNull(param)) { // skip it if the value is null
+                continue;
+            }
+            this.set(field.name, param);
+            if (field.relation && field.relation.type == 'parent') { // is this a parent relation
+                const parent = await this.parent(field.relation.name);
+                if (!field.relation.skipOwnerCheck) // skip check if schema says so
+                    await parent.canEdit(currentUser); // error if not owner
             }
         }
         return true;
@@ -554,13 +596,14 @@ export class VingRecord {
             if (!isNil(params[prop.name]))
                 continue;
             const fieldName = prop.name.toString();
+            ving.log('VingRecord').warn(`${fieldName} is required in ${schema.kind}.`);
             throw ving.ouch(441, `${fieldName} is required.`, fieldName);
         }
         return true;
     }
 
     /**
-     * Overwrites the record in the database with the values currently in memory
+     * Updates the record in the database with only the changed values currently in memory
      * @example
      * await user.update()
      */
@@ -572,7 +615,13 @@ export class VingRecord {
                 this.#props[field.name] = new Date();
             }
         }
-        await this.db.update(this.table).set(this.#props).where(eq(this.table.id, this.#props.id));
+        const propsToUpdate = Object.fromEntries(
+            Object.entries(this.#props).filter(
+                ([key, val]) => this.#dirty.includes(key)
+            )
+        );
+        this.#dirty = [];
+        await this.db.update(this.table).set(propsToUpdate).where(eq(this.table.id, this.#props.id));
     }
 
     /**
@@ -875,9 +924,9 @@ export class VingKind {
     }
 
     /**
-     * Locates and returns a single record by it's `id`.
+     * Locates and returns a single record.
      * 
-     * @param {string} id The unique id of the record
+     * @param {string|number} id the unique `id` of the record
      * @returns {VingRecord|undefined} a record or `undefined` if no record is found
      * @example
      * const record = await Users.find('xxx');
@@ -968,17 +1017,21 @@ export class VingKind {
     /**
      * Locates and returns a single record by it's `id`.
      * 
-     * @param {string} id the unique id of the record
+     * @param {string|number} id the unique `id` of the record
      * @throws 404 if no record is found
      * @returns {VingRecord} a record
      * @example
      * const record = await Users.findOrDie('xxx')
      */
     async findOrDie(id) {
-        const props = (await this.select.where(eq(this.table.id, id)))[0];
+        let field = this.table.id;
+        if (!isNumber(id))  // in case we are passed the stringified id
+            id = parseId(id);
+        const props = (await this.select.where(eq(field, id)))[0];
         if (props)
             return new this.recordClass(this.db, this.table, props);
         const schema = findVingSchema(getTableName(this.table));
+        ving.log('VingRecord').error(`${schema.kind} not found finding id ${id}.`);
         throw ving.ouch(404, `${schema.kind} not found.`, { id })
     }
 
