@@ -2,6 +2,8 @@ import { Session } from '#ving/session.mjs';
 import { defineEventHandler, getCookie, setCookie } from 'h3';
 import ving from '#ving/index.mjs';
 import { verifyTGCUserSession } from '#ving/utils/tgc.mjs';
+import { eq } from '#ving/drizzle/orm.mjs';
+import { isUndefined } from '#ving/utils/identify.mjs';
 
 export default defineEventHandler(async (event) => {
     const log = ving.log(301);
@@ -30,14 +32,17 @@ export default defineEventHandler(async (event) => {
             let vingUser;
             let userCreated = false;
             try {
-                vingUser = await vingUsers.findOrDie(tgcUser.id);
+                vingUser = await vingUsers.findOne(eq(vingUsers.table.tgcUserId, tgcUser.id));
+                if (isUndefined(vingUser)) {
+                    throw ving.ouch(404, 'TGC user not found');
+                }
             }
             catch {
                 //Make a new Ving user
                 log.debug(`create user`);
 
                 vingUser = await vingUsers.create({
-                    tgcUserid: tgcUser.id,
+                    tgcUserId: tgcUser.id,
                     username: tgcUser.username,
                     useAsDisplayName: tgcUser.use_as_display_name,
                     email: tgcUser.email,

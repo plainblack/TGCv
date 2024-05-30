@@ -26,7 +26,8 @@ export const UserTable = mysqlTable('users',
     (table) => ({
         usernameIndex: uniqueIndex('usernameIndex').on(table.username),
 		emailIndex: uniqueIndex('emailIndex').on(table.email),
-		users_avatar_39d62890_fk: foreignKey({ name: "users_avatar_39d62890_fk", columns: [table.avatarId], foreignColumns: [S3FileTable.id]}).onDelete("set null").onUpdate("no action")
+		users_avatar_39d62890_fk: foreignKey({ name: "users_avatar_39d62890_fk", columns: [table.avatarId], foreignColumns: [S3FileTable.id]}).onDelete("set null").onUpdate("no action"),
+		tgcUserIdIndex: uniqueIndex('tgcUserIdIndex').on(table.tgcUserId)
     })
 );
 

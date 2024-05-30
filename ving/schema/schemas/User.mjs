@@ -202,6 +202,7 @@ export const userSchema = {
             type: "string",
             length: 36,
             name: 'tgcUserId',
+            unique: true,
             required: false,
             filterQualifier: true,
             db: (prop) => dbUuid(prop),
