@@ -4,21 +4,20 @@
     <div class="surface-card p-4 border-1 surface-border border-round">
         <div class="grid">
             <div class="col">
-                <FormInput type="select" :options="allmaintenanceitems.recordsAsOptions('props', 'name')"
-                    name="maintenanceItemIdFilter" v-model="maintenanceschedules.query.maintenanceItemId"
+                <FormInput type="select" :options="[
+                    { value: '', label: 'All Items' },
+                    ...allmaintenanceitems.recordsAsOptions('props', 'name')
+                ]" name="maintenanceItemIdFilter" v-model="maintenanceschedules.query.maintenanceItemId"
                     @change="maintenanceschedules.search()">
-                    <template #prepend>
-                        <option value="">All Items</option>
-                    </template>
+
                 </FormInput>
             </div>
             <div class="col">
-                <FormInput type="select" :options="allmaintenancetasks.recordsAsOptions('props', 'description')"
-                    name="maintenanceTaskIdFilter" v-model="maintenanceschedules.query.maintenanceTaskId"
+                <FormInput type="select" :options="[
+                    { value: '', label: 'All Tasks' },
+                    ...allmaintenancetasks.recordsAsOptions('props', 'description')
+                ]" name="maintenanceTaskIdFilter" v-model="maintenanceschedules.query.maintenanceTaskId"
                     @change="maintenanceschedules.search()">
-                    <template #prepend>
-                        <option value="">All Tasks</option>
-                    </template>
                 </FormInput>
             </div>
         </div>

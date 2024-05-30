@@ -4,38 +4,34 @@
     <div class="surface-card p-4 border-1 surface-border border-round">
         <div class="grid">
             <div class="col">
-                <FormInput type="select" :options="maintenancetickets.propsOptions?.type" name="typeFilter"
-                    v-model="maintenancetickets.query.type" @change="maintenancetickets.search()">
-                    <template #prepend>
-                        <option value="">All Types</option>
-                    </template>
+                <FormInput type="select" :options="[
+                    { value: '', label: 'All Types' },
+                    ...maintenancetickets.propsOptions?.type
+                ]" name="typeFilter" v-model="maintenancetickets.query.type" @change="maintenancetickets.search()">
                 </FormInput>
             </div>
             <div class="col">
-                <FormInput type="select" :options="allmaintenanceitems.recordsAsOptions('props', 'name')"
-                    name="maintenanceItemIdFilter" v-model="maintenancetickets.query.maintenanceItemId"
+                <FormInput type="select" :options="[
+                    { value: '', label: 'All Items' },
+                    ...allmaintenanceitems.recordsAsOptions('props', 'name')
+                ]" name="maintenanceItemIdFilter" v-model="maintenancetickets.query.maintenanceItemId"
                     @change="maintenancetickets.search()">
-                    <template #prepend>
-                        <option value="">All Items</option>
-                    </template>
                 </FormInput>
             </div>
             <div class="col">
-                <FormInput type="select" :options="allmaintenancetasks.recordsAsOptions('props', 'description')"
-                    name="maintenanceTaskIdFilter" v-model="maintenancetickets.query.maintenanceTaskId"
+                <FormInput type="select" :options="[
+                    { value: '', label: 'All Tasks' },
+                    ...allmaintenancetasks.recordsAsOptions('props', 'description')
+                ]" name="maintenanceTaskIdFilter" v-model="maintenancetickets.query.maintenanceTaskId"
                     @change="maintenancetickets.search()">
-                    <template #prepend>
-                        <option value="">All Tasks</option>
-                    </template>
                 </FormInput>
             </div>
             <div class="col">
-                <FormInput type="select" :options="maintenancetickets.propsOptions?.status"
-                    name="maintenanceStatusFilter" v-model="maintenancetickets.query.status"
+                <FormInput type="select" :options="[
+                    { value: '', label: 'Open or closed' },
+                    ...maintenancetickets.propsOptions?.status
+                ]" name="maintenanceStatusFilter" v-model="maintenancetickets.query.status"
                     @change="maintenancetickets.search()">
-                    <template #prepend>
-                        <option value="">Open or closed</option>
-                    </template>
                 </FormInput>
             </div>
             <div class="col-6">
