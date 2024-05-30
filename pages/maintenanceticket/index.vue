@@ -93,7 +93,7 @@
 
         <Form :send="() => maintenancetickets.create()">
             <div class="flex gap-5 flex-column-reverse md:flex-row">
-                <div class="flex-auto p-fluid">
+                <div class="flex-auto">
                     <MaintenanceItemTaskSelector :target="maintenancetickets" :maintenanceitems="allmaintenanceitems" />
 
                     <div class="mb-4">

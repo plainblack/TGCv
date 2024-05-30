@@ -49,7 +49,7 @@
 
                 <Form :send="() => maintenanceitems.create()">
                     <div class="flex gap-5 flex-column-reverse md:flex-row">
-                        <div class="flex-auto p-fluid">
+                        <div class="flex-auto">
 
                             <div class="mb-4">
                                 <FormInput name="name" type="text" v-model="maintenanceitems.new.name" required
@@ -102,7 +102,7 @@
 
                 <Form :send="() => maintenancetasks.create()">
                     <div class="flex gap-5 flex-column-reverse md:flex-row">
-                        <div class="flex-auto p-fluid">
+                        <div class="flex-auto">
 
                             <div class="mb-4">
                                 <FormInput name="description" type="text" v-model="maintenancetasks.new.description"
