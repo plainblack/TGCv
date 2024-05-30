@@ -1,13 +1,14 @@
 <template>
+    <Title>Log in to {{ config.public?.site?.name }}</Title>
     <div class="w-full lg:w-7 mx-auto">
         <div class="text-center mb-5">
             <img :src="config.public.site.logoUrl" :alt="config.public.site.name" height="50" class="mb-3">
-            <div class="text-900 text-3xl font-medium mb-3">Welcome Back</div>
+            <h1 class="text-900 text-3xl font-medium mb-3 mt-0">Welcome Back</h1>
             <span class="text-600 font-medium line-height-3">Don't have an account?</span>
             <NuxtLink to="/user/create" class="font-medium no-underline ml-2 text-blue-500 cursor-pointer">Create one today!
             </NuxtLink>
         </div>
-        <div class="surface-card p-4 border-1 surface-border border-round ">
+        <PanelZone>
 
             <Form :send="tryLogin">
                 <FormInput name="login" v-model="login" id="login1" required label="Email or Username" autocomplete="email"
@@ -16,7 +17,7 @@
                 <FormInput name="password" v-model="password" required label="Password" autocomplete="current-password"
                     type="password" class="mb-3" />
 
-                <Button type="submit" icon="pi pi-user" class="w-full">Sign In with Password</Button>
+                    <Button type="submit" class="w-full"><span class="text-center w-full"><Icon name="ph:user" class="mr-1"/><span class="vertical-align-middle">Sign in with Password</span></span></Button>
             </Form>
 
             <div class="mt-3">
@@ -48,7 +49,7 @@
                     <span>Sign in With Google</span>
                 </Button>
             </div>
-        </div>
+        </PanelZone>
     </div>
 </template>
 
@@ -57,7 +58,7 @@ import { isString } from '#ving/utils/identify.mjs';
 let login = ref('');
 let password = ref('');
 const config = useRuntimeConfig();
-const currentUser = useCurrentUserStore();
+const currentUser = useCurrentUser();
 
 async function tryLogin() {
     const response = await currentUser.login(login.value, password.value);
