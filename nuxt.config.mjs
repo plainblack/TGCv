@@ -15,10 +15,23 @@ export default defineNuxtConfig({
         '@pinia/nuxt',
         'nuxt-icon',
         'nuxt-primevue',
+        '@vueuse/nuxt',
     ],
     primevue: {
         cssLayerOrder: 'reset,primevue'
     },
+    imports: {
+        dirs: [
+            'composables/**',
+            'utils/**',
+        ],
+    },
+    components: [
+        {
+            path: '~/components',
+            pathPrefix: false,
+        },
+    ],
     app: {
         head: {
             link: [

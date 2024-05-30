@@ -2,6 +2,7 @@ import { v4 } from 'uuid';
 import { z } from 'zod';
 export const uuid = v4;
 import { isFunction, isString, isNumber, isBoolean } from '#ving/utils/identify.mjs';
+import { ouch } from '#ving/utils/ouch.mjs';
 
 
 /**
@@ -74,13 +75,16 @@ export const dateDefault = (prop, skipFunc = false) => {
 }
 
 /**
- * Generates a zod rule for a string prop which must be a string that is at least 1 character long and a length of prop length
+ * Generates a zod rule for a string prop which must be a string that is at least 1 character long and a length of prop length. There are also aliases called `zodVarChar`, `zodText` and `zodMediumText` that can be used for parity with the `dbVarChar`, `dbText` and `dbMediumText` functions.
  * @param {Object} prop An object containing the properties of this prop
  * @returns a zod rule
  */
 export const zodString = (prop) => {
     return z.string().min(0).max(prop.length);
 }
+export const zodVarChar = zodString;
+export const zodText = zodString;
+export const zodMediumText = zodString;
 
 /**
  * Generates a zod rule for a number prop which must be a number
@@ -98,24 +102,6 @@ export const zodNumber = (prop) => {
  */
 export const zodJsonObject = (prop) => {
     return z.object({});
-}
-
-/**
- * Generates a zod rule for a text prop which must be a string with at least 1 character and not more than prop length
- * @param {Object} prop An object containing the properties of this prop
- * @returns a zod rule
- */
-export const zodText = (prop) => {
-    return z.string().min(0).max(prop.length);
-}
-
-/**
- * Generates a zod rule for a text prop which must be a string with at least 1 character and not more 162,777,215
- * @param {Object} prop An object containing the properties of this prop
- * @returns a zod rule
- */
-export const zodMediumText = (prop) => {
-    return z.string().min(0).max(162777215);
 }
 
 /**
@@ -142,6 +128,8 @@ export const dbDateTime = (prop) => {
  * @returns a drizzle field schema definition
  */
 export const dbVarChar = (prop) => {
+    if (prop.length > 256)
+        throw ouch(442, `${prop.name}, a varchar field, cannot have a length greater than 256.`);
     return `varchar('${prop.name}', { length: ${prop.length} }).notNull().default('${stringDefault(prop, true)}')`;
 }
 
@@ -153,6 +141,8 @@ export const dbString = dbVarChar;
  * @returns a drizzle field schema definition
  */
 export const dbText = (prop) => {
+    if (prop.length > 65535)
+        throw ouch(442, `${prop.name}, a text field, cannot have a length greater than 65535.`);
     return `text('${prop.name}').notNull()`;
 }
 
@@ -162,6 +152,8 @@ export const dbText = (prop) => {
  * @returns a drizzle field schema definition
  */
 export const dbMediumText = (prop) => {
+    if (prop.length > 16777215)
+        throw ouch(442, `${prop.name}, a medium text field, cannot have a length greater than 16777215.`);
     return `mediumText('${prop.name}').notNull()`;
 }
 
@@ -193,6 +185,15 @@ export const dbInt = (prop) => {
 }
 
 /**
+ * Generates a drizzle schema field definition for an unsigned bigint prop setting it to be not null with its default value
+ * @param {Object} prop An object containing the properties of this prop
+ * @returns a drizzle field schema definition
+ */
+export const dbBigInt = (prop) => {
+    return `bigint('${prop.name}', {mode:'number', unsigned: true}).notNull().default(${numberDefault(prop, true)})`;
+}
+
+/**
  * Generates a drizzle schema field definition for a json prop setting it to not null with its default value.
  * @param {Object} prop An object containing the properties of this prop
  * @returns a drizzle field schema definition
@@ -206,8 +207,8 @@ export const dbJson = (prop) => {
  * @param {Object} prop An object containing the properties of this prop
  * @returns a drizzle field schema definition
  */
-export const dbId = (prop) => {
-    let col = `varchar('${prop.name}', { length: 36 })`;
+export const dbUuid = (prop) => {
+    let col = `char('${prop.name}', { length: 36 })`;
     if (prop.required) {
         col += `.notNull()`;
     }
@@ -223,7 +224,7 @@ export const dbId = (prop) => {
  * @returns a drizzle field schema definition
  */
 export const dbPk = (prop) => {
-    return `${dbId(prop)}.default('uuid-will-be-generated').primaryKey()`;
+    return `bigint('${prop.name}', {mode:'number', unsigned: true}).notNull().autoincrement().primaryKey()`;
 }
 
 /**
@@ -232,7 +233,14 @@ export const dbPk = (prop) => {
  * @returns a drizzle field schema definition
  */
 export const dbRelation = (prop) => {
-    return `${dbId(prop)}`;
+    let col = `bigint('${prop.name}', {mode:'number', unsigned: true})`;
+    if (prop.required) {
+        col += `.notNull()`;
+    }
+    else {
+        col += `.default(null)`;
+    }
+    return col;
 }
 
 /**
@@ -242,9 +250,8 @@ export const baseSchemaProps = [
     {
         type: "id",
         name: "id",
-        required: true,
-        length: 36,
-        default: () => uuid(),
+        required: false,
+        default: undefined,
         db: (prop) => dbPk(prop),
         view: ['public'],
         edit: [],
