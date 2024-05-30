@@ -37,7 +37,7 @@ definePageMeta({
 });
 const route = useRoute();
 const dt = useDateTime();
-const notify = useNotifyStore();
+const notify = useNotify();
 const id = route.params.id.toString();
 const maintenancetask = useVingRecord({
     id,
