@@ -1,0 +1,1 @@
+ALTER TABLE `users` ADD `tgcUserId` char(36) DEFAULT null;

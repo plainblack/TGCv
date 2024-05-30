@@ -20,7 +20,8 @@ export const UserTable = mysqlTable('users',
 		developer: boolean('developer').notNull().default(false),
 		avatarType: mysqlEnum('avatarType', ['robot','uploaded']).notNull().default('robot'),
 		bio: mediumText('bio').notNull(),
-		avatarId: bigint('avatarId', {mode:'number', unsigned: true}).default(null)
+		avatarId: bigint('avatarId', {mode:'number', unsigned: true}).default(null),
+		tgcUserId: char('tgcUserId', { length: 36 }).default(null)
     }, 
     (table) => ({
         usernameIndex: uniqueIndex('usernameIndex').on(table.username),

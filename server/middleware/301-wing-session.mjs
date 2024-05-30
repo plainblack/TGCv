@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
                 log.debug(`create user`);
 
                 vingUser = await vingUsers.create({
-                    id: tgcUser.id,
+                    tgcUserid: tgcUser.id,
                     username: tgcUser.username,
                     useAsDisplayName: tgcUser.use_as_display_name,
                     email: tgcUser.email,
@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
                     admin: tgcUser.admin,
                     maintenanceManager: tgcUser.maintenance_manager,
                     productionManager: tgcUser.production_manager,
-                    verifyEmail: true,
+                    verifiedEmail: true,
                 });
                 userCreated = true;
             }

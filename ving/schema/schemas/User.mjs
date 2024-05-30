@@ -1,4 +1,4 @@
-import { baseSchemaProps, dbVarChar, zodString, dbEnum, dbBoolean, dbRelation, dbMediumText } from '../helpers.mjs';
+import { baseSchemaProps, dbVarChar, zodString, dbEnum, dbUuid, dbBoolean, dbRelation, dbMediumText } from '../helpers.mjs';
 
 export const userSchema = {
     kind: 'User',
@@ -197,6 +197,17 @@ export const userSchema = {
                 name: 's3files',
                 kind: 'S3File',
             },
+        },
+        {
+            type: "string",
+            length: 36,
+            name: 'tgcUserId',
+            required: false,
+            filterQualifier: true,
+            db: (prop) => dbUuid(prop),
+            default: '',
+            view: ['owner'],
+            edit: [],
         },
     ],
 };
