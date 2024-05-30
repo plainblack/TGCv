@@ -1,4 +1,6 @@
 <template>
+    <Title>Edit Maintenance Task</Title>
+
     <Crumbtrail :crumbs="breadcrumbs" />
     <h1>Edit Maintenance Task</h1>
 

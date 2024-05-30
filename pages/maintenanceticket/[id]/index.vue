@@ -1,4 +1,5 @@
 <template>
+    <Title>{{ maintenanceticket.props?.ticketNumber }}</Title>
     <Crumbtrail :crumbs="breadcrumbs" />
     <h1>{{ maintenanceticket.props?.ticketNumber }}</h1>
     <div v-if="maintenanceticket.props?.id" class="surface-card p-4 border-1 surface-border border-round flex-auto">

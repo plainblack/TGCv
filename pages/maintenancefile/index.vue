@@ -1,4 +1,6 @@
 <template>
+
+    <Title>Maintenance Files</Title>
     <h1>Maintenance Files</h1>
 
     <div class="surface-card p-4 border-1 surface-border border-round">
@@ -13,7 +15,7 @@
         </InputGroup>
 
         <DataTable :value="maintenancefiles.records" stripedRows @sort="(e) => maintenancefiles.sortDataTable(e)">
-            
+
             <Column field="props.id" header="Id" sortable>
                 <template #body="slotProps">
                     <NuxtLink :to="`/maintenancefile/${slotProps.data.props.id}`" v-ripple>
@@ -36,12 +38,14 @@
             <Column header="Manage">
                 <template #body="slotProps">
                     <NuxtLink :to="`/maintenancefile/${slotProps.data.props.id}`" class="mr-2 no-underline">
-                        <Button icon="pi pi-eye"  title="View" alt="View Maintenance File" />
+                        <Button icon="pi pi-eye" title="View" alt="View Maintenance File" />
                     </NuxtLink>
-                    <NuxtLink v-if="slotProps.data.meta?.isOwner" :to="`/maintenancefile/${slotProps.data.props.id}/edit`" class="mr-2 no-underline">
+                    <NuxtLink v-if="slotProps.data.meta?.isOwner"
+                        :to="`/maintenancefile/${slotProps.data.props.id}/edit`" class="mr-2 no-underline">
                         <Button icon="pi pi-pencil" severity="success" title="Edit" alt="Edit Maintenance File" />
                     </NuxtLink>
-                    <Button v-if="slotProps.data.meta?.isOwner"  title="Delete" alt="Delete Maintenance File" icon="pi pi-trash" severity="danger" @click="slotProps.data.delete()" />
+                    <Button v-if="slotProps.data.meta?.isOwner" title="Delete" alt="Delete Maintenance File"
+                        icon="pi pi-trash" severity="danger" @click="slotProps.data.delete()" />
                 </template>
             </Column>
         </DataTable>
@@ -53,16 +57,18 @@
         <Form :send="() => maintenancefiles.create()">
             <div class="flex gap-5 flex-column-reverse md:flex-row">
                 <div class="flex-auto">
-                    
+
                     <div class="mb-4">
-                        <FormInput name="s3FileId" type="text" v-model="maintenancefiles.new.s3FileId" required label="S3 File Id" />
+                        <FormInput name="s3FileId" type="text" v-model="maintenancefiles.new.s3FileId" required
+                            label="S3 File Id" />
                     </div>
                     <div class="mb-4">
-                        <FormInput name="maintenanceTicketId" type="text" v-model="maintenancefiles.new.maintenanceTicketId" required label="Maintenance Ticket Id" />
+                        <FormInput name="maintenanceTicketId" type="text"
+                            v-model="maintenancefiles.new.maintenanceTicketId" required label="Maintenance Ticket Id" />
                     </div>
                     <div>
                         <Button type="submit" class="w-auto" severity="success">
-                        <i class="pi pi-plus mr-1"></i> Create Maintenance File
+                            <i class="pi pi-plus mr-1"></i> Create Maintenance File
                         </Button>
                     </div>
                 </div>

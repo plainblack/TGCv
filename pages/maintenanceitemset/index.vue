@@ -1,4 +1,6 @@
 <template>
+    <Title>Maintenance Item Sets</Title>
+
     <h1>Maintenance Item Sets</h1>
 
     <div class="surface-card p-4 border-1 surface-border border-round">
