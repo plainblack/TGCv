@@ -23,9 +23,9 @@
                 <CopyToClipboard size="xs" :text="maintenancefile.props?.id" />
             </div>
 
-            <div class="mb-4"><b>Created At</b>: {{ dt.formatDateTime(maintenancefile.props.createdAt) }}</div>
+            <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenancefile.props.createdAt) }}</div>
 
-            <div class="mb-4"><b>Updated At</b>: {{ dt.formatDateTime(maintenancefile.props.updatedAt) }}</div>
+            <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenancefile.props.updatedAt) }}</div>
 
         </FieldsetItem>
 
@@ -46,7 +46,6 @@ definePageMeta({
     middleware: ['auth']
 });
 const route = useRoute();
-const dt = useDateTime();
 const notify = useNotify();
 const id = route.params.id.toString();
 const maintenancefile = useVingRecord({

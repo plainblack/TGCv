@@ -14,7 +14,7 @@
                     <div v-if="remark.props?.resolutionMinutes">
                         Time spent: {{ remark.props?.resolutionMinutes }} minutes
                     </div>
-                    <span class="p-text-secondary">{{ dt.formatTimeAgo(remark.props?.updatedAt) }}</span>
+                    <span class="p-text-secondary">{{ formatTimeAgo(remark.props?.updatedAt) }}</span>
                 </div>
             </template>
             <template #icons>
@@ -72,8 +72,6 @@ const items = ref([
 const toggle = (event) => {
     menu.value.toggle(event);
 };
-
-const dt = useDateTime();
 
 </script>
 

@@ -28,9 +28,9 @@
             <CopyToClipboard size="xs" :text="maintenanceticket.props?.id" />
         </div>
 
-        <div><b>Created At</b>: {{ dt.formatDateTime(maintenanceticket.props?.createdAt) }}</div>
+        <div><b>Created At</b>: {{ formatDateTime(maintenanceticket.props?.createdAt) }}</div>
 
-        <div><b>Updated At</b>: {{ dt.formatDateTime(maintenanceticket.props?.updatedAt) }}</div>
+        <div><b>Updated At</b>: {{ formatDateTime(maintenanceticket.props?.updatedAt) }}</div>
 
 
     </div>
@@ -142,7 +142,6 @@ onBeforeRouteLeave(() => {
     maintenanceticket.dispose();
     maintenancefiles.dispose();
 });
-const dt = useDateTime();
 const breadcrumbs = [
     { label: 'Maintenance Tickets', to: '/maintenanceticket' },
     { label: 'View' },

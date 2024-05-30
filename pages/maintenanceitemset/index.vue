@@ -69,7 +69,6 @@
 </template>
 
 <script setup>
-const dt = useDateTime();
 const maintenanceitemsets = useVingKind({
     listApi: `/api/${useRestVersion()}/maintenanceitemset`,
     createApi: `/api/${useRestVersion()}/maintenanceitemset`,

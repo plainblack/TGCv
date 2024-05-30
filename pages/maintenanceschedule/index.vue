@@ -99,7 +99,6 @@
 </template>
 
 <script setup>
-const dt = useDateTime();
 const maintenanceschedules = useVingKind({
     listApi: `/api/${useRestVersion()}/maintenanceschedule`,
     createApi: `/api/${useRestVersion()}/maintenanceschedule`,

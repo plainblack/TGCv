@@ -5,9 +5,9 @@
         
             <div><b>Id</b>: {{maintenancefile.props?.id}} <CopyToClipboard size="xs" :text="maintenancefile.props?.id" /></div>
             
-            <div><b>Created At</b>: {{dt.formatDateTime(maintenancefile.props?.createdAt)}}</div>
+            <div><b>Created At</b>: {{formatDateTime(maintenancefile.props?.createdAt)}}</div>
             
-            <div><b>Updated At</b>: {{dt.formatDateTime(maintenancefile.props?.updatedAt)}}</div>
+            <div><b>Updated At</b>: {{formatDateTime(maintenancefile.props?.updatedAt)}}</div>
             
             <div><b>S3 File Id</b>: {{maintenancefile.props?.s3FileId}} <CopyToClipboard size="xs" :text="maintenancefile.props?.s3FileId" /></div>
             
@@ -35,7 +35,6 @@ const maintenancefile = useVingRecord({
 });
 await maintenancefile.fetch();
 onBeforeRouteLeave(() => maintenancefile.dispose());
-const dt = useDateTime();
 const breadcrumbs = [
     { label: 'Maintenance Files', to: '/maintenancefile' },
     { label: 'View' },

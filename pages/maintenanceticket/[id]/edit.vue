@@ -35,9 +35,9 @@
                 <CopyToClipboard size="xs" :text="maintenanceticket.props?.id" />
             </div>
 
-            <div class="mb-4"><b>Created At</b>: {{ dt.formatDateTime(maintenanceticket.props.createdAt) }}</div>
+            <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenanceticket.props.createdAt) }}</div>
 
-            <div class="mb-4"><b>Updated At</b>: {{ dt.formatDateTime(maintenanceticket.props.updatedAt) }}</div>
+            <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenanceticket.props.updatedAt) }}</div>
 
             <div class="mb-4"><b>Ticket Number</b>: {{ maintenanceticket.props?.ticketNumber }}</div>
 
@@ -62,7 +62,6 @@ definePageMeta({
     middleware: ['auth']
 });
 const route = useRoute();
-const dt = useDateTime();
 const notify = useNotify();
 const id = route.params.id.toString();
 const maintenanceticket = useVingRecord({

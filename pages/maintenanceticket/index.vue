@@ -78,7 +78,7 @@
             </Column>
             <Column field="props.updatedAt" header="Updated At" sortable>
                 <template #body="slotProps">
-                    {{ dt.formatDate(slotProps.data.props.updatedAt) }}
+                    {{ formatDate(slotProps.data.props.updatedAt) }}
                 </template>
             </Column>
         </DataTable>
@@ -121,7 +121,6 @@
 </template>
 
 <script setup>
-const dt = useDateTime();
 const maintenancetickets = useVingKind({
     listApi: `/api/${useRestVersion()}/maintenanceticket`,
     createApi: `/api/${useRestVersion()}/maintenanceticket`,

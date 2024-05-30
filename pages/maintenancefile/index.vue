@@ -23,12 +23,12 @@
             </Column>
             <Column field="props.createdAt" header="Created At" sortable>
                 <template #body="slotProps">
-                    {{ dt.formatDateTime(slotProps.data.props.createdAt) }}
+                    {{ formatDateTime(slotProps.data.props.createdAt) }}
                 </template>
             </Column>
             <Column field="props.updatedAt" header="Updated At" sortable>
                 <template #body="slotProps">
-                    {{ dt.formatDateTime(slotProps.data.props.updatedAt) }}
+                    {{ formatDateTime(slotProps.data.props.updatedAt) }}
                 </template>
             </Column>
             <Column field="props.s3FileId" header="S3 File Id" sortable></Column>
@@ -73,7 +73,6 @@
 </template>
 
 <script setup>
-const dt = useDateTime();
 const maintenancefiles = useVingKind({
     listApi: `/api/${useRestVersion()}/maintenancefile`,
     createApi: `/api/${useRestVersion()}/maintenancefile`,
