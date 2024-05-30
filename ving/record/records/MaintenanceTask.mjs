@@ -9,12 +9,12 @@ export class MaintenanceTaskRecord extends VingRecord {
     async delete() {
         const set = await this.parent('itemSet');
         await super.delete();
-        await set.countItems();
+        await set.countTasks();
     }
     async insert() {
         await super.insert();
         const set = await this.parent('itemSet');
-        await set.countItems();
+        await set.countTasks();
     }
 }
 
