@@ -1,39 +1,51 @@
 <template>
     <Title>Edit Maintenance Task</Title>
 
-    <Crumbtrail :crumbs="breadcrumbs" />
-    <h1>Edit Maintenance Task</h1>
+    <PanelFrame section="Maintenance" title="Edit Hardware Task">
+        <template #left>
+            <PanelNav :links="links" />
+        </template>
+        <template #content>
+            <PanelZone :title="maintenancetask.props.name">
 
-    <FieldsetNav v-if="maintenancetask.props">
-        <FieldsetItem name="Properties">
+                <FieldsetNav v-if="maintenancetask.props">
+                    <FieldsetItem name="Properties">
 
-            <div class="mb-4">
-                <FormInput name="description" type="text" v-model="maintenancetask.props.description" required
-                    label="Description" @change="maintenancetask.save('description')" />
-            </div>
-        </FieldsetItem>
+                        <div class="mb-4">
+                            <FormInput name="description" type="text" v-model="maintenancetask.props.description"
+                                required label="Description" @change="maintenancetask.save('description')" />
+                        </div>
+                    </FieldsetItem>
 
-        <FieldsetItem name="Statistics">
+                    <FieldsetItem name="Statistics">
 
-            <div class="mb-4"><b>Id</b>: {{ maintenancetask.props?.id }}
-                <CopyToClipboard size="xs" :text="maintenancetask.props?.id" />
-            </div>
+                        <div class="mb-4"><b>Id</b>: {{ maintenancetask.props?.id }}
+                            <CopyToClipboard size="xs" :text="maintenancetask.props?.id" />
+                        </div>
 
-            <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenancetask.props.createdAt) }}</div>
+                        <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenancetask.props.createdAt) }}</div>
 
-            <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenancetask.props.updatedAt) }}</div>
+                        <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenancetask.props.updatedAt) }}</div>
+                        <div class="mb-4"><b>Hardware Set</b>: <NuxtLink
+                                :to="`/maintenanceitemset/${maintenancetask.props?.maintenanceItemSetId}`">{{
+                maintenancetask.related?.itemSet?.props?.name }}</NuxtLink>
+                        </div>
+                    </FieldsetItem>
 
-        </FieldsetItem>
+                    <FieldsetItem name="Actions">
+                        <Button @click="maintenancetask.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
+                            alt="Delete Maintenance Task"><i class="pi pi-trash mr-1"></i> Delete</Button>
+                    </FieldsetItem>
 
-        <FieldsetItem name="Actions">
-            <Button @click="maintenancetask.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
-                alt="Delete Maintenance Task"><i class="pi pi-trash mr-1"></i> Delete</Button>
-        </FieldsetItem>
-
-    </FieldsetNav>
+                </FieldsetNav>
+            </PanelZone>
+        </template>
+    </PanelFrame>
 </template>
 
 <script setup>
+import PanelFrame from '~/components/ving/PanelFrame.vue';
+
 definePageMeta({
     middleware: ['auth']
 });
@@ -44,7 +56,7 @@ const maintenancetask = useVingRecord({
     id,
     fetchApi: `/api/${useRestVersion()}/maintenancetask/${id}`,
     createApi: `/api/${useRestVersion()}/maintenancetask`,
-    query: { includeMeta: true, includeOptions: true, includeRelated: ['itemSet'] },
+    query: { includeMeta: true, includeRelated: ['itemSet'], includeOptions: true, includeRelated: ['itemSet'] },
     onUpdate() {
         notify.success('Updated Maintenance Task.');
     },
@@ -54,11 +66,7 @@ const maintenancetask = useVingRecord({
 });
 await maintenancetask.fetch()
 
-const breadcrumbs = [
-    { label: 'Maintenance Item Sets', to: '/maintenanceitemset' },
-    { label: `${maintenancetask.related.itemSet.props.name}`, to: `/maintenanceitemset/${maintenancetask.related.itemSet.props.id}` },
-    { label: 'Edit Task' },
-];
+const links = useMaintenanceLinks();
 
 onBeforeRouteLeave(() => {
     maintenancetask.dispose();

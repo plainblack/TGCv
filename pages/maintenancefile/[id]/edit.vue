@@ -1,54 +1,64 @@
 <template>
     <Title>Edit Maintenance File</Title>
-    <Crumbtrail :crumbs="breadcrumbs" />
-    <h1>Edit Maintenance File</h1>
+    <PanelFrame section="Files" title="Edit Hardware File">
+        <template #left>
+            <PanelNav :links="links" />
+        </template>
+        <template #content>
+            <PanelZone :title="`Edit ${maintenancefile.props?.id}`">
+                <FieldsetNav v-if="maintenancefile.props">
+                    <FieldsetItem name="Properties">
 
-    <FieldsetNav v-if="maintenancefile.props">
-        <FieldsetItem name="Properties">
+                        <div class="mb-4">
+                            <client-only>
+                                <Dropzone
+                                    :afterUpload="(s3file) => maintenancefile.importS3File('s3file', s3file.props?.id)"
+                                    :maxFiles="1" :resizeHeight="300" :resizeWidth="300" resizeMethod="crop"></Dropzone>
+                            </client-only>
+                        </div>
+                        <div class="mb-4">
+                            <FormInput name="maintenanceTicketId" type="text"
+                                v-model="maintenancefile.props.maintenanceTicketId" required
+                                label="Maintenance Ticket Id" @change="maintenancefile.save('maintenanceTicketId')" />
+                        </div>
+                    </FieldsetItem>
 
-            <div class="mb-4">
-                <client-only>
-                    <Dropzone :afterUpload="(s3file) => maintenancefile.importS3File('s3file', s3file.props?.id)"
-                        :maxFiles="1" :resizeHeight="300" :resizeWidth="300" resizeMethod="crop"></Dropzone>
-                </client-only>
-            </div>
-            <div class="mb-4">
-                <FormInput name="maintenanceTicketId" type="text" v-model="maintenancefile.props.maintenanceTicketId"
-                    required label="Maintenance Ticket Id" @change="maintenancefile.save('maintenanceTicketId')" />
-            </div>
-        </FieldsetItem>
+                    <FieldsetItem name="Statistics">
 
-        <FieldsetItem name="Statistics">
+                        <div class="mb-4"><b>Id</b>: {{ maintenancefile.props?.id }}
+                            <CopyToClipboard size="xs" :text="maintenancefile.props?.id" />
+                        </div>
 
-            <div class="mb-4"><b>Id</b>: {{ maintenancefile.props?.id }}
-                <CopyToClipboard size="xs" :text="maintenancefile.props?.id" />
-            </div>
+                        <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenancefile.props.createdAt) }}</div>
 
-            <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenancefile.props.createdAt) }}</div>
+                        <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenancefile.props.updatedAt) }}</div>
 
-            <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenancefile.props.updatedAt) }}</div>
+                    </FieldsetItem>
 
-        </FieldsetItem>
+                    <FieldsetItem name="Actions">
+                        <NuxtLink :to="`/maintenancefile/${maintenancefile.props?.id}`" class="no-underline">
+                            <Button title="View" alt="View Maintenance File" class="mr-2 mb-2"><i
+                                    class="pi pi-eye mr-1"></i>
+                                View</Button>
+                        </NuxtLink>
+                        <Button @click="maintenancefile.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
+                            alt="Delete Maintenance File"><i class="pi pi-trash mr-1"></i> Delete</Button>
+                    </FieldsetItem>
 
-        <FieldsetItem name="Actions">
-            <NuxtLink :to="`/maintenancefile/${maintenancefile.props?.id}`" class="no-underline">
-                <Button title="View" alt="View Maintenance File" class="mr-2 mb-2"><i class="pi pi-eye mr-1"></i>
-                    View</Button>
-            </NuxtLink>
-            <Button @click="maintenancefile.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
-                alt="Delete Maintenance File"><i class="pi pi-trash mr-1"></i> Delete</Button>
-        </FieldsetItem>
+                </FieldsetNav>
+            </PanelZone>
+        </template>
+    </PanelFrame>
 
-    </FieldsetNav>
-</template>
-
-<script setup>
+    <script setup>
 definePageMeta({
     middleware: ['auth']
 });
 const route = useRoute();
 const notify = useNotify();
 const id = route.params.id.toString();
+const links = useMaintenanceLinks();
+
 const maintenancefile = useVingRecord({
     id,
     fetchApi: `/api/${useRestVersion()}/maintenancefile/${id}`,
@@ -64,9 +74,4 @@ const maintenancefile = useVingRecord({
 await maintenancefile.fetch()
 onBeforeRouteLeave(() => maintenancefile.dispose());
 
-const breadcrumbs = [
-    { label: 'Maintenance Files', to: '/maintenancefile' },
-    { label: 'View', to: '/maintenancefile/' + maintenancefile.props.id },
-    { label: 'Edit' },
-];
 </script>

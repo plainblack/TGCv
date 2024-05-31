@@ -1,40 +1,52 @@
 <template>
     <Title>Edit Maintenance Item</Title>
 
-    <Crumbtrail :crumbs="breadcrumbs" />
-    <h1>Edit Maintenance Item</h1>
+    <PanelFrame section="Maintenance" title="Hardware Item">
+        <template #left>
+            <PanelNav :links="links" />
+        </template>
+        <template #content>
+            <PanelZone :title="maintenanceitem.props.name">
 
-    <FieldsetNav v-if="maintenanceitem.props">
-        <FieldsetItem name="Properties">
+                <FieldsetNav v-if="maintenanceitem.props">
+                    <FieldsetItem name="Properties">
 
-            <div class="mb-4">
-                <FormInput name="name" type="text" v-model="maintenanceitem.props.name" required label="Name"
-                    @change="maintenanceitem.save('name')" />
-            </div>
-            <div class="mb-4">
-                <FormInput type="select" name="status" :options="maintenanceitem.options?.status"
-                    v-model="maintenanceitem.props.status" label="Status" @change="maintenanceitem.save('status')" />
-            </div>
-        </FieldsetItem>
+                        <div class="mb-4">
+                            <FormInput name="name" type="text" v-model="maintenanceitem.props.name" required
+                                label="Name" @change="maintenanceitem.save('name')" />
+                        </div>
+                        <div class="mb-4">
+                            <FormInput type="select" name="status" :options="maintenanceitem.options?.status"
+                                v-model="maintenanceitem.props.status" label="Status"
+                                @change="maintenanceitem.save('status')" />
+                        </div>
+                    </FieldsetItem>
 
-        <FieldsetItem name="Statistics">
+                    <FieldsetItem name="Statistics">
 
-            <div class="mb-4"><b>Id</b>: {{ maintenanceitem.props?.id }}
-                <CopyToClipboard size="xs" :text="maintenanceitem.props?.id" />
-            </div>
+                        <div class="mb-4"><b>Id</b>: {{ maintenanceitem.props?.id }}
+                            <CopyToClipboard size="xs" :text="maintenanceitem.props?.id" />
+                        </div>
 
-            <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenanceitem.props.createdAt) }}</div>
+                        <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenanceitem.props.createdAt) }}</div>
 
-            <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenanceitem.props.updatedAt) }}</div>
+                        <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenanceitem.props.updatedAt) }}</div>
+                        <div class="mb-4"><b>Hardware Set</b>: <NuxtLink
+                                :to="`/maintenanceitemset/${maintenanceitem.props?.maintenanceItemSetId}`">{{
+                maintenanceitem.related?.itemSet?.props?.name }}</NuxtLink>
+                        </div>
 
-        </FieldsetItem>
+                    </FieldsetItem>
 
-        <FieldsetItem name="Actions">
-            <Button @click="maintenanceitem.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
-                alt="Delete Maintenance Item"><i class="pi pi-trash mr-1"></i> Delete</Button>
-        </FieldsetItem>
+                    <FieldsetItem name="Actions">
+                        <Button @click="maintenanceitem.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
+                            alt="Delete Maintenance Item"><i class="pi pi-trash mr-1"></i> Delete</Button>
+                    </FieldsetItem>
 
-    </FieldsetNav>
+                </FieldsetNav>
+            </PanelZone>
+        </template>
+    </PanelFrame>
 </template>
 
 <script setup>
@@ -48,7 +60,7 @@ const maintenanceitem = useVingRecord({
     id,
     fetchApi: `/api/${useRestVersion()}/maintenanceitem/${id}`,
     createApi: `/api/${useRestVersion()}/maintenanceitem`,
-    query: { includeMeta: true, includeOptions: true, includeRelated: ['itemSet'] },
+    query: { includeMeta: true, includeRelated: ['itemSet'], includeOptions: true, includeRelated: ['itemSet'] },
     onUpdate() {
         notify.success('Updated Maintenance Item.');
     },
@@ -57,11 +69,8 @@ const maintenanceitem = useVingRecord({
     },
 });
 
+
 await maintenanceitem.fetch();
-const breadcrumbs = [
-    { label: 'Maintenance Item Sets', to: '/maintenanceitemset' },
-    { label: `${maintenanceitem.related.itemSet.props.name}`, to: `/maintenanceitemset/${maintenanceitem.related.itemSet.props.id}` },
-    { label: 'Edit Item' },
-];
+const links = useMaintenanceLinks();
 onBeforeRouteLeave(() => maintenanceitem.dispose());
 </script>
