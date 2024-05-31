@@ -11,7 +11,6 @@ export default () => {
             { label: 'Tickets', to: '/maintenanceticket', icon: 'lucide:list-todo' },
             { label: 'Hardware Sets', to: '/maintenanceitemset', icon: 'mdi:printer-pos-cog-outline' },
             { label: 'Schedule', to: '/maintenanceschedule', icon: 'healthicons:i-schedule-school-date-time' },
-            { label: 'Files', to: '/maintenancefile', icon: 'healthicons:i-schedule-school-date-time' },
         ];
         return out;
     });
