@@ -7,17 +7,6 @@ export const maintenanceTicketSchema = {
     props: [
         ...baseSchemaProps,
         {
-            type: "int",
-            name: "ticketNumber",
-            filterQualifier: true,
-            required: false,
-            default: 0,
-            db: (prop) => dbInt(prop),
-            zod: (prop) => zodNumber(prop),
-            view: ['public'],
-            edit: [],
-        },
-        {
             type: "string",
             name: "description",
             required: true,

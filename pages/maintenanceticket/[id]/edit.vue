@@ -1,11 +1,11 @@
 <template>
     <Title>Edit Maintenance Ticket</Title>
-    <PanelFrame section="Tickets" :title="`Edit ${maintenanceticket.props?.ticketNumber}`">
+    <PanelFrame section="Tickets" :title="`Edit ${maintenanceticket.meta?.ticketNumber}`">
         <template #left>
             <PanelNav :links="links" />
         </template>
         <template #content>
-            <PanelZone :title="`Edit ${maintenanceticket.props?.ticketNumber}`">
+            <PanelZone :title="`Edit ${maintenanceticket.meta?.ticketNumber}`">
 
                 <FieldsetNav v-if="maintenanceticket.props">
                     <FieldsetItem name="Properties">
@@ -47,7 +47,7 @@
                         <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenanceticket.props?.updatedAt) }}
                         </div>
 
-                        <div class="mb-4"><b>Ticket Number</b>: {{ maintenanceticket.props?.ticketNumber }}</div>
+                        <div class="mb-4"><b>Ticket Number</b>: {{ maintenanceticket.meta?.ticketNumber }}</div>
 
                         <div class="mb-4"><b>Resolution Minutes</b>: {{ maintenanceticket.props?.resolutionMinutes }}
                         </div>

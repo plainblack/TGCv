@@ -1,0 +1,1 @@
+ALTER TABLE `maintenancetickets` DROP COLUMN `ticketNumber`;

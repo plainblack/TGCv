@@ -58,7 +58,7 @@
                     <Column field="props.ticketNumber" header="#" sortable>
                         <template #body="slotProps">
                             <NuxtLink :to="`/maintenanceticket/${slotProps.data.props.id}`" v-ripple>
-                                {{ slotProps.data.props.ticketNumber }}
+                                {{ slotProps.data.meta.ticketNumber }}
                             </NuxtLink>
                         </template>
                     </Column>

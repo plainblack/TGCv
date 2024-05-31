@@ -1,11 +1,11 @@
 <template>
-    <Title>{{ maintenanceticket.props?.ticketNumber }}</Title>
-    <PanelFrame section="Tickets" :title="`View ${maintenanceticket.props?.ticketNumber}`">
+    <Title>{{ maintenanceticket.meta?.ticketNumber }}</Title>
+    <PanelFrame section="Tickets" :title="`${maintenanceticket.meta?.ticketNumber}`">
         <template #left>
             <PanelNav :links="links" />
         </template>
         <template #content>
-            <PanelZone :title="`View ${maintenanceticket.props?.ticketNumber}`">
+            <PanelZone :title="`${maintenanceticket.meta?.ticketNumber}`">
 
                 <div><b>Item</b>: {{ maintenanceticket.related?.item?.props?.name }}
                     <CopyToClipboard size="xs" :text="maintenanceticket.props?.maintenanceItemId" />

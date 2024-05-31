@@ -16,6 +16,7 @@ export class MaintenanceTicketRecord extends VingRecord {
     async describe(params = {}) {
         const out = await super.describe(params);
         if (params?.include?.meta && out.meta) {
+            out.meta.ticketNumber = this.id;
         }
         return out;
     }
