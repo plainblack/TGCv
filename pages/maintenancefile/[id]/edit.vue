@@ -49,8 +49,9 @@
             </PanelZone>
         </template>
     </PanelFrame>
+</template>
 
-    <script setup>
+<script setup>
 definePageMeta({
     middleware: ['auth']
 });

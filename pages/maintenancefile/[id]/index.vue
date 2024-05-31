@@ -36,8 +36,9 @@
             </PanelZone>
         </template>
     </PanelFrame>
+</template>
 
-    <script setup>
+<script setup>
 const route = useRoute();
 const links = useMaintenanceLinks();
 const id = route.params.id.toString();
