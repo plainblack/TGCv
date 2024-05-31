@@ -1,10 +1,10 @@
 import { useKind } from '#ving/record/utils.mjs';
-import { describeListParams } from '#ving/utils/rest.mjs';
+import { describeListParams, describeListWhere } from '#ving/utils/rest.mjs';
 import {defineEventHandler, getRouterParams} from 'h3';
 export default defineEventHandler(async (event) => {
     const maintenancetickets = await useKind('MaintenanceTicket');
     const { id } = getRouterParams(event);
     const maintenanceticket = await maintenancetickets.findOrDie(id);
-    const MaintenanceFiles = await maintenanceticket.children('files');
+    const maintenancefiles = await maintenanceticket.children('files');
     return await maintenancefiles.describeList(describeListParams(event), describeListWhere(event, maintenancefiles.describeListFilter()));
 });

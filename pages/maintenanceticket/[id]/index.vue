@@ -116,6 +116,8 @@ const maintenanceticket = useVingRecord({
         await navigateTo('/maintenanceticket');
     },
 });
+await maintenanceticket.fetch();
+
 const maintenanceremarks = useVingKind({
     listApi: `/api/${useRestVersion()}/maintenanceremark`,
     createApi: `/api/${useRestVersion()}/maintenanceremark`,
@@ -129,7 +131,7 @@ const maintenanceremarks = useVingKind({
     }
 });
 const maintenancefiles = useVingKind({
-    listApi: `/api/${useRestVersion()}/maintenancefile`,
+    listApi: `${maintenanceticket.links.self.href}/files`,
     createApi: `/api/${useRestVersion()}/maintenancefile`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['s3file'], },
     newDefaults: { s3FileId: '', maintenanceTicketId: maintenanceticket.props?.id },
@@ -146,7 +148,6 @@ await Promise.all([
     maintenanceremarks.fetchPropsOptions(),
     maintenancefiles.search(),
     maintenancefiles.fetchPropsOptions(),
-    maintenanceticket.fetch(),
 ]);
 onBeforeRouteLeave(() => {
     maintenanceremarks.dispose();
