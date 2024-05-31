@@ -5,7 +5,7 @@
             <PanelNav :links="links" />
         </template>
         <template #content>
-            <PanelZone v-if="maintenanceticket.props" :title="`View ${maintenanceticket.props?.ticketNumber}`">
+            <PanelZone :title="`View ${maintenanceticket.props?.ticketNumber}`">
 
                 <div><b>Item</b>: {{ maintenanceticket.related?.item?.props?.name }}
                     <CopyToClipboard size="xs" :text="maintenanceticket.props?.maintenanceItemId" />
