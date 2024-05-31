@@ -134,6 +134,7 @@ const maintenancetickets = useVingKind({
     createApi: `/api/${useRestVersion()}/maintenanceticket`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceTaskId: '', maintenanceItemId: '', type: 'needs_help', status: 'unresolved' },
     newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', maintenanceTaskId: '', maintenanceItemId: '' },
+    onCreate: (data) => { console.log(data); return navigateTo(`/maintenanceticket/${data.props.id}`) },
 });
 const allmaintenanceitems = useVingKind({
     listApi: `/api/${useRestVersion()}/maintenanceitem`,

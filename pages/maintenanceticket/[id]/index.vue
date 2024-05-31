@@ -1,16 +1,16 @@
 <template>
     <Title>{{ maintenanceticket.props?.ticketNumber }}</Title>
-    <PanelFrame section="Tickets" :title="maintenanceticket.props?.ticketNumber">
+    <PanelFrame section="Tickets" :title="`View ${maintenanceticket.props?.ticketNumber}`">
         <template #left>
             <PanelNav :links="links" />
         </template>
         <template #content>
-            <PanelZone :title="`${maintenanceticket.props?.ticketNumber}`">
+            <PanelZone v-if="maintenanceticket.props" :title="`View ${maintenanceticket.props?.ticketNumber}`">
 
-                <div><b>Item</b>: {{ maintenanceticket.related?.item.props.name }}
+                <div><b>Item</b>: {{ maintenanceticket.related?.item?.props?.name }}
                     <CopyToClipboard size="xs" :text="maintenanceticket.props?.maintenanceItemId" />
                 </div>
-                <div><b>Task</b>: {{ maintenanceticket.related?.task.props.description }}
+                <div><b>Task</b>: {{ maintenanceticket.related?.task?.props?.description }}
                     <CopyToClipboard size="xs" :text="maintenanceticket.props?.maintenanceTaskId" />
                 </div>
                 <div><b>Description</b>:
@@ -106,6 +106,7 @@
 <script setup>
 const route = useRoute();
 const id = route.params.id.toString();
+const links = useMaintenanceLinks();
 
 const maintenanceticket = useVingRecord({
     id,

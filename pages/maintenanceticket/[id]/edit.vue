@@ -15,17 +15,17 @@
                                 required label="Description" @change="maintenanceticket.save('description')" />
                         </div>
                         <div class="mb-4">
-                            <FormInput type="select" name="type" :options="maintenanceticket.options?.type"
+                            <FormInput type="select" name="type" :options="maintenanceticket.options.type"
                                 v-model="maintenanceticket.props.type" label="Type"
                                 @change="maintenanceticket.save('type')" />
                         </div>
                         <div class="mb-4">
-                            <FormInput type="select" name="severity" :options="maintenanceticket.options?.severity"
+                            <FormInput type="select" name="severity" :options="maintenanceticket.options.severity"
                                 v-model="maintenanceticket.props.severity" label="Severity"
                                 @change="maintenanceticket.save('severity')" />
                         </div>
                         <div class="mb-4">
-                            <FormInput type="select" name="status" :options="maintenanceticket.options?.status"
+                            <FormInput type="select" name="status" :options="maintenanceticket.options.status"
                                 v-model="maintenanceticket.props.status" label="Status"
                                 @change="maintenanceticket.save('status')" />
                         </div>
@@ -41,10 +41,10 @@
                             <CopyToClipboard size="xs" :text="maintenanceticket.props?.id" />
                         </div>
 
-                        <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenanceticket.props.createdAt) }}
+                        <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenanceticket.props?.createdAt) }}
                         </div>
 
-                        <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenanceticket.props.updatedAt) }}
+                        <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenanceticket.props?.updatedAt) }}
                         </div>
 
                         <div class="mb-4"><b>Ticket Number</b>: {{ maintenanceticket.props?.ticketNumber }}</div>
@@ -77,6 +77,7 @@ definePageMeta({
 const route = useRoute();
 const notify = useNotify();
 const id = route.params.id.toString();
+const links = useMaintenanceLinks();
 const maintenanceticket = useVingRecord({
     id,
     fetchApi: `/api/${useRestVersion()}/maintenanceticket/${id}`,
