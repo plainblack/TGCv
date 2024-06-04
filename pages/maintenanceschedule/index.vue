@@ -46,6 +46,7 @@
                             <MarkdownView :text="slotProps.data.props?.description" />
                         </template>
                     </Column>
+                    <Column field="props.recurrence" header="Recurs" sortable></Column>
                     <Column field="props.months" header="Months" sortable></Column>
                     <Column field="props.weeks" header="Weeks" sortable></Column>
                     <Column field="props.days" header="Days" sortable></Column>
