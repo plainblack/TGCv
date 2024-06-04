@@ -1,11 +1,11 @@
 <template>
-    <Title>Edit Maintenance Ticket</Title>
-    <PanelFrame section="Tickets" :title="`Edit ${maintenanceticket.meta?.ticketNumber}`">
+    <Title>{{ `Edit Maintenance Ticket ${maintenanceticket.meta?.ticketNumber}` }}</Title>
+    <PanelFrame section="Tickets" :title="`Edit Ticket ${maintenanceticket.meta?.ticketNumber}`">
         <template #left>
             <PanelNav :links="links" />
         </template>
         <template #content>
-            <PanelZone :title="`Edit ${maintenanceticket.meta?.ticketNumber}`">
+            <PanelZone :title="`Edit Ticket ${maintenanceticket.meta?.ticketNumber}`">
 
                 <FieldsetNav v-if="maintenanceticket.props">
                     <FieldsetItem name="Properties">

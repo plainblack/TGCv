@@ -1,11 +1,11 @@
 <template>
-    <Title>{{ maintenanceticket.meta?.ticketNumber }}</Title>
-    <PanelFrame section="Tickets" :title="`${maintenanceticket.meta?.ticketNumber}`">
+    <Title>{{ `Ticket ${maintenanceticket.meta?.ticketNumber} ` }}</Title>
+    <PanelFrame section="Tickets" :title="`Ticket ${maintenanceticket.meta?.ticketNumber}`">
         <template #left>
             <PanelNav :links="links" />
         </template>
         <template #content>
-            <PanelZone :title="`${maintenanceticket.meta?.ticketNumber}`">
+            <PanelZone :title="`Ticket ${maintenanceticket.meta?.ticketNumber}`">
 
                 <div><b>Item</b>: {{ maintenanceticket.related?.item?.props?.name }}
                     <CopyToClipboard size="xs" :text="maintenanceticket.props?.maintenanceItemId" />
@@ -38,7 +38,7 @@
 
                 <div><b>Updated At</b>: {{ formatDateTime(maintenanceticket.props?.updatedAt) }}</div>
 
-                <MaintenanceFile v-for="file in maintenancefiles.records" :key="file.props.id" :mFile="file" />
+                <MaintenanceFile v-for=" file  in  maintenancefiles.records " :key="file.props.id" :mFile="file" />
                 <div class="mt-5 surface-card p-5 border-1 surface-border border-round">
                     <h2 class="mt-0">Add Comment</h2>
 
@@ -75,7 +75,7 @@
                     </Form>
                 </div>
 
-                <MaintenanceRemark v-for="remark in maintenanceremarks.records" :key="remark.props?.id"
+                <MaintenanceRemark v-for=" remark  in  maintenanceremarks.records " :key="remark.props?.id"
                     :remark="remark" />
 
                 <div class="mt-5 surface-card p-5 border-1 surface-border border-round">
