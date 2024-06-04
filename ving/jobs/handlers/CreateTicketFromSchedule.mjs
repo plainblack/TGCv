@@ -2,7 +2,7 @@ import ving from '#ving/index.mjs';
 import { useKind } from '#ving/record/utils.mjs';
 
 /**
- * This handler deletes a S3File if it does not achieve a ready state by the time this job runs. 
+ * This handler creates a ticket from a schedule based on its cron schedule.
  * @param {Object} A `BullMQ` job.
  * @returns {boolean} `true`
  */
