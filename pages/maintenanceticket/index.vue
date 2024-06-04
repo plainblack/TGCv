@@ -8,34 +8,27 @@
             <PanelZone title="Tickets">
                 <div class="grid">
                     <div class="col">
-                        <FormInput type="select" :options="[
-                { value: '', label: 'All Types' },
-                ...maintenancetickets.propsOptions?.type
-            ]" name="typeFilter" v-model="maintenancetickets.query.type" @change="maintenancetickets.search()">
-                        </FormInput>
-                    </div>
-                    <div class="col">
-                        <FormInput type="select" :options="[
-                { value: '', label: 'All Items' },
-                ...allmaintenanceitems.recordsAsOptions('props', 'name')
-            ]" name="maintenanceItemIdFilter" v-model="maintenancetickets.query.maintenanceItemId"
+                        <FormInput type="select" :options="maintenancetickets.propsOptions?.type" name="typeFilter"
+                            v-model="maintenancetickets.query.type" placeholder="All Types"
                             @change="maintenancetickets.search()">
                         </FormInput>
                     </div>
                     <div class="col">
-                        <FormInput type="select" :options="[
-                { value: '', label: 'All Tasks' },
-                ...allmaintenancetasks.recordsAsOptions('props', 'description')
-            ]" name="maintenanceTaskIdFilter" v-model="maintenancetickets.query.maintenanceTaskId"
-                            @change="maintenancetickets.search()">
+                        <FormInput type="select" :options="allmaintenanceitems.recordsAsOptions('props', 'name')"
+                            name="maintenanceItemIdFilter" placeholder="All Equipment"
+                            v-model="maintenancetickets.query.maintenanceItemId" @change="maintenancetickets.search()">
                         </FormInput>
                     </div>
                     <div class="col">
-                        <FormInput type="select" :options="[
-                { value: '', label: 'Open or closed' },
-                ...maintenancetickets.propsOptions?.status
-            ]" name="maintenanceStatusFilter" v-model="maintenancetickets.query.status"
-                            @change="maintenancetickets.search()">
+                        <FormInput type="select" :options="allmaintenancetasks.recordsAsOptions('props', 'description')"
+                            name="maintenanceTaskIdFilter" placeholder="All Tasks"
+                            v-model="maintenancetickets.query.maintenanceTaskId" @change="maintenancetickets.search()">
+                        </FormInput>
+                    </div>
+                    <div class="col">
+                        <FormInput type="select" :options="maintenancetickets.propsOptions?.status"
+                            name="maintenanceStatusFilter" placeholder="Open or Closed"
+                            v-model="maintenancetickets.query.status" @change="maintenancetickets.search()">
                         </FormInput>
                     </div>
                     <div class="col-6">
