@@ -1,6 +1,7 @@
 import { VingRecord, VingKind, } from "#ving/record/VingRecord.mjs";
 import { useKind } from '#ving/record/utils.mjs';
 import ving from '#ving/index.mjs';
+import { addJob, killJob } from '#ving/jobs/queue.mjs';
 
 /** Management of individual MaintenanceSchedules.
  * @class
@@ -15,8 +16,10 @@ export class MaintenanceScheduleRecord extends VingRecord {
         const myId = this.get('id');
         const jobId = this.get('jobsId');
         await super.delete();
+        ving.log('Schedule').debug(`Schedule ${myId} has jobId <${jobId}>`);
         if (jobId) {
-            const result = await ving.killJob(jobId);
+            ving.log('Schedule').debug(`Killing jobId <${jobId}>`);
+            const result = await killJob(jobId);
             if (!result) {
                 ving.log('MaintenanceSchedule').error(`Could not close job ${jobId} for schedule ${myId}`);
             }
@@ -31,7 +34,7 @@ export class MaintenanceScheduleRecord extends VingRecord {
             const myId = this.get('id');
             const jobId = this.get('jobsId');
             if (jobId) {
-                const result = await ving.killJob(jobId);
+                const result = await killJob(jobId);
                 if (!result) {
                     ving.log('MaintenanceSchedule').error(`Could not close job ${jobId} for schedule ${myId}`);
                 }
@@ -74,8 +77,9 @@ export class MaintenanceScheduleRecord extends VingRecord {
         else if (this.recurrence == 'yearly') {
             cronSpec += `${dayOfMonth} ${this.months} *`;
         }
-        const newJob = await ving.addJob('CreateTicketFromSchedule', { id: this.id }, { cron: cronSpec });
-        this.jobId = newJob.id;
+        const newJob = await addJob('CreateTicketFromSchedule', { id: this.id }, { cron: cronSpec });
+        ving.log('Schedule').debug(`Schedule ${this.id} assigned jobId <${newJob.id}>`);
+        this.jobsId = newJob.id;
         this.#skipUpdateJobCreation = true;
         this.update();
     }
