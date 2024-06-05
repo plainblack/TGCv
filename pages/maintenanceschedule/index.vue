@@ -10,19 +10,15 @@
 
                 <div class="grid">
                     <div class="col">
-                        <FormInput type="select" :options="[
-                { value: '', label: 'All Items' },
-                ...allmaintenanceitems.recordsAsOptions('props', 'name')
-            ]" name="maintenanceItemIdFilter" v-model="maintenanceschedules.query.maintenanceItemId"
+                        <FormInput type="select" :options="allmaintenanceitems.recordsAsOptions('props', 'name')"
+                        placeholder="All Equipment" name="maintenanceItemIdFilter" v-model="maintenanceschedules.query.maintenanceItemId"
                             @change="maintenanceschedules.search()">
 
                         </FormInput>
                     </div>
                     <div class="col">
-                        <FormInput type="select" :options="[
-                { value: '', label: 'All Tasks' },
-                ...allmaintenancetasks.recordsAsOptions('props', 'description')
-            ]" name="maintenanceTaskIdFilter" v-model="maintenanceschedules.query.maintenanceTaskId"
+                        <FormInput type="select" :options="allmaintenancetasks.recordsAsOptions('props', 'description')"
+                        placeholder="All Tasks" name="maintenanceTaskIdFilter" v-model="maintenanceschedules.query.maintenanceTaskId"
                             @change="maintenanceschedules.search()">
                         </FormInput>
                     </div>
@@ -71,7 +67,7 @@
                         <div class="flex-auto">
 
                             <div class="mb-4">
-                                <FormInput type="select" name="recurrence"
+                                <FormInput type="select" name="recurrence" 
                                     :options="maintenanceschedules.propsOptions?.recurrence"
                                     v-model="maintenanceschedules.new.recurrence" label="Recurrence" />
                             </div>
@@ -126,17 +122,33 @@ const allmaintenancetasks = useVingKind({
     createApi: `/api/${useRestVersion()}/maintenancetask`,
     query: { sortBy: 'description' },
 });
+const usedmaintenanceitems = useVingKind({
+    listApi: `/api/${useRestVersion()}/maintenanceitem`,
+    createApi: `/api/${useRestVersion()}/maintenanceitem`,
+    query: { sortBy: 'name' },
+});
+
+const usedmaintenancetasks = useVingKind({
+    listApi: `/api/${useRestVersion()}/maintenancetask`,
+    createApi: `/api/${useRestVersion()}/maintenancetask`,
+    query: { sortBy: 'description' },
+});
+
 const links = useMaintenanceLinks();
 await Promise.all([
     maintenanceschedules.search(),
     maintenanceschedules.fetchPropsOptions(),
     allmaintenanceitems.all(),
     allmaintenancetasks.all(),
+    usedmaintenanceitems.all(),
+    usedmaintenancetasks.all(),
 ]);
 onBeforeRouteLeave(() => {
-    maintenanceschedules.dispose()
-    allmaintenanceitems.dispose()
-    allmaintenancetasks.dispose()
+    maintenanceschedules.dispose();
+    allmaintenanceitems.dispose();
+    allmaintenancetasks.dispose();
+    usedmaintenanceitems.dispose();
+    usedmaintenancetasks.dispose();
 });
 
 </script>
