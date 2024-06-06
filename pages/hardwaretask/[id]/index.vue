@@ -1,40 +1,40 @@
 <template>
-    <Title>Edit Maintenance Task</Title>
+    <Title>Edit Hardware Task</Title>
 
-    <PanelFrame section="Maintenance" title="Edit Hardware Task">
+    <PanelFrame section="Hardware" title="Edit Hardware Task">
         <template #left>
             <PanelNav :links="links" />
         </template>
         <template #content>
-            <PanelZone :title="maintenancetask.props.name">
+            <PanelZone :title="hardwaretask.props.name">
 
-                <FieldsetNav v-if="maintenancetask.props">
+                <FieldsetNav v-if="hardwaretask.props">
                     <FieldsetItem name="Properties">
 
                         <div class="mb-4">
-                            <FormInput name="description" type="text" v-model="maintenancetask.props.description"
-                                required label="Description" @change="maintenancetask.save('description')" />
+                            <FormInput name="description" type="text" v-model="hardwaretask.props.description" required
+                                label="Description" @change="hardwaretask.save('description')" />
                         </div>
                     </FieldsetItem>
 
                     <FieldsetItem name="Statistics">
 
-                        <div class="mb-4"><b>Id</b>: {{ maintenancetask.props?.id }}
-                            <CopyToClipboard size="xs" :text="maintenancetask.props?.id" />
+                        <div class="mb-4"><b>Id</b>: {{ hardwaretask.props?.id }}
+                            <CopyToClipboard size="xs" :text="hardwaretask.props?.id" />
                         </div>
 
-                        <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenancetask.props.createdAt) }}</div>
+                        <div class="mb-4"><b>Created At</b>: {{ formatDateTime(hardwaretask.props.createdAt) }}</div>
 
-                        <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenancetask.props.updatedAt) }}</div>
+                        <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(hardwaretask.props.updatedAt) }}</div>
                         <div class="mb-4"><b>Hardware Set</b>: <NuxtLink
-                                :to="`/maintenanceitemset/${maintenancetask.props?.maintenanceItemSetId}`">{{
-                maintenancetask.related?.itemSet?.props?.name }}</NuxtLink>
+                                :to="`/hardwareitemset/${hardwaretask.props?.hardwareItemSetId}`">{{
+                hardwaretask.related?.itemSet?.props?.name }}</NuxtLink>
                         </div>
                     </FieldsetItem>
 
                     <FieldsetItem name="Actions">
-                        <Button @click="maintenancetask.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
-                            alt="Delete Maintenance Task"><i class="pi pi-trash mr-1"></i> Delete</Button>
+                        <Button @click="hardwaretask.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
+                            alt="Delete Hardware Task"><i class="pi pi-trash mr-1"></i> Delete</Button>
                     </FieldsetItem>
 
                 </FieldsetNav>
@@ -52,23 +52,23 @@ definePageMeta({
 const route = useRoute();
 const notify = useNotify();
 const id = route.params.id.toString();
-const maintenancetask = useVingRecord({
+const hardwaretask = useVingRecord({
     id,
-    fetchApi: `/api/${useRestVersion()}/maintenancetask/${id}`,
-    createApi: `/api/${useRestVersion()}/maintenancetask`,
+    fetchApi: `/api/${useRestVersion()}/hardwaretask/${id}`,
+    createApi: `/api/${useRestVersion()}/hardwaretask`,
     query: { includeMeta: true, includeRelated: ['itemSet'], includeOptions: true, includeRelated: ['itemSet'] },
     onUpdate() {
-        notify.success('Updated Maintenance Task.');
+        notify.success('Updated Hardware Task.');
     },
     async onDelete() {
-        await navigateTo('/maintenancetask');
+        await navigateTo('/hardwaretask');
     },
 });
-await maintenancetask.fetch()
+await hardwaretask.fetch()
 
-const links = useMaintenanceLinks();
+const links = useHardwareLinks();
 
 onBeforeRouteLeave(() => {
-    maintenancetask.dispose();
+    hardwaretask.dispose();
 });
 </script>

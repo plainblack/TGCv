@@ -1,5 +1,5 @@
 <template>
-    <Title>Maintenance Item Sets</Title>
+    <Title>Hardware Item Sets</Title>
     <PanelFrame section="Hardware Sets" title="Hardware Sets">
         <template #left>
             <PanelNav :links="links" />
@@ -10,24 +10,24 @@
                     <InputGroupAddon>
                         <i class="pi pi-search" />
                     </InputGroupAddon>
-                    <InputText type="text" placeholder="Hardware" class="w-full"
-                        v-model="maintenanceitemsets.query.search" @keydown.enter="maintenanceitemsets.search()" />
-                    <Button label="Search" @click="maintenanceitemsets.search()" />
+                    <InputText type="text" placeholder="Hardware" class="w-full" v-model="hardwareitemsets.query.search"
+                        @keydown.enter="hardwareitemsets.search()" />
+                    <Button label="Search" @click="hardwareitemsets.search()" />
                 </InputGroup>
 
-                <DataTable :value="maintenanceitemsets.records" stripedRows
-                    @sort="(e) => maintenanceitemsets.sortDataTable(e)">
+                <DataTable :value="hardwareitemsets.records" stripedRows
+                    @sort="(e) => hardwareitemsets.sortDataTable(e)">
 
                     <Column field="props.name" header="Name" sortable>
                         <template #body="slotProps">
-                            <NuxtLink :to="`/maintenanceitemset/${slotProps.data.props.id}`" v-ripple>
+                            <NuxtLink :to="`/hardwareitemset/${slotProps.data.props.id}`" v-ripple>
                                 {{ slotProps.data.props.name }}
                             </NuxtLink>
                         </template>
                     </Column>
                     <Column field="props.status" header="Status" sortable>
                         <template #body="slotProps">
-                            {{ enum2label(slotProps.data.props.status, maintenanceitemsets.propsOptions.status) }}
+                            {{ enum2label(slotProps.data.props.status, hardwareitemsets.propsOptions.status) }}
                         </template>
                     </Column>
                     <Column field="props.itemCount" header="Item Count" />
@@ -35,30 +35,29 @@
                     <Column header="Manage">
                         <template #body="slotProps">
                             <NuxtLink v-if="slotProps.data.meta?.isOwner"
-                                :to="`/maintenanceitemset/${slotProps.data.props.id}`" class="mr-2 no-underline">
+                                :to="`/hardwareitemset/${slotProps.data.props.id}`" class="mr-2 no-underline">
                                 <Button icon="pi pi-pencil" severity="success" title="Edit"
-                                    alt="Edit Maintenance Item Set" />
+                                    alt="Edit Hardware Item Set" />
                             </NuxtLink>
-                            <Button v-if="slotProps.data.meta?.isOwner" title="Delete" alt="Delete Maintenance Item Set"
+                            <Button v-if="slotProps.data.meta?.isOwner" title="Delete" alt="Delete Hardware Item Set"
                                 icon="pi pi-trash" severity="danger" @click="slotProps.data.delete()" />
                         </template>
                     </Column>
                 </DataTable>
-                <Pager :kind="maintenanceitemsets" />
+                <Pager :kind="hardwareitemsets" />
             </PanelZone>
             <PanelZone title="Create Hardware Set">
-                <Form :send="() => maintenanceitemsets.create()">
+                <Form :send="() => hardwareitemsets.create()">
                     <div class="flex gap-5 flex-column-reverse md:flex-row">
                         <div class="flex-auto">
 
                             <div class="mb-4">
-                                <FormInput name="name" type="text" v-model="maintenanceitemsets.new.name" required
+                                <FormInput name="name" type="text" v-model="hardwareitemsets.new.name" required
                                     label="Name" />
                             </div>
                             <div class="mb-4">
-                                <FormInput type="select" name="status"
-                                    :options="maintenanceitemsets.propsOptions?.status"
-                                    v-model="maintenanceitemsets.new.status" label="Status" />
+                                <FormInput type="select" name="status" :options="hardwareitemsets.propsOptions?.status"
+                                    v-model="hardwareitemsets.new.status" label="Status" />
                             </div>
                             <div>
                                 <Button type="submit" class="w-auto" severity="success">
@@ -75,17 +74,17 @@
 </template>
 
 <script setup>
-const maintenanceitemsets = useVingKind({
-    listApi: `/api/${useRestVersion()}/maintenanceitemset`,
-    createApi: `/api/${useRestVersion()}/maintenanceitemset`,
+const hardwareitemsets = useVingKind({
+    listApi: `/api/${useRestVersion()}/hardwareitemset`,
+    createApi: `/api/${useRestVersion()}/hardwareitemset`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' },
     newDefaults: { name: '', status: 'in_use' },
-    onCreate: async (data) => { console.log(data); await navigateTo(`/maintenanceitemset/${data.props.id}`) },
+    onCreate: async (data) => { console.log(data); await navigateTo(`/hardwareitemset/${data.props.id}`) },
 });
-const links = useMaintenanceLinks();
+const links = useHardwareLinks();
 await Promise.all([
-    maintenanceitemsets.search(),
-    maintenanceitemsets.fetchPropsOptions(),
+    hardwareitemsets.search(),
+    hardwareitemsets.fetchPropsOptions(),
 ]);
-onBeforeRouteLeave(() => maintenanceitemsets.dispose());
+onBeforeRouteLeave(() => hardwareitemsets.dispose());
 </script>

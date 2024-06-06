@@ -1,46 +1,46 @@
 <template>
-    <Title>Edit Maintenance Item</Title>
+    <Title>Edit Hardware Item</Title>
 
-    <PanelFrame section="Maintenance" title="Hardware Item">
+    <PanelFrame section="Hardware" title="Hardware Item">
         <template #left>
             <PanelNav :links="links" />
         </template>
         <template #content>
-            <PanelZone :title="maintenanceitem.props.name">
+            <PanelZone :title="hardwareitem.props.name">
 
-                <FieldsetNav v-if="maintenanceitem.props">
+                <FieldsetNav v-if="hardwareitem.props">
                     <FieldsetItem name="Properties">
 
                         <div class="mb-4">
-                            <FormInput name="name" type="text" v-model="maintenanceitem.props.name" required
-                                label="Name" @change="maintenanceitem.save('name')" />
+                            <FormInput name="name" type="text" v-model="hardwareitem.props.name" required label="Name"
+                                @change="hardwareitem.save('name')" />
                         </div>
                         <div class="mb-4">
-                            <FormInput type="select" name="status" :options="maintenanceitem.options?.status"
-                                v-model="maintenanceitem.props.status" label="Status"
-                                @change="maintenanceitem.save('status')" />
+                            <FormInput type="select" name="status" :options="hardwareitem.options?.status"
+                                v-model="hardwareitem.props.status" label="Status"
+                                @change="hardwareitem.save('status')" />
                         </div>
                     </FieldsetItem>
 
                     <FieldsetItem name="Statistics">
 
-                        <div class="mb-4"><b>Id</b>: {{ maintenanceitem.props?.id }}
-                            <CopyToClipboard size="xs" :text="maintenanceitem.props?.id" />
+                        <div class="mb-4"><b>Id</b>: {{ hardwareitem.props?.id }}
+                            <CopyToClipboard size="xs" :text="hardwareitem.props?.id" />
                         </div>
 
-                        <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenanceitem.props.createdAt) }}</div>
+                        <div class="mb-4"><b>Created At</b>: {{ formatDateTime(hardwareitem.props.createdAt) }}</div>
 
-                        <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenanceitem.props.updatedAt) }}</div>
+                        <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(hardwareitem.props.updatedAt) }}</div>
                         <div class="mb-4"><b>Hardware Set</b>: <NuxtLink
-                                :to="`/maintenanceitemset/${maintenanceitem.props?.maintenanceItemSetId}`">{{
-                maintenanceitem.related?.itemSet?.props?.name }}</NuxtLink>
+                                :to="`/hardwareitemset/${hardwareitem.props?.hardwareItemSetId}`">{{
+                hardwareitem.related?.itemSet?.props?.name }}</NuxtLink>
                         </div>
 
                     </FieldsetItem>
 
                     <FieldsetItem name="Actions">
-                        <Button @click="maintenanceitem.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
-                            alt="Delete Maintenance Item"><i class="pi pi-trash mr-1"></i> Delete</Button>
+                        <Button @click="hardwareitem.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
+                            alt="Delete Hardware Item"><i class="pi pi-trash mr-1"></i> Delete</Button>
                     </FieldsetItem>
 
                 </FieldsetNav>
@@ -56,21 +56,21 @@ definePageMeta({
 const route = useRoute();
 const notify = useNotify();
 const id = route.params.id.toString();
-const maintenanceitem = useVingRecord({
+const hardwareitem = useVingRecord({
     id,
-    fetchApi: `/api/${useRestVersion()}/maintenanceitem/${id}`,
-    createApi: `/api/${useRestVersion()}/maintenanceitem`,
+    fetchApi: `/api/${useRestVersion()}/hardwareitem/${id}`,
+    createApi: `/api/${useRestVersion()}/hardwareitem`,
     query: { includeMeta: true, includeRelated: ['itemSet'], includeOptions: true, includeRelated: ['itemSet'] },
     onUpdate() {
-        notify.success('Updated Maintenance Item.');
+        notify.success('Updated Hardware Item.');
     },
     async onDelete() {
-        await navigateTo('/maintenanceitem');
+        await navigateTo('/hardwareitem');
     },
 });
 
 
-await maintenanceitem.fetch();
-const links = useMaintenanceLinks();
-onBeforeRouteLeave(() => maintenanceitem.dispose());
+await hardwareitem.fetch();
+const links = useHardwareLinks();
+onBeforeRouteLeave(() => hardwareitem.dispose());
 </script>

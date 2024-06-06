@@ -5,74 +5,74 @@
             <PanelNav :links="links" />
         </template>
         <template #content>
-            <PanelZone :title="maintenanceitemset.props.name">
+            <PanelZone :title="hardwareitemset.props.name">
 
-                <FieldsetNav v-if="maintenanceitemset.props">
+                <FieldsetNav v-if="hardwareitemset.props">
                     <FieldsetItem name="Properties">
 
                         <div class="mb-4">
-                            <FormInput name="name" type="text" v-model="maintenanceitemset.props.name" required
-                                label="Name" @change="maintenanceitemset.save('name')" />
+                            <FormInput name="name" type="text" v-model="hardwareitemset.props.name" required
+                                label="Name" @change="hardwareitemset.save('name')" />
                         </div>
                         <div class="mb-4">
-                            <FormInput type="select" name="status" :options="maintenanceitemset.options?.status"
-                                v-model="maintenanceitemset.props.status" label="Status"
-                                @change="maintenanceitemset.save('status')" />
+                            <FormInput type="select" name="status" :options="hardwareitemset.options?.status"
+                                v-model="hardwareitemset.props.status" label="Status"
+                                @change="hardwareitemset.save('status')" />
                         </div>
                     </FieldsetItem>
                     <FieldsetItem name="Items">
-                        <DataTable :value="maintenanceitems.records" stripedRows
-                            @sort="(e) => maintenanceitems.sortDataTable(e)">
+                        <DataTable :value="hardwareitems.records" stripedRows
+                            @sort="(e) => hardwareitems.sortDataTable(e)">
 
                             <Column field="props.name" header="Name" sortable>
                                 <template #body="slotProps">
-                                    <NuxtLink :to="`/maintenanceitem/${slotProps.data.props.id}`" v-ripple>
+                                    <NuxtLink :to="`/hardwareitem/${slotProps.data.props.id}`" v-ripple>
                                         {{ slotProps.data.props.name }}
                                     </NuxtLink>
                                 </template>
                             </Column>
                             <Column field="props.status" header="Status" sortable>
                                 <template #body="slotProps">
-                                    {{ enum2label(slotProps.data.props.status, maintenanceitems.propsOptions.status) }}
+                                    {{ enum2label(slotProps.data.props.status, hardwareitems.propsOptions.status) }}
                                 </template>
                             </Column>
                             <Column header="Manage">
                                 <template #body="slotProps">
                                     <NuxtLink v-if="slotProps.data.meta?.isOwner"
-                                        :to="`/maintenanceitem/${slotProps.data.props.id}`" class="mr-2 no-underline">
+                                        :to="`/hardwareitem/${slotProps.data.props.id}`" class="mr-2 no-underline">
                                         <Button icon="pi pi-pencil" severity="success" title="Edit"
-                                            alt="Edit Maintenance Item" />
+                                            alt="Edit Hardware Item" />
                                     </NuxtLink>
                                     <Button v-if="slotProps.data.meta?.isOwner" title="Delete"
-                                        alt="Delete Maintenance Item" icon="pi pi-trash" severity="danger"
+                                        alt="Delete Hardware Item" icon="pi pi-trash" severity="danger"
                                         @click="slotProps.data.delete()" />
                                 </template>
                             </Column>
                         </DataTable>
-                        <Pager :kind="maintenanceitems" />
+                        <Pager :kind="hardwareitems" />
                         <Button icon="pi pi-pencil" label="Create Item" class="mr-2" severity="success"
                             @click="createItems.visible = true" />
 
                         <Dialog v-model:visible="createItems.visible" maximizable modal header="Header"
                             :style="{ width: '75vw' }">
-                            <h2 class="mt-0">Create Maintenance Item</h2>
+                            <h2 class="mt-0">Create Hardware Item</h2>
 
-                            <Form :send="() => maintenanceitems.create()">
+                            <Form :send="() => hardwareitems.create()">
                                 <div class="flex gap-5 flex-column-reverse md:flex-row">
                                     <div class="flex-auto">
 
                                         <div class="mb-4">
-                                            <FormInput name="name" type="text" v-model="maintenanceitems.new.name"
-                                                required label="Name" />
+                                            <FormInput name="name" type="text" v-model="hardwareitems.new.name" required
+                                                label="Name" />
                                         </div>
                                         <div class="mb-4">
                                             <FormInput type="select" name="status"
-                                                :options="maintenanceitems.propsOptions?.status"
-                                                v-model="maintenanceitems.new.status" label="Status" />
+                                                :options="hardwareitems.propsOptions?.status"
+                                                v-model="hardwareitems.new.status" label="Status" />
                                         </div>
                                         <div>
                                             <Button type="submit" class="w-auto" severity="success">
-                                                <i class="pi pi-plus mr-1"></i> Create Maintenance Item
+                                                <i class="pi pi-plus mr-1"></i> Create Hardware Item
                                             </Button>
                                         </div>
                                     </div>
@@ -85,11 +85,11 @@
                     </FieldsetItem>
 
                     <FieldsetItem name="Tasks">
-                        <DataTable :value="maintenancetasks.records" stripedRows
-                            @sort="(e) => maintenancetasks.sortDataTable(e)">
+                        <DataTable :value="hardwaretasks.records" stripedRows
+                            @sort="(e) => hardwaretasks.sortDataTable(e)">
                             <Column field="props.description" header="Description" sortable>
                                 <template #body="slotProps">
-                                    <NuxtLink :to="`/maintenancetask/${slotProps.data.props.id}`" v-ripple>
+                                    <NuxtLink :to="`/hardwaretask/${slotProps.data.props.id}`" v-ripple>
                                         {{ slotProps.data.props.description }}
                                     </NuxtLink>
                                 </template>
@@ -97,36 +97,35 @@
                             <Column header="Manage">
                                 <template #body="slotProps">
                                     <NuxtLink v-if="slotProps.data.meta?.isOwner"
-                                        :to="`/maintenancetask/${slotProps.data.props.id}`" class="mr-2 no-underline">
+                                        :to="`/hardwaretask/${slotProps.data.props.id}`" class="mr-2 no-underline">
                                         <Button icon="pi pi-pencil" severity="success" title="Edit"
-                                            alt="Edit Maintenance Task" />
+                                            alt="Edit Hardware Task" />
                                     </NuxtLink>
                                     <Button v-if="slotProps.data.meta?.isOwner" title="Delete"
-                                        alt="Delete Maintenance Task" icon="pi pi-trash" severity="danger"
+                                        alt="Delete Hardware Task" icon="pi pi-trash" severity="danger"
                                         @click="slotProps.data.delete()" />
                                 </template>
                             </Column>
                         </DataTable>
-                        <Pager :kind="maintenancetasks" />
+                        <Pager :kind="hardwaretasks" />
                         <Button icon="pi pi-pencil" label="Create Task" class="mr-2" severity="success"
                             @click="createTasks.visible = true" />
                         <Dialog v-model:visible="createTasks.visible" maximizable modal header="Header"
                             :style="{ width: '75vw' }">
 
-                            <h2 class="mt-0">Create Maintenance Task</h2>
+                            <h2 class="mt-0">Create Hardware Task</h2>
 
-                            <Form :send="() => maintenancetasks.create()">
+                            <Form :send="() => hardwaretasks.create()">
                                 <div class="flex gap-5 flex-column-reverse md:flex-row">
                                     <div class="flex-auto">
 
                                         <div class="mb-4">
                                             <FormInput name="description" type="text"
-                                                v-model="maintenancetasks.new.description" required
-                                                label="Description" />
+                                                v-model="hardwaretasks.new.description" required label="Description" />
                                         </div>
                                         <div>
                                             <Button type="submit" class="w-auto" severity="success">
-                                                <i class="pi pi-plus mr-1"></i> Create Maintenance Task
+                                                <i class="pi pi-plus mr-1"></i> Create Hardware Task
                                             </Button>
                                         </div>
                                     </div>
@@ -137,21 +136,21 @@
 
                     <FieldsetItem name="Statistics">
 
-                        <div class="mb-4"><b>Id</b>: {{ maintenanceitemset.props?.id }}
-                            <CopyToClipboard size="xs" :text="maintenanceitemset.props?.id" />
+                        <div class="mb-4"><b>Id</b>: {{ hardwareitemset.props?.id }}
+                            <CopyToClipboard size="xs" :text="hardwareitemset.props?.id" />
                         </div>
 
-                        <div class="mb-4"><b>Created At</b>: {{ formatDateTime(maintenanceitemset.props.createdAt) }}
+                        <div class="mb-4"><b>Created At</b>: {{ formatDateTime(hardwareitemset.props.createdAt) }}
                         </div>
 
-                        <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(maintenanceitemset.props.updatedAt) }}
+                        <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(hardwareitemset.props.updatedAt) }}
                         </div>
 
                     </FieldsetItem>
 
                     <FieldsetItem name="Actions">
-                        <Button @click="maintenanceitemset.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
-                            alt="Delete Maintenance Item Set"><i class="pi pi-trash mr-1"></i> Delete</Button>
+                        <Button @click="hardwareitemset.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
+                            alt="Delete Hardware Item Set"><i class="pi pi-trash mr-1"></i> Delete</Button>
                     </FieldsetItem>
 
                 </FieldsetNav>
@@ -167,48 +166,48 @@ definePageMeta({
 const route = useRoute();
 const notify = useNotify();
 const id = route.params.id.toString();
-const maintenanceitemset = useVingRecord({
+const hardwareitemset = useVingRecord({
     id,
-    fetchApi: `/api/${useRestVersion()}/maintenanceitemset/${id}`,
-    createApi: `/api/${useRestVersion()}/maintenanceitemset`,
+    fetchApi: `/api/${useRestVersion()}/hardwareitemset/${id}`,
+    createApi: `/api/${useRestVersion()}/hardwareitemset`,
     query: { includeMeta: true, includeOptions: true },
     onUpdate() {
-        notify.success('Updated Maintenance Item Set.');
+        notify.success('Updated Hardware Item Set.');
     },
     async onDelete() {
-        await navigateTo('/maintenanceitemset');
+        await navigateTo('/hardwareitemset');
     },
 });
-await maintenanceitemset.fetch()
+await hardwareitemset.fetch()
 
-const links = useMaintenanceLinks();
-const maintenanceitems = useVingKind({
-    listApi: `/api/${useRestVersion()}/maintenanceitem`,
-    createApi: `/api/${useRestVersion()}/maintenanceitem`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceItemSetId: maintenanceitemset.props.id },
-    newDefaults: { name: '', status: 'in_use', maintenanceItemSetId: maintenanceitemset.props.id },
+const links = useHardwareLinks();
+const hardwareitems = useVingKind({
+    listApi: `/api/${useRestVersion()}/hardwareitem`,
+    createApi: `/api/${useRestVersion()}/hardwareitem`,
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareItemSetId: hardwareitemset.props.id },
+    newDefaults: { name: '', status: 'in_use', hardwareItemSetId: hardwareitemset.props.id },
 });
 await Promise.all([
-    maintenanceitems.search(),
-    maintenanceitems.fetchPropsOptions(),
+    hardwareitems.search(),
+    hardwareitems.fetchPropsOptions(),
 ]);
-const maintenancetasks = useVingKind({
-    listApi: `/api/${useRestVersion()}/maintenancetask`,
-    createApi: `/api/${useRestVersion()}/maintenancetask`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', maintenanceItemSetId: maintenanceitemset.props.id },
-    newDefaults: { description: '', maintenanceItemSetId: maintenanceitemset.props.id },
+const hardwaretasks = useVingKind({
+    listApi: `/api/${useRestVersion()}/hardwaretask`,
+    createApi: `/api/${useRestVersion()}/hardwaretask`,
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareItemSetId: hardwareitemset.props.id },
+    newDefaults: { description: '', hardwareItemSetId: hardwareitemset.props.id },
 });
 await Promise.all([
-    maintenancetasks.search(),
-    maintenancetasks.fetchPropsOptions(),
+    hardwaretasks.search(),
+    hardwaretasks.fetchPropsOptions(),
 ]);
 const createItems = ref({ visible: false, });
 const createTasks = ref({ visible: false, });
 
 onBeforeRouteLeave(() => {
-    maintenanceitems.dispose();
-    maintenancetasks.dispose();
-    maintenanceitemset.dispose();
+    hardwareitems.dispose();
+    hardwaretasks.dispose();
+    hardwareitemset.dispose();
 });
 
 </script>
