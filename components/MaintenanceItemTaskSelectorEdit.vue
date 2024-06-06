@@ -1,6 +1,6 @@
 <template>
     <div class="mb-4">
-        <FormInput type="select" :options="maintenanceitems.recordsAsOptions('props', 'name')" name="maintenanceItemId"
+        <FormInput type="select" :options="maintenanceitems.recordsAsOptions('props', 'name', (item) => item.props.status == 'in_use')" name="maintenanceItemId"
             v-model="target.props.maintenanceItemId" label="Equipment" @change="updateMaintenanceTasks">
         </FormInput>
     </div>
