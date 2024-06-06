@@ -2,10 +2,10 @@ import { VingRecord, VingKind } from "#ving/record/VingRecord.mjs";
 import { eq } from '#ving/drizzle/orm.mjs';
 import ving from '#ving/index.mjs';
 
-/** Management of individual MaintenanceRemarks.
+/** Management of individual HardwareTicketRemarks.
  * @class
  */
-export class MaintenanceRemarkRecord extends VingRecord {
+export class HardwareTicketRemarkRecord extends VingRecord {
     // add custom Record code here
     async insert() {
         await super.insert();
@@ -47,9 +47,9 @@ export class MaintenanceRemarkRecord extends VingRecord {
 
 }
 
-/** Management of all MaintenanceRemarks.
+/** Management of all HardwareTicketRemarks.
  * @class
  */
-export class MaintenanceRemarkKind extends VingKind {
+export class HardwareTicketRemarkKind extends VingKind {
     // add custom Kind code here
 }

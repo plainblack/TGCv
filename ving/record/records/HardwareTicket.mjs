@@ -2,10 +2,10 @@ import { VingRecord, VingKind } from "#ving/record/VingRecord.mjs";
 import { sum } from '#ving/drizzle/orm.mjs';
 import ving from '#ving/index.mjs';
 
-/** Management of individual MaintenanceTickets.
+/** Management of individual HardwareTickets.
  * @class
  */
-export class MaintenanceTicketRecord extends VingRecord {
+export class HardwareTicketRecord extends VingRecord {
     // add custom Record code here
 
     /**
@@ -37,7 +37,7 @@ export class MaintenanceTicketRecord extends VingRecord {
     };
 
     /**
-     * Count the number of minutes in all `MaintenanceRemark`s.
+     * Count the number of minutes in all `HardwareTicketRemark`s.
      * 
      */
     async sumResolutionMinutes() {
@@ -47,7 +47,7 @@ export class MaintenanceTicketRecord extends VingRecord {
     }
 
     /**
-         * Extends `delete()` in `VingRecord` to delete the associated `MaintenanceRemark` and `MaintenanceFile`.
+         * Extends `delete()` in `VingRecord` to delete the associated `HardwareTicketRemark` and `HardwareTicketFile`.
          * 
          * @see VingRecord.delete()
          */
@@ -66,9 +66,9 @@ export class MaintenanceTicketRecord extends VingRecord {
 
 }
 
-/** Management of all MaintenanceTickets.
+/** Management of all HardwareTickets.
  * @class
  */
-export class MaintenanceTicketKind extends VingKind {
+export class HardwareTicketKind extends VingKind {
     // add custom Kind code here
 }

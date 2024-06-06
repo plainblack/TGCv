@@ -1,10 +1,10 @@
 import { VingRecord, VingKind } from "#ving/record/VingRecord.mjs";
 import { eq } from '#ving/drizzle/orm.mjs';
 
-/** Management of individual MaintenanceItemSets.
+/** Management of individual HardwareItemSets.
  * @class
  */
-export class MaintenanceItemSetRecord extends VingRecord {
+export class HardwareItemSetRecord extends VingRecord {
     // add custom Record code here
 
     async countItems() {
@@ -23,7 +23,7 @@ export class MaintenanceItemSetRecord extends VingRecord {
     }
 
     /**
-         * Extends `delete()` in `VingRecord` to delete the associated `MaintenanceTask` and `MaintenanceItem`.
+         * Extends `delete()` in `VingRecord` to delete the associated `HardwareTask` and `HardwareItem`.
          * 
          * @see VingRecord.delete()
          */
@@ -39,10 +39,10 @@ export class MaintenanceItemSetRecord extends VingRecord {
 
 }
 
-/** Management of all MaintenanceItemSets.
+/** Management of all HardwareItemSets.
  * @class
  */
-export class MaintenanceItemSetKind extends VingKind {
+export class HardwareItemSetKind extends VingKind {
     // add custom Kind code here
 
 }

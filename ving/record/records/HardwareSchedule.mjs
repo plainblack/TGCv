@@ -3,10 +3,10 @@ import { useKind } from '#ving/record/utils.mjs';
 import ving from '#ving/index.mjs';
 import { addJob, killJob } from '#ving/jobs/queue.mjs';
 
-/** Management of individual MaintenanceSchedules.
+/** Management of individual HardwareSchedules.
  * @class
  */
-export class MaintenanceScheduleRecord extends VingRecord {
+export class HardwareScheduleRecord extends VingRecord {
     async insert() {
         await super.insert();
         await this.createJob();
@@ -21,7 +21,7 @@ export class MaintenanceScheduleRecord extends VingRecord {
             ving.log('Schedule').debug(`Killing jobId <${jobId}>`);
             const result = await killJob(jobId);
             if (!result) {
-                ving.log('MaintenanceSchedule').error(`Could not close job ${jobId} for schedule ${myId}`);
+                ving.log('HardwareSchedule').error(`Could not close job ${jobId} for schedule ${myId}`);
             }
         }
     }
@@ -36,7 +36,7 @@ export class MaintenanceScheduleRecord extends VingRecord {
             if (jobId) {
                 const result = await killJob(jobId);
                 if (!result) {
-                    ving.log('MaintenanceSchedule').error(`Could not close job ${jobId} for schedule ${myId}`);
+                    ving.log('HardwareSchedule').error(`Could not close job ${jobId} for schedule ${myId}`);
                 }
             }
             this.createJob();
@@ -45,7 +45,7 @@ export class MaintenanceScheduleRecord extends VingRecord {
     }
 
     async createTicket() {
-        const Tickets = await useKind('MaintenanceTicket');
+        const Tickets = await useKind('HardwareTicket');
         await Tickets.create({
             type: 'routine',
             submittedBy: 'TGC',
@@ -86,10 +86,10 @@ export class MaintenanceScheduleRecord extends VingRecord {
 
 }
 
-/** Management of all MaintenanceSchedules.
+/** Management of all HardwareSchedules.
  * @class
  */
-export class MaintenanceScheduleKind extends VingKind {
+export class HardwareScheduleKind extends VingKind {
     // add custom Kind code here
 
 }

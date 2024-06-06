@@ -1,10 +1,10 @@
 import { VingRecord, VingKind } from "#ving/record/VingRecord.mjs";
 import { eq } from '#ving/drizzle/orm.mjs';
 
-/** Management of individual MaintenanceItems.
+/** Management of individual HardwareItems.
  * @class
  */
-export class MaintenanceItemRecord extends VingRecord {
+export class HardwareItemRecord extends VingRecord {
     // add custom Record code here
     async delete() {
         const set = await this.parent('itemSet');
@@ -18,10 +18,10 @@ export class MaintenanceItemRecord extends VingRecord {
     }
 }
 
-/** Management of all MaintenanceItems.
+/** Management of all HardwareItems.
  * @class
  */
-export class MaintenanceItemKind extends VingKind {
+export class HardwareItemKind extends VingKind {
     // add custom Kind code here
 
 }
