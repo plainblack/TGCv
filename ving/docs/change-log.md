@@ -4,6 +4,12 @@ outline: deep
 # Change Log
 
 ## June 2024
+
+### 2024-06-06
+* Fixed documentation for ving/utils/fs readJSON and writeJSON
+* Added an optional function that will be passed to an array filter to filter out any unwanted records from the current list of records on useVingKind() records list.
+
+### 2024-06-01
 * Documented noSetAll() attribute in Ving Schemas.
 
 ## May 2024
