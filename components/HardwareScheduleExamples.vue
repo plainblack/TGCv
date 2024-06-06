@@ -1,5 +1,5 @@
 <template>
-    <h2>Example Maintenance Schedules</h2>
+    <h2>Example Hardware Schedules</h2>
     <DataTable :value="examples" stripedRows>
         <Column field="example" header="Example" />
         <Column field="recurrence" header="Recurrence" />
