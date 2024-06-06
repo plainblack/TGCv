@@ -1,8 +1,8 @@
 import { baseSchemaProps, dbString, zodString, zodMediumText, dbEnum, dbBoolean, dbMediumText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject } from '../helpers.mjs';
 
-export const maintenanceTicketSchema = {
-    kind: 'MaintenanceTicket',
-    tableName: 'maintenancetickets',
+export const hardwareTicketSchema = {
+    kind: 'HardwareTicket',
+    tableName: 'hardwaretickets',
     owner: ['admin', 'maintenanceManager', 'productionManager'],
     props: [
         ...baseSchemaProps,
@@ -79,7 +79,7 @@ export const maintenanceTicketSchema = {
         // 1:N relationship - aka a relationship to my children
         {
             type: "virtual",
-            name: 'maintenanceTicketId', // the name of this record's id in the remote table
+            name: 'hardwareTicketId', // the name of this record's id in the remote table
             required: false,
             view: ['public'],
             edit: [],
@@ -87,12 +87,12 @@ export const maintenanceTicketSchema = {
             relation: {
                 type: 'child',
                 name: 'remarks',
-                kind: 'MaintenanceRemark',
+                kind: 'HardwareTicketRemark',
             },
         },
         {
             type: "virtual",
-            name: 'maintenanceTicketId', // the name of this record's id in the remote table
+            name: 'hardwareTicketId', // the name of this record's id in the remote table
             required: false,
             view: ['public'],
             edit: [],
@@ -100,19 +100,19 @@ export const maintenanceTicketSchema = {
             relation: {
                 type: 'child',
                 name: 'files',
-                kind: 'MaintenanceFile',
+                kind: 'HardwareTicketFile',
             },
         },
         {
             type: "id",
-            name: 'maintenanceTaskId', // the name of the remote record's id in this table
+            name: 'hardwareTaskId', // the name of the remote record's id in this table
             required: true,
             filterQualifier: true,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
                 name: 'task',
-                kind: 'MaintenanceTask',
+                kind: 'HardwareTask',
             },
             default: undefined,
             view: ['public'],
@@ -120,14 +120,14 @@ export const maintenanceTicketSchema = {
         },
         {
             type: "id",
-            name: 'maintenanceItemId', // the name of the remote record's id in this table
+            name: 'hardwareItemId', // the name of the remote record's id in this table
             required: true,
             filterQualifier: true,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
                 name: 'item',
-                kind: 'MaintenanceItem',
+                kind: 'HardwareItem',
             },
             default: undefined,
             view: ['public'],

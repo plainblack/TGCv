@@ -1,8 +1,8 @@
 import { baseSchemaProps, dbString, zodString, dbEnum, dbRelation } from '../helpers.mjs';
 
-export const maintenanceItemSchema = {
-    kind: 'MaintenanceItem',
-    tableName: 'maintenanceitems',
+export const hardwareItemSchema = {
+    kind: 'HardwareItem',
+    tableName: 'hardwareitems',
     owner: ['admin', 'maintenanceManager',],
     props: [
         ...baseSchemaProps,
@@ -31,7 +31,7 @@ export const maintenanceItemSchema = {
         },
         {
             type: "id",
-            name: 'maintenanceItemSetId',
+            name: 'hardwareItemSetId',
             required: true,
             filterQualifier: true,
             default: undefined,
@@ -39,7 +39,7 @@ export const maintenanceItemSchema = {
             relation: {
                 type: 'parent',
                 name: 'itemSet',
-                kind: 'MaintenanceItemSet',
+                kind: 'HardwareItemSet',
             },
             view: ['owner', 'productionManager'],
             edit: ['owner'],

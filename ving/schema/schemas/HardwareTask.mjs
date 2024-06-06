@@ -1,8 +1,8 @@
 import { baseSchemaProps, dbString, zodString, zodMediumText, dbMediumText, dbInt, dbEnum, dbRelation } from '../helpers.mjs';
 
-export const maintenanceTaskSchema = {
-    kind: 'MaintenanceTask',
-    tableName: 'maintenancetasks',
+export const hardwareTaskSchema = {
+    kind: 'HardwareTask',
+    tableName: 'hardwaretasks',
     owner: ['admin', 'maintenanceManager'],
     props: [
         ...baseSchemaProps,
@@ -20,7 +20,7 @@ export const maintenanceTaskSchema = {
         },
         {
             type: "id",
-            name: 'maintenanceItemSetId',
+            name: 'hardwareItemSetId',
             required: true,
             filterQualifier: true,
             default: undefined,
@@ -30,7 +30,7 @@ export const maintenanceTaskSchema = {
             relation: {
                 type: 'parent',
                 name: 'itemSet',
-                kind: 'MaintenanceItemSet',
+                kind: 'HardwareItemSet',
             },
         },
     ],

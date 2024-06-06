@@ -1,8 +1,8 @@
 import { baseSchemaProps, dbString, zodString, dbEnum, dbBoolean, dbText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject, dbMediumText, zodMediumText } from '../helpers.mjs';
 
-export const maintenanceFileSchema = {
-    kind: 'MaintenanceFile',
-    tableName: 'maintenancefiles',
+export const hardwareTicketFileSchema = {
+    kind: 'HardwareTicketFile',
+    tableName: 'hardwareticketfiles',
     owner: ['admin', 'maintenanceManager', 'productionManager'],
     props: [
         ...baseSchemaProps,
@@ -23,14 +23,14 @@ export const maintenanceFileSchema = {
         },
         {
             type: "id",
-            name: 'maintenanceTicketId', // the name of the remote record's id in this table
+            name: 'hardwareTicketId', // the name of the remote record's id in this table
             required: true,
             default: undefined,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
                 name: 'ticket',
-                kind: 'MaintenanceTicket',
+                kind: 'HardwareTicket',
             },
             view: ['owner'],
             edit: ['owner'],

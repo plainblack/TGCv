@@ -1,8 +1,8 @@
 import { baseSchemaProps, dbString, zodString, dbEnum, dbBoolean, dbMediumText, zodMediumText, dbText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject } from '../helpers.mjs';
 
-export const maintenanceScheduleSchema = {
-    kind: 'MaintenanceSchedule',
-    tableName: 'maintenanceschedules',
+export const hardwareScheduleSchema = {
+    kind: 'HardwareSchedule',
+    tableName: 'hardwareschedules',
     owner: ['admin', 'maintenanceManager'],
     props: [
         ...baseSchemaProps,
@@ -49,14 +49,14 @@ export const maintenanceScheduleSchema = {
         },
         {
             type: "id",
-            name: 'maintenanceItemId',
+            name: 'hardwareItemId',
             required: true,
             filterQualifier: true,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
                 name: 'item',
-                kind: 'MaintenanceItem',
+                kind: 'HardwareItem',
             },
             default: undefined,
             view: ['owner'],
@@ -64,14 +64,14 @@ export const maintenanceScheduleSchema = {
         },
         {
             type: "id",
-            name: 'maintenanceTaskId',
+            name: 'hardwareTaskId',
             required: true,
             filterQualifier: true,
             db: (prop) => dbRelation(prop),
             relation: {
                 type: 'parent',
                 name: 'task',
-                kind: 'MaintenanceTask',
+                kind: 'HardwareTask',
             },
             default: undefined,
             view: ['owner'],

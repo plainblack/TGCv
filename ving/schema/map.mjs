@@ -2,13 +2,13 @@ import { isUndefined } from '#ving/utils/identify.mjs';
 import { ouch } from '#ving/utils/ouch.mjs';
 import { userSchema } from "#ving/schema/schemas/User.mjs";
 import { apikeySchema } from "#ving/schema/schemas/APIKey.mjs";
-import { maintenanceRemarkSchema } from "#ving/schema/schemas/MaintenanceRemark.mjs";
-import { maintenanceFileSchema } from "#ving/schema/schemas/MaintenanceFile.mjs";
-import { maintenanceTicketSchema } from "#ving/schema/schemas/MaintenanceTicket.mjs";
-import { maintenanceScheduleSchema } from "#ving/schema/schemas/MaintenanceSchedule.mjs";
-import { maintenanceItemSchema } from "#ving/schema/schemas/MaintenanceItem.mjs";
-import { maintenanceItemSetSchema } from "#ving/schema/schemas/MaintenanceItemSet.mjs";
-import { maintenanceTaskSchema } from "#ving/schema/schemas/MaintenanceTask.mjs";
+import { hardwareTicketRemarkSchema } from "#ving/schema/schemas/HardwareTicketRemark.mjs";
+import { hardwareTicketFileSchema } from "#ving/schema/schemas/HardwareTicketFile.mjs";
+import { hardwareTicketSchema } from "#ving/schema/schemas/HardwareTicket.mjs";
+import { hardwareScheduleSchema } from "#ving/schema/schemas/HardwareSchedule.mjs";
+import { hardwareItemSchema } from "#ving/schema/schemas/HardwareItem.mjs";
+import { hardwareItemSetSchema } from "#ving/schema/schemas/HardwareItemSet.mjs";
+import { hardwareTaskSchema } from "#ving/schema/schemas/HardwareTask.mjs";
 
 import { s3fileSchema } from "#ving/schema/schemas/S3File.mjs";
 
@@ -18,13 +18,13 @@ import { s3fileSchema } from "#ving/schema/schemas/S3File.mjs";
 export const vingSchemas = [
     userSchema,
     apikeySchema,
-    maintenanceRemarkSchema,
-    maintenanceFileSchema,
-    maintenanceTicketSchema,
-    maintenanceScheduleSchema,
-    maintenanceItemSchema,
-    maintenanceItemSetSchema,
-    maintenanceTaskSchema,
+    hardwareTicketRemarkSchema,
+    hardwareTicketFileSchema,
+    hardwareTicketSchema,
+    hardwareScheduleSchema,
+    hardwareItemSchema,
+    hardwareItemSetSchema,
+    hardwareTaskSchema,
     s3fileSchema,
 ];
 
