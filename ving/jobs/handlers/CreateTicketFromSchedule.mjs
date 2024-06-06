@@ -8,7 +8,7 @@ import { useKind } from '#ving/record/utils.mjs';
  */
 export default async function (job) {
     ving.log('jobs').info(`Creating ticket for schedule ${job.data.id}`);
-    const Schedules = await useKind('MaintenanceSchedule');
+    const Schedules = await useKind('HardwareSchedule');
     const schedule = await Schedules.find(jobs.data.id);
     if (!schedule) {
         ving.log('jobs').warn(`Could not find Schedule with id ${job.data.id}`);
