@@ -1,7 +1,7 @@
 import { baseSchemaProps, dbString, zodString, dbInt, zodNumber, dbEnum } from '../helpers.mjs';
 
 export const hardwareItemSetSchema = {
-    kind: 'HardareItemSet',
+    kind: 'HardwareItemSet',
     tableName: 'hardwareitemsets',
     owner: ['admin', 'maintenanceManager'],
     props: [
