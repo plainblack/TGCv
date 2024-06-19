@@ -15,9 +15,7 @@ export class HardwareItemSetRecord extends VingRecord {
 
     async countTasks() {
         const tasks = await this.children('tasks');
-        console.log("task count: " + this.taskCount);
         this.taskCount = await tasks.count();
-        console.log("NEW task count: " + this.taskCount);
 
         await this.update();
     }
