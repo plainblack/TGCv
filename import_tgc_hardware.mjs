@@ -7,37 +7,35 @@ const Sets = await useKind('HardwareItemSet');
 const Items = await useKind('HardwareItem');
 const Tasks = await useKind('HardwareTask');
 
-await Sets.delete();
-await Items.delete();
-await Tasks.delete();
+await Sets.delete;
+await Items.delete;
+await Tasks.delete;
 
 const seenSets = [];
-const itemPromises = [];
 
 for (const item of maintenanceItems) {
     //Set == station
     if (!seenSets[item.station]) {
         //Create the Set
-        const set = await Sets.createAndVerify({
+        const set = await Sets.create({
             name: item.station,
             status: item.status == 'In Use' ? 'in_use' : 'retired',
         });
         seenSets[item.station] = set;
         //Create tasks for the Set
         for (const task of item.tasks) {
-            await Tasks.createAndVerify({
+            await Tasks.create({
                 description: task,
                 hardwareItemSetId: set.id,
             });
         }
     }
     //Create the item
-    itemPromises.push(Items.createAndVerify({
+    await Items.create({
         name: item.item,
         status: item.status,
-        hardwareItemSetId: seenSets[item.station],
-    }));
+        hardwareItemSetId: seenSets[item.station].id,
+    });
 }
 
-Promise.all(itemPromises);
 console.log("Done");
