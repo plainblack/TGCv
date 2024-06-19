@@ -2,7 +2,7 @@ import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, uniqu
 
 
 
-export const MaintenanceItemSetTable = mysqlTable('maintenanceitemsets',
+export const HardwareItemSetTable = mysqlTable('hardwareitemsets',
     {
         id: bigint('id', {mode:'number', unsigned: true}).notNull().autoincrement().primaryKey(),
 		createdAt: timestamp('createdAt').defaultNow().notNull(),

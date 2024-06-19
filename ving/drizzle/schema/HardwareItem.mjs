@@ -1,18 +1,18 @@
 import { boolean, mysqlEnum, mysqlTable, timestamp, datetime, uniqueIndex, unique, char, varchar, text, int, bigint, json, mediumText, foreignKey } from '#ving/drizzle/orm.mjs';
-import {MaintenanceItemSetTable} from '#ving/drizzle/schema/MaintenanceItemSet.mjs';
+import {HardwareItemSetTable} from '#ving/drizzle/schema/HardwareItemSet.mjs';
 
 
-export const MaintenanceItemTable = mysqlTable('maintenanceitems',
+export const HardwareItemTable = mysqlTable('hardwareitems',
     {
         id: bigint('id', {mode:'number', unsigned: true}).notNull().autoincrement().primaryKey(),
 		createdAt: timestamp('createdAt').defaultNow().notNull(),
 		updatedAt: timestamp('updatedAt').defaultNow().notNull().onUpdateNow(),
 		name: varchar('name', { length: 60 }).notNull().default(''),
 		status: mysqlEnum('status', ['in_use','retired']).notNull().default('in_use'),
-		maintenanceItemSetId: bigint('maintenanceItemSetId', {mode:'number', unsigned: true}).notNull()
+		hardwareItemSetId: bigint('hardwareItemSetId', {mode:'number', unsigned: true}).notNull()
     }, 
     (table) => ({
-        maintenanceitems_itemSet_5f29c163_fk: foreignKey({ name: "maintenanceitems_itemSet_5f29c163_fk", columns: [table.maintenanceItemSetId], foreignColumns: [MaintenanceItemSetTable.id]}).onDelete("cascade").onUpdate("cascade")
+        hardwareitems_itemSet_fef4de8_fk: foreignKey({ name: "hardwareitems_itemSet_fef4de8_fk", columns: [table.hardwareItemSetId], foreignColumns: [HardwareItemSetTable.id]}).onDelete("cascade").onUpdate("cascade")
     })
 );
 
