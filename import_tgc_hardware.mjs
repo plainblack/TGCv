@@ -1,7 +1,7 @@
 #!/usr/bin/env -S node --env-file=.env
 import { useKind } from '#ving/record/utils.mjs';
 import { maintenanceItems } from './maintenanceItems.mjs';
-
+import ving from '#ving/index.mjs'
 
 const Sets = await useKind('HardwareItemSet');
 const Items = await useKind('HardwareItem');
@@ -39,3 +39,4 @@ for (const item of maintenanceItems) {
 }
 
 console.log("Done");
+await ving.close();
