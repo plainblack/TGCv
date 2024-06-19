@@ -5,29 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1717085503433,
-      "tag": "0000_premium_blockbuster",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1717102079693,
-      "tag": "0001_great_the_executioner",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1717102839687,
-      "tag": "0002_unknown_gressill",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1717175665639,
-      "tag": "0003_goofy_ben_grimm",
+      "when": 1718831196929,
+      "tag": "0000_gray_grandmaster",
       "breakpoints": true
     }
   ]

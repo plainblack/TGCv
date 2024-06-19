@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "22774380-851d-4d94-ad69-d8ce29293461",
+  "id": "00814c53-36ce-454b-aa9b-72eddbbca3ac",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "apikeys": {
@@ -95,89 +95,8 @@
       },
       "uniqueConstraints": {}
     },
-    "maintenancefiles": {
-      "name": "maintenancefiles",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(now())"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "onUpdate": true,
-          "default": "(now())"
-        },
-        "s3FileId": {
-          "name": "s3FileId",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "maintenanceTicketId": {
-          "name": "maintenanceTicketId",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "maintenancefiles_s3file_bc83f09_fk": {
-          "name": "maintenancefiles_s3file_bc83f09_fk",
-          "tableFrom": "maintenancefiles",
-          "tableTo": "s3files",
-          "columnsFrom": [
-            "s3FileId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        },
-        "maintenancefiles_ticket_71bc799_fk": {
-          "name": "maintenancefiles_ticket_71bc799_fk",
-          "tableFrom": "maintenancefiles",
-          "tableTo": "maintenancetickets",
-          "columnsFrom": [
-            "maintenanceTicketId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {
-        "maintenancefiles_id": {
-          "name": "maintenancefiles_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "maintenanceitems": {
-      "name": "maintenanceitems",
+    "hardwareitems": {
+      "name": "hardwareitems",
       "columns": {
         "id": {
           "name": "id",
@@ -219,8 +138,8 @@
           "autoincrement": false,
           "default": "'in_use'"
         },
-        "maintenanceItemSetId": {
-          "name": "maintenanceItemSetId",
+        "hardwareItemSetId": {
+          "name": "hardwareItemSetId",
           "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
@@ -229,12 +148,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "maintenanceitems_itemSet_5f29c163_fk": {
-          "name": "maintenanceitems_itemSet_5f29c163_fk",
-          "tableFrom": "maintenanceitems",
-          "tableTo": "maintenanceitemsets",
+        "hardwareitems_itemSet_fef4de8_fk": {
+          "name": "hardwareitems_itemSet_fef4de8_fk",
+          "tableFrom": "hardwareitems",
+          "tableTo": "hardwareitemsets",
           "columnsFrom": [
-            "maintenanceItemSetId"
+            "hardwareItemSetId"
           ],
           "columnsTo": [
             "id"
@@ -244,8 +163,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "maintenanceitems_id": {
-          "name": "maintenanceitems_id",
+        "hardwareitems_id": {
+          "name": "hardwareitems_id",
           "columns": [
             "id"
           ]
@@ -253,8 +172,8 @@
       },
       "uniqueConstraints": {}
     },
-    "maintenanceitemsets": {
-      "name": "maintenanceitemsets",
+    "hardwareitemsets": {
+      "name": "hardwareitemsets",
       "columns": {
         "id": {
           "name": "id",
@@ -316,8 +235,8 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "maintenanceitemsets_id": {
-          "name": "maintenanceitemsets_id",
+        "hardwareitemsets_id": {
+          "name": "hardwareitemsets_id",
           "columns": [
             "id"
           ]
@@ -325,100 +244,8 @@
       },
       "uniqueConstraints": {}
     },
-    "maintenanceremarks": {
-      "name": "maintenanceremarks",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "(now())"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "onUpdate": true,
-          "default": "(now())"
-        },
-        "description": {
-          "name": "description",
-          "type": "mediumtext",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "resolution": {
-          "name": "resolution",
-          "type": "enum('resolved','unresolved','n_a')",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "'n_a'"
-        },
-        "resolutionMinutes": {
-          "name": "resolutionMinutes",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
-        },
-        "submittedBy": {
-          "name": "submittedBy",
-          "type": "varchar(64)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": "''"
-        },
-        "maintenanceTicketId": {
-          "name": "maintenanceTicketId",
-          "type": "bigint unsigned",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "maintenanceremarks_ticket_7bde9655_fk": {
-          "name": "maintenanceremarks_ticket_7bde9655_fk",
-          "tableFrom": "maintenanceremarks",
-          "tableTo": "maintenancetickets",
-          "columnsFrom": [
-            "maintenanceTicketId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "cascade"
-        }
-      },
-      "compositePrimaryKeys": {
-        "maintenanceremarks_id": {
-          "name": "maintenanceremarks_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "maintenanceschedules": {
-      "name": "maintenanceschedules",
+    "hardwareschedules": {
+      "name": "hardwareschedules",
       "columns": {
         "id": {
           "name": "id",
@@ -476,15 +303,15 @@
           "autoincrement": false,
           "default": 0
         },
-        "maintenanceItemId": {
-          "name": "maintenanceItemId",
+        "hardwareItemId": {
+          "name": "hardwareItemId",
           "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "maintenanceTaskId": {
-          "name": "maintenanceTaskId",
+        "hardwareTaskId": {
+          "name": "hardwareTaskId",
           "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
@@ -508,12 +335,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "maintenanceschedules_item_7745e177_fk": {
-          "name": "maintenanceschedules_item_7745e177_fk",
-          "tableFrom": "maintenanceschedules",
-          "tableTo": "maintenanceitems",
+        "hardwareschedules_item_33d0762_fk": {
+          "name": "hardwareschedules_item_33d0762_fk",
+          "tableFrom": "hardwareschedules",
+          "tableTo": "hardwareitems",
           "columnsFrom": [
-            "maintenanceItemId"
+            "hardwareItemId"
           ],
           "columnsTo": [
             "id"
@@ -521,12 +348,12 @@
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
-        "maintenanceschedules_task_77412705_fk": {
-          "name": "maintenanceschedules_task_77412705_fk",
-          "tableFrom": "maintenanceschedules",
-          "tableTo": "maintenancetasks",
+        "hardwareschedules_task_3384cf0_fk": {
+          "name": "hardwareschedules_task_3384cf0_fk",
+          "tableFrom": "hardwareschedules",
+          "tableTo": "hardwaretasks",
           "columnsFrom": [
-            "maintenanceTaskId"
+            "hardwareTaskId"
           ],
           "columnsTo": [
             "id"
@@ -536,8 +363,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "maintenanceschedules_id": {
-          "name": "maintenanceschedules_id",
+        "hardwareschedules_id": {
+          "name": "hardwareschedules_id",
           "columns": [
             "id"
           ]
@@ -545,8 +372,8 @@
       },
       "uniqueConstraints": {}
     },
-    "maintenancetasks": {
-      "name": "maintenancetasks",
+    "hardwaretasks": {
+      "name": "hardwaretasks",
       "columns": {
         "id": {
           "name": "id",
@@ -579,8 +406,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "maintenanceItemSetId": {
-          "name": "maintenanceItemSetId",
+        "hardwareItemSetId": {
+          "name": "hardwareItemSetId",
           "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
@@ -589,12 +416,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "maintenancetasks_itemSet_75c8db95_fk": {
-          "name": "maintenancetasks_itemSet_75c8db95_fk",
-          "tableFrom": "maintenancetasks",
-          "tableTo": "maintenanceitemsets",
+        "hardwaretasks_itemSet_6afcc4a_fk": {
+          "name": "hardwaretasks_itemSet_6afcc4a_fk",
+          "tableFrom": "hardwaretasks",
+          "tableTo": "hardwareitemsets",
           "columnsFrom": [
-            "maintenanceItemSetId"
+            "hardwareItemSetId"
           ],
           "columnsTo": [
             "id"
@@ -604,8 +431,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "maintenancetasks_id": {
-          "name": "maintenancetasks_id",
+        "hardwaretasks_id": {
+          "name": "hardwaretasks_id",
           "columns": [
             "id"
           ]
@@ -613,8 +440,8 @@
       },
       "uniqueConstraints": {}
     },
-    "maintenancetickets": {
-      "name": "maintenancetickets",
+    "hardwaretickets": {
+      "name": "hardwaretickets",
       "columns": {
         "id": {
           "name": "id",
@@ -639,14 +466,6 @@
           "autoincrement": false,
           "onUpdate": true,
           "default": "(now())"
-        },
-        "ticketNumber": {
-          "name": "ticketNumber",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": 0
         },
         "description": {
           "name": "description",
@@ -695,15 +514,15 @@
           "autoincrement": false,
           "default": "''"
         },
-        "maintenanceTaskId": {
-          "name": "maintenanceTaskId",
+        "hardwareTaskId": {
+          "name": "hardwareTaskId",
           "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "maintenanceItemId": {
-          "name": "maintenanceItemId",
+        "hardwareItemId": {
+          "name": "hardwareItemId",
           "type": "bigint unsigned",
           "primaryKey": false,
           "notNull": true,
@@ -712,12 +531,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "maintenancetickets_task_1206e190_fk": {
-          "name": "maintenancetickets_task_1206e190_fk",
-          "tableFrom": "maintenancetickets",
-          "tableTo": "maintenancetasks",
+        "hardwaretickets_task_652b79c5_fk": {
+          "name": "hardwaretickets_task_652b79c5_fk",
+          "tableFrom": "hardwaretickets",
+          "tableTo": "hardwaretasks",
           "columnsFrom": [
-            "maintenanceTaskId"
+            "hardwareTaskId"
           ],
           "columnsTo": [
             "id"
@@ -725,12 +544,12 @@
           "onDelete": "cascade",
           "onUpdate": "cascade"
         },
-        "maintenancetickets_item_120b9c02_fk": {
-          "name": "maintenancetickets_item_120b9c02_fk",
-          "tableFrom": "maintenancetickets",
-          "tableTo": "maintenanceitems",
+        "hardwaretickets_item_6526bf53_fk": {
+          "name": "hardwaretickets_item_6526bf53_fk",
+          "tableFrom": "hardwaretickets",
+          "tableTo": "hardwareitems",
           "columnsFrom": [
-            "maintenanceItemId"
+            "hardwareItemId"
           ],
           "columnsTo": [
             "id"
@@ -740,8 +559,181 @@
         }
       },
       "compositePrimaryKeys": {
-        "maintenancetickets_id": {
-          "name": "maintenancetickets_id",
+        "hardwaretickets_id": {
+          "name": "hardwaretickets_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "hardwareticketfiles": {
+      "name": "hardwareticketfiles",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        },
+        "s3FileId": {
+          "name": "s3FileId",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "hardwareTicketId": {
+          "name": "hardwareTicketId",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "hardwareticketfiles_s3file_77c6b8a8_fk": {
+          "name": "hardwareticketfiles_s3file_77c6b8a8_fk",
+          "tableFrom": "hardwareticketfiles",
+          "tableTo": "s3files",
+          "columnsFrom": [
+            "s3FileId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        },
+        "hardwareticketfiles_ticket_731a4138_fk": {
+          "name": "hardwareticketfiles_ticket_731a4138_fk",
+          "tableFrom": "hardwareticketfiles",
+          "tableTo": "hardwaretickets",
+          "columnsFrom": [
+            "hardwareTicketId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "hardwareticketfiles_id": {
+          "name": "hardwareticketfiles_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "hardwareticketremarks": {
+      "name": "hardwareticketremarks",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "onUpdate": true,
+          "default": "(now())"
+        },
+        "description": {
+          "name": "description",
+          "type": "mediumtext",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "resolution": {
+          "name": "resolution",
+          "type": "enum('resolved','unresolved','n_a')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'n_a'"
+        },
+        "resolutionMinutes": {
+          "name": "resolutionMinutes",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": 0
+        },
+        "submittedBy": {
+          "name": "submittedBy",
+          "type": "varchar(64)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "''"
+        },
+        "hardwareTicketId": {
+          "name": "hardwareTicketId",
+          "type": "bigint unsigned",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "hardwareticketremarks_ticket_1ddadbcc_fk": {
+          "name": "hardwareticketremarks_ticket_1ddadbcc_fk",
+          "tableFrom": "hardwareticketremarks",
+          "tableTo": "hardwaretickets",
+          "columnsFrom": [
+            "hardwareTicketId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "cascade"
+        }
+      },
+      "compositePrimaryKeys": {
+        "hardwareticketremarks_id": {
+          "name": "hardwareticketremarks_id",
           "columns": [
             "id"
           ]
@@ -1011,6 +1003,14 @@
           "notNull": false,
           "autoincrement": false,
           "default": null
+        },
+        "tgcUserId": {
+          "name": "tgcUserId",
+          "type": "char(36)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false,
+          "default": null
         }
       },
       "indexes": {
@@ -1025,6 +1025,13 @@
           "name": "emailIndex",
           "columns": [
             "email"
+          ],
+          "isUnique": true
+        },
+        "tgcUserIdIndex": {
+          "name": "tgcUserIdIndex",
+          "columns": [
+            "tgcUserId"
           ],
           "isUnique": true
         }
