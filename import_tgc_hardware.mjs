@@ -33,7 +33,7 @@ for (const item of maintenanceItems) {
     //Create the item
     await Items.create({
         name: item.item,
-        status: item.status,
+        status: item.status == 'In Use' ? 'in_use' : 'retired',
         hardwareItemSetId: seenSets[item.station].id,
     });
 }
