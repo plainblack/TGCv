@@ -2,14 +2,15 @@
     <div>
         <Menubar id="topnav" :model="topNav" class="py-0">
             <template #start>
-                <img :src="config.public.site.logoUrl" :alt="`${config.public.site.name} logo`" :title="config.public.site.name" class="h-10 mr-0 lg:mr-3">
+                <img :src="config.public.site.logoUrl" :alt="`${config.public.site.name} logo`"
+                    :title="config.public.site.name" class="h-10 mr-0 lg:mr-3">
             </template>
             <template #item="{ item, props, hasSubmenu, root }">
                 <a v-if="hasSubmenu" :target="item.target" v-bind="props.action"
                     class="flex items-center px-6 p-3 lg:px-3 lg:py-2 rounded cursor-pointer">
                     <Icon :name="item.icon" class="mr-2" />
                     <span class="ml-2">{{ item.label }}</span>
-                    <Icon v-if="hasSubmenu" name="pepicons-pop:angle-down" class="ml-2"/>
+                    <Icon v-if="hasSubmenu" name="pepicons-pop:angle-down" class="ml-2" />
                 </a>
                 <NuxtLink v-else :to="item.to"
                     class="flex items-center px-6 p-3 lg:px-3 lg:py-2 rounded cursor-pointer">
@@ -20,10 +21,10 @@
 
             <template #end>
                 <div class="flex items-center gap-2">
-                    <DarkModeSelector/>               
+                    <DarkModeSelector />
                     <InputGroup>
                         <InputGroupAddon>
-                            <Icon name="ion:search"/>
+                            <Icon name="ion:search" />
                         </InputGroupAddon>
                         <InputText placeholder="Search (non-functional)" type="text" class="w-8rem sm:w-auto" />
                     </InputGroup>
@@ -56,8 +57,8 @@
             </div>
         </div>
     </div>
-        <Notify />
-        <Throbber />
+    <Notify />
+    <Throbber />
 </template>
 
 <script setup>
@@ -72,11 +73,10 @@ const topNav = [
     { label: 'Home', to: '/', icon: 'prime:home' },
     { label: 'Ving Documentation', to: 'https://plainblack.github.io/ving/', icon: "prime:book" },
     {
-        label: 'Sample Dropdown', icon: "prime:thumbs-down", items: [
-            { label: 'Sample 1', to: '#', icon: 'pixelarticons:avatar' },
-            { label: 'Sample 2', to: '#', icon: 'prime:sliders-h' },
-
-        ]
+        label: 'Maintenance', icon: "wpf:maintenance", items: [
+            { label: 'Tickets', to: '/hardwareticket', icon: 'lucide:list-todo' },
+            { label: 'Equipment', to: '/hardwareitemset', icon: 'mdi:printer-pos-cog-outline' },
+            { label: 'Schedule', to: '/hardwareschedule', icon: 'healthicons:i-schedule-school-date-time' },]
     },
 ]
 
