@@ -1,24 +1,23 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import ving from './ving.json';
-//@ts-expect-error
+//import VingTheme from './themes/ving-theme.mjs';
+import Aura from '@primevue/themes/aura';
+
 ving.site.url = process.env.VING_SITE_URL;
 
 export default defineNuxtConfig({
-    vite: {
-        server: {
-            watch: {
-                usePolling: true,
-            },
-        },
+    future: {
+        compatibilityVersion: 4,
     },
     modules: [
         '@pinia/nuxt',
         'nuxt-icon',
-        'nuxt-primevue',
+        '@nuxtjs/tailwindcss',
+        '@primevue/nuxt-module',
         '@vueuse/nuxt',
     ],
     primevue: {
-        cssLayerOrder: 'reset,primevue'
+        importTheme: { from: "@/themes/ving-theme.mjs" },
     },
     imports: {
         dirs: [
@@ -54,7 +53,7 @@ export default defineNuxtConfig({
                 },
                 {
                     rel: 'manifest',
-                    href: '/site.webmanifest',
+                    href: '/manifest.json',
                 },
             ],
             meta: [
@@ -70,16 +69,9 @@ export default defineNuxtConfig({
         },
     },
     css: [
-        'primevue/resources/themes/tailwind-light/theme.css',
-        'primevue/resources/primevue.css',
         'primeicons/primeicons.css',
-        'primeflex/primeflex.css',
-        '~/assets/css/main.css',
     ],
     runtimeConfig: {
         public: ving,
     },
-    content: {
-        highlight: { theme: 'light-plus' },
-    }
 })
