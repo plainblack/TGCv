@@ -78,7 +78,7 @@ const hardwareitemsets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareitemset`,
     createApi: `/api/${useRestVersion()}/hardwareitemset`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' },
-    newDefaults: { name: '', status: 'in_use' },
+    newDefaults: { name: 'New Hardware Set', status: 'in_use' },
     onCreate: async (data) => { console.log(data); await navigateTo(`/hardwareitemset/${data.props.id}`) },
 });
 const links = useHardwareLinks();
