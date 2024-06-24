@@ -1,55 +1,54 @@
 <template>
     <div>
-            <Menubar id="topnav" :model="topNav" class="bg-gray-900 border-noround py-0">
-                <template #start>
-                    <img :src="config.public.site.logoUrl" :alt="config.public.site.name" height="40"
-                        class="mr-0 lg:mr-6">
-                </template>
-                <template #item="{ item, props, hasSubmenu, root }">
-                    <a v-if="hasSubmenu" v-ripple :target="item.target" v-bind="props.action"
-                        class="flex px-6 p-3 lg:px-3 lg:py-2 align-items-center bg-gray-900 font-medium border-round cursor-pointer text-gray-400 hover:text-white hover:bg-gray-800">
-                        <Icon :name="item.icon" class="mr-2" />
-                        <span class="ml-2">{{ item.label }}</span>
-                        <Icon v-if="hasSubmenu" name="pepicons-pop:angle-down" class="ml-2"/>
-                    </a>
-                    <NuxtLink v-else :to="item.to" v-ripple
-                        class="flex px-6 p-3 lg:px-3 lg:py-2 bg-gray-900 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer">
-                        <Icon :name="item.icon" class="mr-2" />
-                        <span>{{ item.label }}</span>
-                    </NuxtLink>
-                </template>
+        <Menubar id="topnav" :model="topNav" class="bg-gray-900 border-noround py-0">
+            <template #start>
+                <img :src="config.public.site.logoUrl" :alt="config.public.site.name" height="40" class="mr-0 lg:mr-6">
+            </template>
+            <template #item="{ item, props, hasSubmenu, root }">
+                <a v-if="hasSubmenu" v-ripple :target="item.target" v-bind="props.action"
+                    class="flex px-6 p-3 lg:px-3 lg:py-2 align-items-center bg-gray-900 font-medium border-round cursor-pointer text-gray-400 hover:text-white hover:bg-gray-800">
+                    <Icon :name="item.icon" class="mr-2" />
+                    <span class="ml-2">{{ item.label }}</span>
+                    <Icon v-if="hasSubmenu" name="pepicons-pop:angle-down" class="ml-2" />
+                </a>
+                <NuxtLink v-else :to="item.to" v-ripple
+                    class="flex px-6 p-3 lg:px-3 lg:py-2 bg-gray-900 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 font-medium border-round cursor-pointer">
+                    <Icon :name="item.icon" class="mr-2" />
+                    <span>{{ item.label }}</span>
+                </NuxtLink>
+            </template>
 
-                <template #end>
-                    <div class="flex align-items-center gap-2">
-                        <InputGroup class="border-secondary">
-                            <InputGroupAddon class="bg-gray-900 border-primary">
-                                <Icon name="ion:search"/>
-                            </InputGroupAddon>
-                            <InputText placeholder="Search (non-functional)" type="text"
-                                class="w-8rem sm:w-auto bg-gray-900 text-white border-primary" />
-                        </InputGroup>
-                        <SplitButton v-if="currentUser.props?.id" :model="userMenu" text>
-                            <NuxtLink to="/user/settings" v-ripple class="flex align-items-center">
-                                <Avatar :image="currentUser.meta?.avatarUrl" alt="user avatar" shape="circle" />
-                                <span class="text-white ml-2">
-                                    {{ currentUser.meta?.displayName }}
-                                </span>
-                            </NuxtLink>
-                            <template #item="{ item }">
-                                <NuxtLink :to="item.to" v-ripple class="flex p-3 align-items-center">
-                                    <Icon :name="item.icon" class="mr-2" />
-                                    {{ item.label }}
-                                </NuxtLink>
-                            </template>
-                        </SplitButton>
-                        <NuxtLink v-else to="/user/login" v-ripple style="min-width: 120px;"
-                            class="flex p-3 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 no-underline">
-                            <Icon name="fa6-solid:door-open" class="mr-2" />
-                            Sign In
+            <template #end>
+                <div class="flex align-items-center gap-2">
+                    <InputGroup class="border-secondary">
+                        <InputGroupAddon class="bg-gray-900 border-primary">
+                            <Icon name="ion:search" />
+                        </InputGroupAddon>
+                        <InputText placeholder="Search (non-functional)" type="text"
+                            class="w-8rem sm:w-auto bg-gray-900 text-white border-primary" />
+                    </InputGroup>
+                    <SplitButton v-if="currentUser.props?.id" :model="userMenu" text>
+                        <NuxtLink to="/user/settings" v-ripple class="flex align-items-center">
+                            <Avatar :image="currentUser.meta?.avatarUrl" alt="user avatar" shape="circle" />
+                            <span class="text-white ml-2">
+                                {{ currentUser.meta?.displayName }}
+                            </span>
                         </NuxtLink>
-                    </div>
-                </template>
-            </Menubar>
+                        <template #item="{ item }">
+                            <NuxtLink :to="item.to" v-ripple class="flex p-3 align-items-center">
+                                <Icon :name="item.icon" class="mr-2" />
+                                {{ item.label }}
+                            </NuxtLink>
+                        </template>
+                    </SplitButton>
+                    <NuxtLink v-else to="/user/login" v-ripple style="min-width: 120px;"
+                        class="flex p-3 align-items-center text-gray-400 hover:text-white hover:bg-gray-800 no-underline">
+                        <Icon name="fa6-solid:door-open" class="mr-2" />
+                        Sign In
+                    </NuxtLink>
+                </div>
+            </template>
+        </Menubar>
 
         <SystemWideAlert />
         <div class="px-0 py-1 md:px-4">
@@ -58,8 +57,8 @@
             </div>
         </div>
     </div>
-        <Notify />
-        <Throbber />
+    <Notify />
+    <Throbber />
 </template>
 
 <script setup>
@@ -75,9 +74,9 @@ const topNav = [
     { label: 'Ving Documentation', to: 'https://plainblack.github.io/ving/', icon: "prime:book" },
     {
         label: 'Maintenance', icon: "wpf:maintenance", items: [
-            { label: 'Tickets', to: '/maintenanceticket', icon: 'lucide:list-todo' },
-            { label: 'Equipment', to: '/maintenanceitemset', icon: 'mdi:printer-pos-cog-outline' },
-            { label: 'Schedule', to: '/maintenanceschedule', icon: 'healthicons:i-schedule-school-date-time' },]
+            { label: 'Tickets', to: '/hardwareticket', icon: 'lucide:list-todo' },
+            { label: 'Equipment', to: '/hardwareitemset', icon: 'mdi:printer-pos-cog-outline' },
+            { label: 'Schedule', to: '/hardwareschedule', icon: 'healthicons:i-schedule-school-date-time' },]
     },
 ]
 
