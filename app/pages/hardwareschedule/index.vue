@@ -121,17 +121,6 @@ const allhardwaretasks = useVingKind({
     createApi: `/api/${useRestVersion()}/hardwaretask`,
     query: { sortBy: 'description' },
 });
-const usedhardwareitems = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwareitem`,
-    createApi: `/api/${useRestVersion()}/hardwareitem`,
-    query: { sortBy: 'name' },
-});
-
-const usedhardwaretasks = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwaretask`,
-    createApi: `/api/${useRestVersion()}/hardwaretask`,
-    query: { sortBy: 'description' },
-});
 
 const links = useHardwareLinks();
 await Promise.all([
@@ -139,15 +128,11 @@ await Promise.all([
     hardwareschedules.fetchPropsOptions(),
     allhardwareitems.all(),
     allhardwaretasks.all(),
-    usedhardwareitems.all(),
-    usedhardwaretasks.all(),
 ]);
 onBeforeRouteLeave(() => {
     hardwareschedules.dispose();
     allhardwareitems.dispose();
     allhardwaretasks.dispose();
-    usedhardwareitems.dispose();
-    usedhardwaretasks.dispose();
 });
 
 </script>
