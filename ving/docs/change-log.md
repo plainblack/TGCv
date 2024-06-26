@@ -5,8 +5,15 @@ outline: deep
 
 ## June 2024
 
+### 2024-06-25
+* Disabled nuxt devtools, because I never use them and they are spewing junk into the console.
+* Workaround: calling useVingKind().all() when doing an SSR without a middleware causes Nuxt to crash #168
+
 ### 2024-06-24
 * Fixed: pager appears to be broken #167
+* Rewrote the `all` method in useVingKind to be more clear and simple.
+* Fixed: itemsPerPage not respected on backend in useVingKind() #169
+* Fixed: fix pager component, doesn't currently switch pages #170
 
 ### 2024-06-23
 * Fixed: examples in VingSchema need to differentiate between the able and the kind class #155
