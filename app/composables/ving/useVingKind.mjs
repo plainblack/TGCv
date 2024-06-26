@@ -20,7 +20,7 @@ class VingKind {
     })
 
     /**
-     * The object where new properties are stored awaiting being sent to the server to create the record for real. Note that this is generated `set`/`get` and thus you must set a full object if you set it.
+     * The object where new properties are stored awaiting being sent to the server to create the record for real.
      */
 
     get new() {
@@ -32,7 +32,7 @@ class VingKind {
     }
 
     /**
-     * The object containing paging data. Note that this is generated `set`/`get` and thus you must set a full object if you set it.
+     * The object containing paging data. 
      */
     get paging() {
         return this.#state.paging;
@@ -43,7 +43,7 @@ class VingKind {
     }
 
     /**
-     * The object containing enumerated props options once `fetchPropsOptions` is called. Note that this is generated `set`/`get` and thus you must set a full object if you set it.
+     * The object containing enumerated props options once `fetchPropsOptions` is called. 
      */
     get propsOptions() {
         return this.#state.propsOptions;
@@ -54,7 +54,7 @@ class VingKind {
     }
 
     /**
-     * An object containing the query parameters to send when interacting with endpoints for this kind. Note that this is generated `set`/`get` and thus you must set a full object if you set it.
+     * An object containing the query parameters to send when interacting with endpoints for this kind. 
      */
 
     get query() {
@@ -66,7 +66,7 @@ class VingKind {
     }
 
     /**
-     * An array containing the list of records that have been fetched from the server. Note that this is generated `set`/`get` and thus you must set a full array if you set it.
+     * An array containing the list of records that have been fetched from the server.
      */
     get records() {
         return this.#state.records;
@@ -90,46 +90,30 @@ class VingKind {
     }
 
     /**
-     * Recursively retreieves all the records for the given configuration.
+     * Retrieves all the records for the given configuration.
      * 
-     * @param {Object} options An object for modifying the the method's functionality.
-     * @param {Number} iterations For internal use only.
-     * @returns {Promise<boolean>} A promise that resolves when all the requests have been processed.
+     * NOTE: This method should not be called on a page that has no nuxt middleware such as `auth`. If you need to, then use the `all-workaround` middlware provided. See https://github.com/plainblack/ving/issues/168
+     * 
+     * @param {Object} options An object for modifying the the method's functionality. See `search` for more info.
+     * @param {Function} options.onAllDone An optional callback that will be called when all the requests have been processed.
      * @example
      * await Users.all();
      */
 
-    all(options = {}, iterations = 1) {
-        let self = this;
-        return new Promise((resolve, reject) =>
-            self
-                .search({
-                    ...options,
-                    accumulate: true,
-                    page: iterations,
-                })
-                .then(() => {
-                    if (self.paging.page < self.paging.totalPages) {
-                        if (iterations < 999) {
-                            self
-                                .all(options, iterations + 1)
-                                .then(resolve)
-                                .catch(reject);
-                        } else {
-                            const message = "infinite loop detected in all() for " + self.getListApi()
-                            this.#notify.error(message);
-                            throw ouch(400, message);
-                        }
-                    } else {
-                        if (options.onAllDone)
-                            options.onAllDone();
-                        if (self.#behavior.onAllDone)
-                            self.#behavior.onAllDone();
-                        resolve(undefined);
-                    }
-                })
-                .catch(reject)
-        );
+    async all(options = {}) {
+        let totalPages = 1;
+        for (let pageNo = 1; pageNo <= totalPages; pageNo++) {
+            await this.search({
+                ...options,
+                accumulate: true,
+                page: pageNo,
+            });
+            totalPages = this.paging.totalPages;
+        }
+        if (options.onAllDone)
+            options.onAllDone();
+        if (this.#behavior.onAllDone)
+            this.#behavior.onAllDone();
     }
 
 
@@ -166,7 +150,7 @@ class VingKind {
      */
     async call(method, url, query = {}, options = {}) {
         const response = await useRest(url, {
-            query: defu({}, this.query, query),
+            query: defu({}, query, this.query),
             method,
             suppressErrorNotifications: this.#behavior.suppressErrorNotifications,
         });
@@ -455,7 +439,7 @@ class VingKind {
             page: options?.page || this.paging.page || 1,
             itemsPerPage: this.paging.itemsPerPage || 10,
         };
-        const query = defu({}, pagination, options?.query, this.query);
+        const query = defu({}, options?.query, this.query, pagination);
 
         const response = await useRest(this.getListApi(), {
             query: query,
