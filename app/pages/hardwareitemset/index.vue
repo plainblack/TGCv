@@ -74,6 +74,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+    middleware: ['auth']
+});
 const hardwareitemsets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareitemset`,
     createApi: `/api/${useRestVersion()}/hardwareitemset`,

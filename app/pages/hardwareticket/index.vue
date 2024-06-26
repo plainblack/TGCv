@@ -119,6 +119,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+    middleware: ['auth']
+});
 const hardwaretickets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareticket`,
     createApi: `/api/${useRestVersion()}/hardwareticket`,

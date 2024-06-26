@@ -103,6 +103,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+    middleware: ['auth']
+});
 const route = useRoute();
 const id = route.params.id.toString();
 const links = useHardwareLinks();

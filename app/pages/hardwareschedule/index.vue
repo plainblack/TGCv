@@ -104,6 +104,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+    middleware: ['auth']
+});
 const hardwareschedules = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareschedule`,
     createApi: `/api/${useRestVersion()}/hardwareschedule`,
