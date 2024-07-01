@@ -29,14 +29,16 @@ export class HardwareScheduleRecord extends VingRecord {
     #skipUpdateJobCreation = false;
 
     async update() {
+        ving.log('Schedule').debug(`Schedule ${this.id} before SUPER update`);
         await super.update();
+        ving.log('Schedule').debug(`Schedule ${this.id} after SUPER update`);
         if (!this.#skipUpdateJobCreation) {
             const myId = this.get('id');
-            const jobId = this.get('jobsId');
-            if (jobId) {
-                const result = await killJob(jobId);
+            const jobsId = this.get('jobsId');
+            if (jobsId) {
+                const result = await killJob(jobsId);
                 if (!result) {
-                    ving.log('HardwareSchedule').error(`Could not close job ${jobId} for schedule ${myId}`);
+                    ving.log('HardwareSchedule').error(`Could not close job ${jobsId} for schedule ${myId}`);
                 }
             }
             this.createJob();
@@ -81,7 +83,7 @@ export class HardwareScheduleRecord extends VingRecord {
         ving.log('Schedule').debug(`Schedule ${this.id} assigned jobId <${newJob.id}>`);
         this.jobsId = newJob.id;
         this.#skipUpdateJobCreation = true;
-        this.update();
+        await this.update();
     }
 
 }
