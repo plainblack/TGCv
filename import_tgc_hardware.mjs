@@ -1,14 +1,16 @@
 #!/usr/bin/env -S node --env-file=.env
 import { useKind } from '#ving/record/utils.mjs';
 import { maintenanceItems } from './maintenanceItems.mjs';
-import { maintenanceSchedules } from './maintenanceScheduless.mjs';
+import { maintenanceSchedules } from './maintenanceSchedules.mjs';
+import { eq, and } from '#ving/drizzle/orm.mjs';
+
 
 import ving from '#ving/index.mjs'
 
 const Sets = await useKind('HardwareItemSet');
 const Items = await useKind('HardwareItem');
 const Tasks = await useKind('HardwareTask');
-const Schedules = await useKing('HardwareSchedule');
+const Schedules = await useKind('HardwareSchedule');
 
 await Sets.deleteMany();
 await Items.deleteMany();
@@ -46,15 +48,21 @@ for (const item of maintenanceItems) {
 
 for (const schedule of maintenanceSchedules) {
     const item = itemLookup[schedule.equipment];
-    const set = await item.parent('set');
+    const set = await item.parent('itemSet');
+    const task = await Tasks.findOne(
+        and(
+            eq(Tasks.hardwareItemSetId, item.hardwareItemSetId),
+            eq(Tasks.description, schedule.event)
+        )
+    );
     const scheduleObject = await Schedules.create({
         recurrence: schedule.recurrence,
         weeks: schedule.weeks,
         months: schedule.months,
         days: schedule.days,
         hardwareItemId: item.id,
-        hardwareTaskId: '',
-        description: schedule.note,
+        hardwareTaskId: task.id,
+        description: schedule.event,
     });
 }
 
