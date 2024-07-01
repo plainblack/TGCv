@@ -51,8 +51,8 @@ for (const schedule of maintenanceSchedules) {
     const set = await item.parent('itemSet');
     const task = await Tasks.findOne(
         and(
-            eq(Tasks.hardwareItemSetId, item.hardwareItemSetId),
-            eq(Tasks.description, schedule.event)
+            eq(Tasks.table.hardwareItemSetId, item.hardwareItemSetId),
+            eq(Tasks.table.description, schedule.event)
         )
     );
     const scheduleObject = await Schedules.create({
