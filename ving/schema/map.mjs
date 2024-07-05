@@ -9,7 +9,7 @@ import { hardwareScheduleSchema } from "#ving/schema/schemas/HardwareSchedule.mj
 import { hardwareItemSchema } from "#ving/schema/schemas/HardwareItem.mjs";
 import { hardwareItemSetSchema } from "#ving/schema/schemas/HardwareItemSet.mjs";
 import { hardwareTaskSchema } from "#ving/schema/schemas/HardwareTask.mjs";
-
+import { cronJobSchema } from "#ving/schema/schemas/CronJob.mjs";
 import { s3fileSchema } from "#ving/schema/schemas/S3File.mjs";
 
 /**
@@ -25,6 +25,7 @@ export const vingSchemas = [
     hardwareItemSchema,
     hardwareItemSetSchema,
     hardwareTaskSchema,
+    cronJobSchema,
     s3fileSchema,
 ];
 

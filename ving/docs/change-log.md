@@ -5,6 +5,13 @@ outline: deep
 
 ## July 2024
 
+### 2024-07-04
+* Added `options` param to ving schema props.
+* Fixed generating pathing for pages.
+* Added Cron Jobs subsystem.
+* NOTE: Run a database migration to add the new cronjob table.
+* Fixed: Can't have duplicate cron specs in redis. #175
+
 ### 2024-07-01
 * Added verifiedEmail field to the User CLI.
 * Fixed a problem with creating new users via the rest API.
