@@ -65,7 +65,12 @@ export class HardwareScheduleRecord extends VingRecord {
             dayOfMonth += (this.weeks * 7 + this.days)
         }
         else {
-            dayOfMonth += this.days;
+            if (this.days > 0) {
+                dayOfMonth += this.days;
+            }
+            else {
+                dayOfMonth = 1;
+            }
         }
         if (this.recurrence == 'daily') {
             cronSpec += '* * *';
@@ -77,7 +82,11 @@ export class HardwareScheduleRecord extends VingRecord {
             cronSpec += dayOfMonth + ' * *';
         }
         else if (this.recurrence == 'yearly') {
-            cronSpec += `${dayOfMonth} ${this.months} *`;
+            let monthOfYear = 1;
+            if (this.months > 0) {
+                monthOfYear = this.months;
+            }
+            cronSpec += `${dayOfMonth} ${monthOfYear} *`;
         }
         const newJob = await addJob('CreateTicketFromSchedule', { id: this.id }, { cron: cronSpec });
         ving.log('Schedule').debug(`Schedule ${this.id} assigned jobId <${newJob.id}>`);
