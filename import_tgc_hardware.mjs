@@ -3,6 +3,7 @@ import { useKind } from '#ving/record/utils.mjs';
 import { maintenanceItems } from './maintenanceItems.mjs';
 import { maintenanceSchedules } from './maintenanceSchedules.mjs';
 import { eq, and } from '#ving/drizzle/orm.mjs';
+//import { obliterate } from '#ving/jobs/queue.mjs';
 
 
 import ving from '#ving/index.mjs'
@@ -16,6 +17,7 @@ await Sets.deleteMany();
 await Items.deleteMany();
 await Tasks.deleteMany();
 await Schedules.deleteMany();
+//await obliterate('jobs');
 
 const seenSets = [];
 const itemLookup = [];
@@ -62,7 +64,7 @@ for (const schedule of maintenanceSchedules) {
         days: schedule.days,
         hardwareItemId: item.id,
         hardwareTaskId: task.id,
-        description: schedule.event,
+        description: schedule.note || '',
     });
 }
 
