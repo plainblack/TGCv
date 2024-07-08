@@ -14,15 +14,14 @@ export class HardwareScheduleRecord extends VingRecord {
 
     async delete() {
         const myId = this.get('id');
-        const jobId = this.get('jobsId');
+        const cronJobId = this.get('cronJobId');
         await super.delete();
-        ving.log('Schedule').debug(`Schedule ${myId} has jobId <${jobId}>`);
-        if (jobId) {
-            ving.log('Schedule').debug(`Killing jobId <${jobId}>`);
-            const result = await killJob(jobId);
-            if (!result) {
-                ving.log('HardwareSchedule').error(`Could not close job ${jobId} for schedule ${myId}`);
-            }
+        ving.log('Schedule').debug(`Schedule ${myId} has jobId <${cronJobId}>`);
+        if (cronJobId) {
+            ving.log('Schedule').debug(`Killing jobId <${cronJobId}>`);
+            const CronJobs = await useKind("CronJob");
+            const myJob = await CronJobs.findOrDie(cronJobId)
+            await myJob.delete();
         }
     }
 
@@ -34,12 +33,12 @@ export class HardwareScheduleRecord extends VingRecord {
         ving.log('Schedule').debug(`Schedule ${this.id} after SUPER update`);
         if (!this.#skipUpdateJobCreation) {
             const myId = this.get('id');
-            const jobsId = this.get('jobsId');
-            if (jobsId) {
-                const result = await killJob(jobsId);
-                if (!result) {
-                    ving.log('HardwareSchedule').error(`Could not close job ${jobsId} for schedule ${myId}`);
-                }
+            const cronJobId = this.get('cronJobId');
+            if (cronJobId) {
+                ving.log('Schedule').debug(`Killing jobId <${cronJobId}>`);
+                const CronJobs = await useKind("CronJob");
+                const myJob = await CronJobs.findOrDie(cronJobId)
+                await myJob.delete();
             }
             this.createJob();
         }
@@ -88,9 +87,16 @@ export class HardwareScheduleRecord extends VingRecord {
             }
             cronSpec += `${dayOfMonth} ${monthOfYear} *`;
         }
-        const newJob = await addJob('CreateTicketFromSchedule', { id: this.id }, { cron: cronSpec });
+        const CronJobs = await useKind("CronJob");
+        const newJob = await CronJobs.create({});
+        newJob.schedule(cronSpec);
+        newJob.handler('CreateTicketFromSchedule');
+        newJob.params({ id: this.id }.toJsonString());
+        newJob.enabled(true);
+        newJob.note("Cron job for Hardware Schedule " + this.id);
+        newJob.insert();
         ving.log('Schedule').debug(`Schedule ${this.id} assigned jobId <${newJob.id}>`);
-        this.jobsId = newJob.id;
+        this.cronJobId = newJob.id;
         this.#skipUpdateJobCreation = true;
         await this.update();
     }
