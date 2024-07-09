@@ -88,13 +88,13 @@ export class HardwareScheduleRecord extends VingRecord {
             cronSpec += `${dayOfMonth} ${monthOfYear} *`;
         }
         const CronJobs = await useKind("CronJob");
-        const newJob = await CronJobs.create({});
-        newJob.schedule(cronSpec);
-        newJob.handler('CreateTicketFromSchedule');
-        newJob.params(JSON.stringify({ id: this.id }));
-        newJob.enabled(true);
-        newJob.note("Cron job for Hardware Schedule " + this.id);
-        newJob.insert();
+        const newJob = await CronJobs.create({
+            schedule: cronSpec,
+            handler: 'CreateTicketFromSchedule',
+            params: JSON.stringify({ id: this.id }),
+            enabled: true,
+            note: "Cron job for Hardware Schedule " + this.id,
+        });
         ving.log('Schedule').debug(`Schedule ${this.id} assigned jobId <${newJob.id}>`);
         this.cronJobId = newJob.id;
         this.#skipUpdateJobCreation = true;
