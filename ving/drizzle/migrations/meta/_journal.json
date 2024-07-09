@@ -15,6 +15,13 @@
       "when": 1720202876782,
       "tag": "0001_lonely_night_nurse",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1720463211217,
+      "tag": "0002_equal_runaways",
+      "breakpoints": true
     }
   ]
 }
