@@ -80,7 +80,7 @@ for (const log of maintenanceLogs) {
             eq(Tasks.table.description, log.event)
         )
     );
-    await Tickets.create({
+    const ticket = await Tickets.create({
         type: log.is_routine ? 'true' : 'false',
         hardwareItemId: item.id,
         hardwareTaskId: task.id,
@@ -88,6 +88,9 @@ for (const log of maintenanceLogs) {
         severity: 'working',
         submittedBy: log.who || 'TGC',
     });
+    //Broken
+    console.log(`Crowbar ticket dates ${log.date_updated} ${log.date_created}`);
+    await Tickets.update.set({ updatedAt: log.date_updated, createdAt: log.date_created }).where(eq(Tickets.table.id, ticket.id));
 }
 
 console.log("Done");
