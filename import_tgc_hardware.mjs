@@ -2,9 +2,8 @@
 import { useKind } from '#ving/record/utils.mjs';
 import { maintenanceItems } from './maintenanceItems.mjs';
 import { maintenanceSchedules } from './maintenanceSchedules.mjs';
+import { maintenanceLogs } from './maintenanceLogs.mjs';
 import { eq, and } from '#ving/drizzle/orm.mjs';
-//import { obliterate } from '#ving/jobs/queue.mjs';
-
 
 import ving from '#ving/index.mjs'
 
@@ -12,12 +11,13 @@ const Sets = await useKind('HardwareItemSet');
 const Items = await useKind('HardwareItem');
 const Tasks = await useKind('HardwareTask');
 const Schedules = await useKind('HardwareSchedule');
+const Tickets = await useKind('HardwareTicket');
 
 await Sets.deleteMany();
 await Items.deleteMany();
 await Tasks.deleteMany();
 await Schedules.deleteMany();
-//await obliterate('jobs');
+await Tickets.deleteMany();
 
 const seenSets = [];
 const itemLookup = [];
@@ -65,6 +65,28 @@ for (const schedule of maintenanceSchedules) {
         hardwareItemId: item.id,
         hardwareTaskId: task.id,
         description: schedule.note || '',
+    });
+}
+
+for (const log of maintenanceLogs) {
+    const item = itemLookup[log.equipment];
+    if (!item) {
+        continue;
+    }
+    const set = await item.parent('itemSet');
+    const task = await Tasks.findOne(
+        and(
+            eq(Tasks.table.hardwareItemSetId, item.hardwareItemSetId),
+            eq(Tasks.table.description, log.event)
+        )
+    );
+    await Tickets.create({
+        type: log.is_routine ? 'true' : 'false',
+        hardwareItemId: item.id,
+        hardwareTaskId: task.id,
+        status: 'resolved',
+        severity: 'working',
+        submittedBy: log.who || 'TGC',
     });
 }
 
