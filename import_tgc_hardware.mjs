@@ -81,9 +81,10 @@ for (const log of maintenanceLogs) {
         )
     );
     const ticket = await Tickets.create({
-        type: log.is_routine ? 'true' : 'false',
+        type: log.is_routine ? 'routine' : 'needs_help',
         hardwareItemId: item.id,
         hardwareTaskId: task.id,
+        description: log.note,
         status: log.who ? 'resolved' : 'pending',
         severity: 'working',
         submittedBy: log.who || 'TGC',
@@ -91,6 +92,7 @@ for (const log of maintenanceLogs) {
     const date_updated = new Date(Date.parse(log.date_updated));
     const date_created = new Date(Date.parse(log.date_created));
     await Tickets.update.set({ updatedAt: date_updated, createdAt: date_created }).where(eq(Tickets.table.id, ticket.id));
+
 }
 
 console.log("Done");

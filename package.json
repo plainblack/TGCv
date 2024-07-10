@@ -47,6 +47,7 @@
     "@keyv/redis": "^2.8.4",
     "@pinia/nuxt": "^0.4.11",
     "@primevue/themes": "^4.0.0-rc.1",
+    "@slack/web-api": "^7.3.1",
     "bcryptjs": "^2.4.3",
     "bullmq": "^5.3.0",
     "citty": "^0.1.5",
