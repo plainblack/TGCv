@@ -84,13 +84,13 @@ for (const log of maintenanceLogs) {
         type: log.is_routine ? 'true' : 'false',
         hardwareItemId: item.id,
         hardwareTaskId: task.id,
-        status: 'resolved',
+        status: log.who ? 'resolved' : 'pending',
         severity: 'working',
         submittedBy: log.who || 'TGC',
     });
-    //Broken
-    console.log(`Crowbar ticket dates ${log.date_updated} ${log.date_created}`);
-    await Tickets.update.set({ updatedAt: log.date_updated, createdAt: log.date_created }).where(eq(Tickets.table.id, ticket.id));
+    const date_updated = new Date(Date.parse(log.date_updated));
+    const date_created = new Date(Date.parse(log.date_created));
+    await Tickets.update.set({ updatedAt: date_updated, createdAt: date_created }).where(eq(Tickets.table.id, ticket.id));
 }
 
 console.log("Done");
