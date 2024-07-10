@@ -80,11 +80,14 @@ for (const log of maintenanceLogs) {
             eq(Tasks.table.description, log.event)
         )
     );
+    if (!task) {
+        continue;
+    }
     const ticket = await Tickets.create({
         type: log.is_routine ? 'routine' : 'needs_help',
         hardwareItemId: item.id,
         hardwareTaskId: task.id,
-        description: log.note,
+        description: log.note || '',
         status: log.who ? 'resolved' : 'pending',
         severity: 'working',
         submittedBy: log.who || 'TGC',
