@@ -126,7 +126,7 @@ const hardwaretickets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareticket`,
     createApi: `/api/${useRestVersion()}/hardwareticket`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: '', type: 'needs_help', status: 'unresolved' },
-    newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', hardwareTaskId: '', hardwareItemId: '' },
+    newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: 'Your name/initials', hardwareTaskId: '', hardwareItemId: '' },
     onCreate: (data) => { console.log(data); return navigateTo(`/hardwareticket/${data.props.id}`) },
 });
 const allhardwareitems = useVingKind({
