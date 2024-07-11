@@ -83,7 +83,7 @@ for (const log of maintenanceLogs) {
     if (!task) {
         continue;
     }
-    const ticket = await Tickets.create({
+    const ticket = Tickets.mint({
         type: log.is_routine ? 'routine' : 'needs_help',
         hardwareItemId: item.id,
         hardwareTaskId: task.id,
@@ -92,6 +92,8 @@ for (const log of maintenanceLogs) {
         severity: 'working',
         submittedBy: log.who || 'TGC',
     });
+    ticket.skipSlackPing = true;
+    await ticket.insert();
     const date_updated = new Date(Date.parse(log.date_updated));
     const date_created = new Date(Date.parse(log.date_created));
     await Tickets.update.set({ updatedAt: date_updated, createdAt: date_created }).where(eq(Tickets.table.id, ticket.id));

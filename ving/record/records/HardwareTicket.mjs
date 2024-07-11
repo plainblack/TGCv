@@ -1,6 +1,7 @@
 import { VingRecord, VingKind } from "#ving/record/VingRecord.mjs";
 import { sum } from '#ving/drizzle/orm.mjs';
 import ving from '#ving/index.mjs';
+import { WebClient } from '@slack/web-api';
 
 /** Management of individual HardwareTickets.
  * @class
@@ -24,13 +25,6 @@ export class HardwareTicketRecord extends VingRecord {
     async insert() {
         await super.insert();
         await this.refresh(); //Needed to get the projectNumber from the db.
-        if (this.get('status') == 'needs_help') {
-            this.sendSlackPing();
-        }
-    };
-
-    async update() {
-        await super.update();
         if (this.get('status') == 'needs_help') {
             this.sendSlackPing();
         }
@@ -60,8 +54,20 @@ export class HardwareTicketRecord extends VingRecord {
         await super.delete();
     }
 
+    skipSlackPing = false;
+
     async sendSlackPing() {
         //do a bunch of slack stuff
+        if (this.skipSlackPing) {
+            return;
+        }
+        const token = process.env.SLACK_TOKEN;
+        const channelId = process.env.SLACK_CHANNELID;
+        const web = new WebClient(token);
+        const result = await web.chat.postMessage({
+            text: `Added ticket ID: ${this.id}`,
+            channel: channelId,
+        });
     }
 
 }
