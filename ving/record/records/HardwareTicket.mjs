@@ -59,7 +59,6 @@ export class HardwareTicketRecord extends VingRecord {
     async sendSlackPing() {
         //do a bunch of slack stuff
         if (this.skipSlackPing) {
-            console.log("Skipping slack ping");
             return;
         }
         const token = process.env.SLACK_TOKEN;
@@ -70,8 +69,6 @@ export class HardwareTicketRecord extends VingRecord {
             text: `Added ticket ID: ${this.id} https://${sitename}/hardwareticket/${this.id}`,
             channel: channelId,
         });
-        console.log("Slack ping result");
-        console.log(result);
     }
 
 }
