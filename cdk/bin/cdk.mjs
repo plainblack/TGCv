@@ -32,6 +32,7 @@ new UploadStack(app, `${prefix}-UploadStack${suffix}`, {
 
 if (stage != 'dev') {
 
+  /*
   const network = new NetworkStack(app, `${prefix}-NetworkStack${suffix}`, {
     stage,
     constants,
@@ -39,8 +40,9 @@ if (stage != 'dev') {
     formatName: (name) => `${prefix}-${name}${suffix}`,
     env: { account: constants.stages[stage].account, region: constants.stages[stage].region },
   });
+  */
 
-  new DatabaseStack(app, `${prefix}-DatabaseStack${suffix}`, {
+  /*new DatabaseStack(app, `${prefix}-DatabaseStack${suffix}`, {
     vpc: network.vpc,
     stage,
     constants,
@@ -48,6 +50,7 @@ if (stage != 'dev') {
     formatName: (name) => `${prefix}-${name}${suffix}`,
     env: { account: constants.stages[stage].account, region: constants.stages[stage].region },
   });
+  */
   /*
     new WebStack(app, `${prefix}-WebStack${suffix}`, {
       vpc: network.vpc,
