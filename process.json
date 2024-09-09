@@ -1,7 +1,7 @@
 {
     "apps": [
         {
-            "name": "ving",
+            "name": "tgcv",
             "port": "3000",
             "exec_mode": "cluster",
             "instances": "max",
@@ -18,7 +18,7 @@
             "node_args": "--env-file=.env"
         },
         {
-            "name": "ving-worker",
+            "name": "tgcv-worker",
             "exec_mode": "fork",
             "instances": 2,
             "script": "./ving.mjs jobs -w"
