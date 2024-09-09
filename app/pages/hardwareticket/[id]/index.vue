@@ -38,7 +38,7 @@
 
                 <div><b>Updated At</b>: {{ formatDateTime(hardwareticket.props?.updatedAt) }}</div>
 
-                <HardwareFile v-for=" file  in  hardwarefiles.records " :key="file.props.id" :mFile="file" />
+                <HardwareTicketFile v-for=" file  in  hardwarefiles.records " :key="file.props.id" :mFile="file" />
                 <div class="mt-5 surface-card p-5 border-1 surface-border border-round">
                     <h2 class="mt-0">Add Comment</h2>
 
@@ -75,7 +75,7 @@
                     </Form>
                 </div>
 
-                <HardwareRemark v-for=" remark  in  hardwareremarks.records " :key="remark.props?.id"
+                <HardwareTicketRemark v-for=" remark  in  hardwareremarks.records " :key="remark.props?.id"
                     :remark="remark" />
 
                 <div class="mt-5 surface-card p-5 border-1 surface-border border-round">
@@ -121,10 +121,10 @@ const hardwareticket = useVingRecord({
 await hardwareticket.fetch();
 
 const hardwareremarks = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwareremark`,
-    createApi: `/api/${useRestVersion()}/hardwareremark`,
+    listApi: `/api/${useRestVersion()}/hardwareticketremark`,
+    createApi: `/api/${useRestVersion()}/hardwareticketremark`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', },
-    newDefaults: { description: '', resolution: 'n_a', resolutionMinutes: 0, submittedBy: '', hardwareTicketId: hardwareticket.props?.id },
+    newDefaults: { description: '', resolution: 'n_a', resolutionMinutes: 0, submittedBy: 'YOUR INITIALS', hardwareTicketId: hardwareticket.props?.id },
     async onCreate() {
         await hardwareticket.fetch();
     },
@@ -134,7 +134,7 @@ const hardwareremarks = useVingKind({
 });
 const hardwarefiles = useVingKind({
     listApi: `${hardwareticket.links.self.href}/files`,
-    createApi: `/api/${useRestVersion()}/hardwarefile`,
+    createApi: `/api/${useRestVersion()}/hardwareticketfile`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['s3file'], },
     newDefaults: { s3FileId: '', hardwareTicketId: hardwareticket.props?.id },
 });

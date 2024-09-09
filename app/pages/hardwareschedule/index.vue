@@ -8,15 +8,15 @@
         <template #content>
             <PanelZone title="Current Schedules">
 
-                <div class="grid">
-                    <div class="col">
+                <div class="grid grid-cols-2">
+                    <div>
                         <FormInput type="select" :options="allhardwareitems.recordsAsOptions('props', 'name')"
                             placeholder="All Equipment" name="hardwareItemIdFilter"
                             v-model="hardwareschedules.query.hardwareItemId" @change="hardwareschedules.search()">
 
                         </FormInput>
                     </div>
-                    <div class="col">
+                    <div>
                         <FormInput type="select" :options="allhardwaretasks.recordsAsOptions('props', 'description')"
                             placeholder="All Tasks" name="hardwareTaskIdFilter"
                             v-model="hardwareschedules.query.hardwareTaskId" @change="hardwareschedules.search()">
@@ -135,7 +135,7 @@ await Promise.all([
 onBeforeRouteLeave(() => {
     hardwareschedules.dispose();
     allhardwareitems.dispose();
-    allhardwaretasks.dispose();
+    /*allhardwaretasks.dispose();*/
 });
 
 </script>

@@ -6,32 +6,32 @@
         </template>
         <template #content>
             <PanelZone title="Tickets">
-                <div class="grid">
+                <div class="grid md:grid-cols-5 gap-1 sm:grid-cols-2">
                     <div class="col">
                         <FormInput type="select" :options="hardwaretickets.propsOptions?.type" name="typeFilter"
                             v-model="hardwaretickets.query.type" placeholder="All Types"
                             @change="hardwaretickets.search()">
                         </FormInput>
                     </div>
-                    <div class="col">
+                    <div>
                         <FormInput type="select" :options="allhardwareitems.recordsAsOptions('props', 'name')"
                             name="hardwareItemIdFilter" placeholder="All Equipment"
                             v-model="hardwaretickets.query.hardwareItemId" @change="hardwaretickets.search()">
                         </FormInput>
                     </div>
-                    <div class="col">
+                    <div>
                         <FormInput type="select" :options="allhardwaretasks.recordsAsOptions('props', 'description')"
                             name="hardwareTaskIdFilter" placeholder="All Tasks"
                             v-model="hardwaretickets.query.hardwareTaskId" @change="hardwaretickets.search()">
                         </FormInput>
                     </div>
-                    <div class="col">
+                    <div>
                         <FormInput type="select" :options="hardwaretickets.propsOptions?.status"
                             name="hardwareStatusFilter" placeholder="Open or Closed"
                             v-model="hardwaretickets.query.status" @change="hardwaretickets.search()">
                         </FormInput>
                     </div>
-                    <div class="col-6">
+                    <div>
                         <InputGroup>
                             <InputGroupAddon>
                                 <i class="pi pi-search" />
@@ -141,6 +141,7 @@ const allhardwaretasks = useVingKind({
 });
 const links = useHardwareLinks();
 
+
 await Promise.all([
     hardwaretickets.search(),
     hardwaretickets.fetchPropsOptions(),
@@ -149,8 +150,8 @@ await Promise.all([
 ]);
 
 onBeforeRouteLeave(() => {
+    /*allhardwaretasks.dispose();*/
     hardwaretickets.dispose();
     allhardwareitems.dispose();
-    allhardwaretasks.dispose();
 });
 </script>
