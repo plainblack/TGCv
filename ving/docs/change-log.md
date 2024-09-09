@@ -3,6 +3,40 @@ outline: deep
 ---
 # Change Log
 
+## September 2024
+
+### 2024-09-06
+* Added documentation for PM2.
+
+### 2024-09-01
+* Created process.json for PM2.
+
+## August 2024
+
+### 2024-08-28
+* Added a note about TLS for Redis to the environment variables documentation.
+
+### 2024-08-19
+* Started working on the web stack for CDK.
+* Updated the database stack to use the secrets manager for the database credentials.
+
+### 2024-08-09
+* Started replacing Pulumi with CDK.
+* Added a CDK stack for uploads.
+* NOTE: Pulumi will be removed in a near future release. Do a `pulumi down; pulumi destroy` to remove the stacks, and then follow the CDK instructions to create recreate the stacks. 
+* Added a CDK stack for the database and network.
+
+### 2024-08-07
+* Switched to using hooks to copy ving.json to the build directory.
+
+### 2024-08-05
+* Added redis to Pulumi prod.
+
+### 2024-08-02
+* Added Pulumi prod.
+* Pulumi prod creates a VPC.
+* Pulumi prod creates a database cluster.
+
 ## July 2024
 
 ### 2024-07-15
