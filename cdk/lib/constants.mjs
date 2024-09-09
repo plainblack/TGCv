@@ -1,5 +1,5 @@
 export default {
-    shortName: 'ving',
+    shortName: 'tgcv',
     uploadsBucketName: 'uploads',
     thumbnailsBucketName: 'thumbnails',
     stages: {
@@ -24,8 +24,8 @@ export default {
                 maxCapacity: 2,
                 backupRetention: 7, // days
             },
-            uploadsBucketNameOverride: 'uploads.somedomainthattotallyexists.com',
-            thumbnailsBucketNameOverride: 'thumbnails.somedomainthattotallyexists.com',
+            uploadsBucketNameOverride: 'tgcv-uploads.thegamecrafter.com',
+            thumbnailsBucketNameOverride: 'tgcv-thumbnails.thegamecrafter.com',
         },
     }
 };
