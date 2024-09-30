@@ -28,7 +28,7 @@
 
                     <Column field="props.hardwareItemId" header="Hardware Item" sortable>
                         <template #body="slotProps">
-                            {{ allhardwareitems.find(slotProps.data.props?.hardwareItemId)?.props?.name }}
+                            <NuxtLink :to="'/hardwareitem/'+allhardwareitems.find(slotProps.data.props?.hardwareItemId)?.props?.id">{{ allhardwareitems.find(slotProps.data.props?.hardwareItemId)?.props?.name }}</NuxtLink>
                         </template>
                     </Column>
                     <Column field="props.hardwareTaskId" header="Task" sortable>
