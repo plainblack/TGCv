@@ -3,7 +3,7 @@
         <Menubar id="topnav" :model="topNav" class="py-0">
             <template #start>
                 <img :src="config.public.site.logoUrl" :alt="`${config.public.site.name} logo`"
-                    :title="config.public.site.name" class="h-10 mr-0 lg:mr-3">
+                    :title="config.public.site.name" class="h-10 mr-0 lg:mr-3" :class="{'invert-logo':!isDark}">
             </template>
             <template #item="{ item, props, hasSubmenu, root }">
                 <a v-if="hasSubmenu" :target="item.target" v-bind="props.action"
@@ -22,12 +22,6 @@
             <template #end>
                 <div class="flex items-center gap-2">
                     <DarkModeSelector />
-                    <InputGroup>
-                        <InputGroupAddon>
-                            <Icon name="ion:search" />
-                        </InputGroupAddon>
-                        <InputText placeholder="Search (non-functional)" type="text" class="w-8rem sm:w-auto" />
-                    </InputGroup>
                     <SplitButton v-if="currentUser.props?.id" :model="userMenu" text>
                         <NuxtLink to="/user/settings" class="flex items-center">
                             <Avatar :image="currentUser.meta?.avatarUrl" alt="user avatar" shape="circle" />
@@ -71,7 +65,6 @@ onMounted(async () => {
 })
 const topNav = [
     { label: 'Home', to: '/', icon: 'prime:home' },
-    { label: 'Ving Documentation', to: 'https://plainblack.github.io/ving/', icon: "prime:book" },
     {
         label: 'Maintenance', icon: "wpf:maintenance", items: [
             { label: 'Tickets', to: '/hardwareticket', icon: 'lucide:list-todo' },
@@ -90,4 +83,12 @@ const userMenu = computed(() => {
     return out;
 })
 
+const isDark = useDark();
+
 </script>
+
+<style>
+.invert-logo {
+    filter: invert(100%);
+}
+</style>
