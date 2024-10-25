@@ -103,7 +103,7 @@
                                     v-model="hardwaretickets.new.severity" label="Severity" />
                             </div>
                             <div class="mb-4">
-                                <FormInput name="submittedBy" type="text" v-model="hardwaretickets.new.submittedBy"
+                                <FormInput name="submittedBy" type="text" v-model="hardwaretickets.new.submittedBy" placeholder="Your Initials"
                                     required label="Submitted By" />
                             </div>
                             <div>
@@ -128,7 +128,7 @@ const hardwaretickets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareticket`,
     createApi: `/api/${useRestVersion()}/hardwareticket`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: '', type: 'needs_help', status: 'unresolved' },
-    newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: 'Your name/initials', hardwareTaskId: '', hardwareItemId: '' },
+    newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', hardwareTaskId: '', hardwareItemId: '' },
     onCreate: (data) => { console.log(data); return navigateTo(`/hardwareticket/${data.props.id}`) },
 });
 const allhardwareitems = useVingKind({
