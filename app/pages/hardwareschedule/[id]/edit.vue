@@ -1,12 +1,11 @@
 <template>
     <Title>Edit Hardware Schedule</Title>
 
-    <PanelFrame section="Hardware" title="Edit Hardware Schedules">
+    <PanelFrame section="Hardware" title="Edit Hardware Schedule">
         <template #left>
             <PanelNav :links="links" />
         </template>
         <template #content>
-            <PanelZone title="Edit Schedule">
 
                 <FieldsetNav v-if="hardwareschedule.props">
                     <FieldsetItem name="Properties">
@@ -59,9 +58,10 @@
                             alt="Delete Hardware Schedule"><i class="pi pi-trash mr-1"></i> Delete</Button>
                     </FieldsetItem>
 
+                    <FieldsetItem name="Examples">
+                        <HardwareScheduleExamples />
+                    </FieldsetItem>
                 </FieldsetNav>
-                <HardwareScheduleExamples />
-            </PanelZone>
         </template>
     </PanelFrame>
 

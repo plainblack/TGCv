@@ -1,12 +1,11 @@
 <template>
     <Title>Edit Hardware Item</Title>
 
-    <PanelFrame section="Hardware" title="Hardware Item">
+    <PanelFrame section="Hardware" :title="hardwareitem.props.name">
         <template #left>
             <PanelNav :links="links" />
         </template>
         <template #content>
-            <PanelZone :title="hardwareitem.props.name">
 
                 <FieldsetNav v-if="hardwareitem.props">
                     <FieldsetItem name="Properties">
@@ -44,7 +43,6 @@
                     </FieldsetItem>
 
                 </FieldsetNav>
-            </PanelZone>
         </template>
     </PanelFrame>
 </template>
