@@ -5,7 +5,7 @@
             <PanelNav :links="links" />
         </template>
         <template #content>
-            <PanelZone title="Tickets">
+            <PanelZone title="Existing Tickets">
                 <div class="grid md:grid-cols-5 gap-1 sm:grid-cols-2">
                     <div class="col">
                         <FormInput type="select" :options="hardwaretickets.propsOptions?.type" name="typeFilter"
@@ -83,7 +83,7 @@
                 </DataTable>
                 <Pager :kind="hardwaretickets" />
             </PanelZone>
-            <PanelZone title="Create Hardware Ticket">
+            <PanelZone title="Create A Ticket">
                 <Form :send="() => hardwaretickets.create()">
                     <div class="flex gap-5 flex-column-reverse md:flex-row">
                         <div class="flex-auto">
@@ -104,7 +104,7 @@
                             </div>
                             <div class="mb-4">
                                 <FormInput name="submittedBy" type="text" v-model="hardwaretickets.new.submittedBy"
-                                    required label="Submitted By" />
+                                    required label="Submitted By" placeholder="Your name/initials" />
                             </div>
                             <div>
                                 <Button type="submit" class="w-auto" severity="success">
@@ -128,8 +128,8 @@ const hardwaretickets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareticket`,
     createApi: `/api/${useRestVersion()}/hardwareticket`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: '', type: 'needs_help', status: 'unresolved' },
-    newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: 'Your name/initials', hardwareTaskId: '', hardwareItemId: '' },
-    onCreate: (data) => { console.log(data); return navigateTo(`/hardwareticket/${data.props.id}`) },
+    newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', hardwareTaskId: '', hardwareItemId: '' },
+    onCreate: (data) => { return navigateTo(`/hardwareticket/${data.props.id}`) },
 });
 const allhardwareitems = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareitem`,
@@ -153,7 +153,7 @@ await Promise.all([
 
 onBeforeRouteLeave(() => {
     hardwaretickets.dispose();
-    allhardwaretasks.dispose();
+   // allhardwaretasks.dispose(); // throws an error after creating a new ticket if this is disposed
     allhardwareitems.dispose();
 });
 </script>
