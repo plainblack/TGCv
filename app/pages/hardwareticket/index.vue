@@ -103,8 +103,8 @@
                                     v-model="hardwaretickets.new.severity" label="Severity" />
                             </div>
                             <div class="mb-4">
-                                <FormInput name="submittedBy" type="text" v-model="hardwaretickets.new.submittedBy"
-                                    required label="Submitted By" placeholder="Your name/initials" />
+                                <FormInput name="submittedBy" type="text" v-model="hardwaretickets.new.submittedBy" placeholder="Your Initials"
+                                    required label="Submitted By" />
                             </div>
                             <div>
                                 <Button type="submit" class="w-auto" severity="success">
