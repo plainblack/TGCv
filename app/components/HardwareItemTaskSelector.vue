@@ -27,7 +27,8 @@ const hardwaretasks = useVingKind({
 const updateHardwareTasks = (async () => {
     const item = props.hardwareitems.records.find((item) => { return item.props.id == props.target.new.hardwareItemId });
     hardwaretasks.query.hardwareItemSetId = item.props.hardwareItemSetId;
-    await hardwaretasks.reset().all();
+    await hardwaretasks.dispose();
+    await hardwaretasks.all();
 });
 onBeforeRouteLeave(() => {
     hardwaretasks.dispose();
