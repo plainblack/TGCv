@@ -25,9 +25,6 @@
                         alt="Delete Hardware Ticket"><i class="pi pi-trash mr-1"></i> Delete</Button>
                 </div>
 
-            <PanelZone title="Files" v-if="hardwarefiles.records.length > 0">
-                <HardwareTicketFile v-for=" file  in  hardwarefiles.records " :key="file.props.id" :mFile="file" />
-            </PanelZone>
 
             <PanelZone v-if="showAddFiles" title="Add Files">
                 <client-only>
@@ -68,6 +65,10 @@
                         </div>
                     </div>
                 </Form>
+            </PanelZone>
+
+            <PanelZone title="Files" v-if="hardwarefiles.records.length > 0">
+                <HardwareTicketFile v-for=" file  in  hardwarefiles.records " :key="file.props.id" :mFile="file" />
             </PanelZone>
 
             <PanelZone title="Comments" v-if="hardwareremarks.records.length > 0">
