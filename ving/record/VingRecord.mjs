@@ -855,16 +855,23 @@ export class VingKind {
         where
     ) {
         const sortMethod = (params.sortOrder == 'desc') ? desc : asc;
-        let orderBy = [sortMethod(this.table.createdAt)];
+        let orderBy = [sortMethod(this.table.createdAt), sortMethod(this.table.id)];
         if (params.sortBy) {
             const cols = [];
+            let hasIdSortField = false;
             for (const field of params.sortBy) {
+                if (field == 'id') {
+                    hasIdSortField = true;
+                }
                 cols.push(sortMethod(this.table[field]));
+            }
+            if (!hasIdSortField) {
+                cols.push(sortMethod(this.table.id));
             }
             orderBy = cols;
         }
         const itemsPerPage = isUndefined(params?.itemsPerPage) || params?.itemsPerPage > 100 || params?.itemsPerPage < 1 ? 10 : params.itemsPerPage;
-        const page = params.page || 1;
+        const page = typeof params.page == 'undefined' || params.page < 1 ? 1 : params.page;
         const maxItems = params.maxItems || 100000000000;
         const itemsUpToThisPage = itemsPerPage * page;
         const fullPages = Math.floor(maxItems / itemsPerPage);

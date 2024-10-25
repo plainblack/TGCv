@@ -3,6 +3,28 @@ outline: deep
 ---
 # Change Log
 
+## October 2024
+
+### 2024-10-25
+ * Fix a bug in redis client where it wouldn't connect to the AWS valkey/redis cluster.
+
+### 2024-10-24
+ * Installed dotenv for environment variables.
+ * Updated the redis client to use dotenv to get the connection string.
+ * Updated the redis client to trap bad connection strings with an error message.
+ * Updated the drizzle client to use dotenv to get the connection string.
+ * Updated the drizzle client to trap bad connection strings with an error message.
+ * Fixed a potential bug where someone enters a negative page number into the paginator.
+ * Fixed a bug in the Pager component introduced with the upgrade to PrimeVue 4 where the default page was 0 rather than 1.
+ * Updated the redis client to allow for cluster. 
+ * Installed keyv-anyredis for cache instead of @keyv/redis.
+ * Updated cache to use which allows for cluster and allows us to reuse the existing redis client.
+ * NOTE: You will need to run `npm i` to get the new modules.
+
+### 2024-10-01
+ * Added colin's patch for mysql pagination.
+ * Disabled winston log rotation as it's not compatible with AWS Amplify.
+
 ## September 2024
 
 ### 2024-09-06
