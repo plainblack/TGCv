@@ -2,8 +2,8 @@
     <div>
         <Menubar id="topnav" :model="topNav" class="py-0">
             <template #start>
-                <img :src="config.public.site.logoUrl" :alt="`${config.public.site.name} logo`"
-                    :title="config.public.site.name" class="h-10 mr-0 lg:mr-3" :class="{'invert-logo':!isDark}">
+                <a href="https://www.thegamecrafter.com/"><img :src="config.public.site.logoUrl" :alt="`${config.public.site.name} logo`"
+                    :title="config.public.site.name" class="h-10 mr-0 lg:mr-3" :class="{'invert-logo':!isDark}"></a>
             </template>
             <template #item="{ item, props, hasSubmenu, root }">
                 <a v-if="hasSubmenu" :target="item.target" v-bind="props.action"
@@ -64,7 +64,7 @@ onMounted(async () => {
     useMessageBus();
 })
 const topNav = [
-    { label: 'Home', to: '/', icon: 'prime:home' },
+    { label: 'Admin Console', to: 'https://www.thegamecrafter.com/admin', icon: 'prime:home' },
     {
         label: 'Maintenance', icon: "wpf:maintenance", items: [
             { label: 'Tickets', to: '/hardwareticket', icon: 'lucide:list-todo' },
