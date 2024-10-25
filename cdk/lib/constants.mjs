@@ -7,7 +7,7 @@ export default {
             region: 'us-east-1',
             account: '041977924901',
             uploadsLambdaSettings: {
-                memorySize: 256, // megabytes
+                memorySize: 1024, // megabytes
                 timeout: 60, // seconds
             },
         },
@@ -15,7 +15,7 @@ export default {
             region: 'us-east-1',
             account: '041977924901',
             uploadsLambdaSettings: {
-                memorySize: 512, // megabytes
+                memorySize: 1024, // megabytes
                 timeout: 60, // seconds
             },
             auroraSettings: {
