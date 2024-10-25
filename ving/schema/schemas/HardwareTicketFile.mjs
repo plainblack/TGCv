@@ -11,9 +11,9 @@ export const hardwareTicketFileSchema = {
             name: 's3FileId', // the name of the remote record's id in this table
             required: true,
             default: undefined,
-            acceptedFileExtensions: ['png', 'jpeg', 'jpg', 'gif', 'pdf', 'tiff', 'svg', 'dxf', 'csv'],
             db: (prop) => dbRelation(prop),
             relation: {
+                acceptedFileExtensions: ['png', 'jpeg', 'jpg', 'gif', 'pdf', 'tiff', 'svg', 'dxf', 'csv'],
                 type: 'parent',
                 name: 's3file',
                 kind: 'S3File',
