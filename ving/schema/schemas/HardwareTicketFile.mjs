@@ -13,7 +13,7 @@ export const hardwareTicketFileSchema = {
             default: undefined,
             db: (prop) => dbRelation(prop),
             relation: {
-                acceptedFileExtensions: ['png', 'jpeg', 'jpg', 'gif', 'pdf', 'tiff', 'svg', 'dxf', 'csv'],
+                acceptedFileExtensions: ['png', 'jpeg', 'jpg', 'gif', 'pdf', 'tiff', 'svg', 'dxf', 'csv', 'zip'],
                 type: 'parent',
                 name: 's3file',
                 kind: 'S3File',
