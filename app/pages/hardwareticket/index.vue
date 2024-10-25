@@ -60,7 +60,9 @@
                     </Column>
                     <Column field="props.description" header="Description">
                         <template #body="slotProps">
-                            {{ slotProps.data.props.description.slice(0, 60) }}
+                            <NuxtLink :to="`/hardwareticket/${slotProps.data.props.id}`" v-ripple>
+                                {{ slotProps.data.props.description.slice(0, 60) }}
+                            </NuxtLink>
                         </template>
                     </Column>
                     <Column field="props.hardwareItemId" header="Hardware Item" sortable>
