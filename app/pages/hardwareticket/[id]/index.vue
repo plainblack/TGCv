@@ -32,7 +32,7 @@
 
                 <FieldsetItem v-if="showAddFiles" name="Add Files">
                     <client-only>
-                        <Dropzone :afterUpload="uploadHardwareFile" :acceptedFiles="['png', 'jpeg', 'jpg', 'gif', 'pdf', 'tiff', 'svg', 'dxf', 'csv', 'zip']">
+                        <Dropzone :afterUpload="uploadHardwareFile" :acceptedFiles="hardwarefiles.propsOptions?.s3file">
                         </Dropzone>
                     </client-only>
                 </FieldsetItem>
