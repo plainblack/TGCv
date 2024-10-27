@@ -54,7 +54,7 @@ const hardwaretask = useVingRecord({
     id,
     fetchApi: `/api/${useRestVersion()}/hardwaretask/${id}`,
     createApi: `/api/${useRestVersion()}/hardwaretask`,
-    query: { includeMeta: true, includeRelated: ['itemSet'], includeOptions: true, includeRelated: ['itemSet'] },
+    query: { includeMeta: true, includeRelated: ['itemSet'] },
     onUpdate() {
         notify.success('Updated Hardware Task.');
     },
