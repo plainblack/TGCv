@@ -153,7 +153,7 @@ await Promise.all([
 
 onBeforeRouteLeave(() => {
     hardwaretickets.dispose();
-   // allhardwaretasks.dispose(); // throws an error after creating a new ticket if this is disposed
+    allhardwaretasks.dispose(); // throws an error after creating a new ticket if this is disposed
     allhardwareitems.dispose();
 });
 </script>

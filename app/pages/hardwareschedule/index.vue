@@ -135,7 +135,7 @@ await Promise.all([
 onBeforeRouteLeave(() => {
     hardwareschedules.dispose();
     allhardwareitems.dispose();
-    /*allhardwaretasks.dispose();*/
+    allhardwaretasks.dispose();
 });
 
 </script>

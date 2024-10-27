@@ -18,11 +18,13 @@ const props = defineProps({
 });
 
 const hardwaretasks = useVingKind({
+    ego: 'hardwaretaskselectoredit',
     listApi: `/api/${useRestVersion()}/hardwaretask`,
     createApi: `/api/${useRestVersion()}/hardwaretask`,
     query: { sortBy: 'description' },
 });
 const hardwareitems = useVingKind({
+    ego: 'hardwaretaskselectoredititem',
     listApi: `/api/${useRestVersion()}/hardwareitem`,
     createApi: `/api/${useRestVersion()}/hardwareitem`,
     query: { sortBy: 'name' },

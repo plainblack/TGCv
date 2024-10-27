@@ -20,6 +20,7 @@ const props = defineProps({
 });
 
 const hardwaretasks = useVingKind({
+    ego: 'hardwaretaskselector',
     listApi: `/api/${useRestVersion()}/hardwaretask`,
     createApi: `/api/${useRestVersion()}/hardwaretask`,
     query: { sortBy: 'description' },

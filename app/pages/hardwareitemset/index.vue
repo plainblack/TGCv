@@ -89,5 +89,5 @@ await Promise.all([
     hardwareitemsets.search(),
     hardwareitemsets.fetchPropsOptions(),
 ]);
-//onBeforeRouteLeave(() => hardwareitemsets.dispose());
+onBeforeRouteLeave(() => hardwareitemsets.dispose());
 </script>
