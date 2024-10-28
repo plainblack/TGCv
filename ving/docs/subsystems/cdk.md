@@ -12,6 +12,14 @@ Follow the [CDK install instructions](https://docs.aws.amazon.com/cdk/v2/guide/g
 ### Setup AWS Credentials
 If you have not already set up an [AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) file in `~/.aws/credentials` then you'll want to do that now as pulumi will use that to log in to AWS.
 
+### Install CDK Libraries
+You'll need to install the CDK libraries.
+
+```bash
+cd cdk
+npm i
+```
+
 ### Edit CDK Constants
 In the `cdk/lib/constants.mjs` file you'll need to make the following changes:
 
@@ -78,7 +86,7 @@ Stacks are divisions of AWS resources in CDK. We divide them into areas of respo
 
 You can create your own stacks as well by following the instructions in the [CDK documentation](https://docs.aws.amazon.com/cdk/v2/guide/stacks.html#stacks).
 
-### Special Needs of the Databsae Stack
+### Special Needs of the Database Stack
 First, by default it will create a database with the root user of `root` and no password. You'll need to set the password in the AWS console. You can do this by going to the RDS console, clicking on the cluster, and then clicking on the "Modify" button. Then you can change the password.
 
 Second, you may also want to change the minimum and maximum capacity units of the Aurora cluster. You can do this in the `cdk/lib/constants.mjs` file.
