@@ -55,7 +55,7 @@
                                 </div>
                                 <div class="mb-4">
                                     <FormInput name="submittedBy" type="text" v-model="hardwareremarks.new.submittedBy"
-                                        required label="Submitted By" />
+                                        placeholder="Your initials" required label="Submitted By" />
                                 </div>
                                 <div class="mb-4">
                                     <FormInput name="resolutionMinutes" type="number" append="minutes"
@@ -140,7 +140,7 @@ const hardwareremarks = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareticketremark`,
     createApi: `/api/${useRestVersion()}/hardwareticketremark`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', },
-    newDefaults: { description: '', resolution: 'n_a', resolutionMinutes: 0, submittedBy: 'YOUR INITIALS', hardwareTicketId: hardwareticket.props?.id },
+    newDefaults: { description: '', resolution: 'n_a', resolutionMinutes: 0, submittedBy: '', hardwareTicketId: hardwareticket.props?.id },
     async onCreate() {
         showAddComment.value = false;
         await hardwareticket.fetch();
