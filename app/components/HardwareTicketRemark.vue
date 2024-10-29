@@ -1,34 +1,16 @@
 <template>
     <client-only>
         <Panel class="mt-3" toggleable>
-            <template #header>
-                <div class="flex align-items-center gap-2">
-                    <span class="font-bold">{{ remark.props?.submittedBy }}</span>
-                </div>
-            </template>
             <template #footer>
-                <div class="flex flex-wrap align-items-center justify-content-between gap-3">
-                    <div class="flex align-items-center gap-2">
-                        <Button icon="pi pi-user" rounded text>Maybe Quote Later</Button>
-                    </div>
-                    <div v-if="remark.props?.resolutionMinutes">
-                        Time spent: {{ remark.props?.resolutionMinutes }} minutes
-                    </div>
-                    <span class="p-text-secondary">{{ formatTimeAgo(remark.props?.updatedAt) }}</span>
-                </div>
+                <Avatar size="large" :label="remark.props.submittedBy" class="overflow-hidden mr-4" />
+                <span v-if="remark.props?.resolutionMinutes" class="mr-4">
+                    Time spent: {{ remark.props?.resolutionMinutes }} minutes
+                </span>
+                <span class="p-text-secondary">Updated: {{ formatTimeAgo(remark.props?.updatedAt) }}</span>
             </template>
             <template #icons>
-                <button class="p-panel-header-icon p-link mr-2" @click="toggle">
-                    <span class="pi pi-cog"></span>
-                </button>
-                <Menu ref="menu" id="config_menu" :model="items" popup>
-                    <template #item="{ item, props }">
-                        <a v-ripple class="flex align-items-center mb-2" @click="item.action">
-                            <span :class="item.icon" />
-                            <span class="ml-2">{{ item.label }}</span>
-                        </a>
-                    </template>
-                </Menu>
+                <Button class="pi pi-cog" @click="toggle" rounded text severity="secondary" />
+                <Menu ref="menu" id="config_menu" :model="items" popup />                
             </template>
             <div class="m-0" v-if="!editable">
                 <MarkdownView :text="remark.props?.description" />
