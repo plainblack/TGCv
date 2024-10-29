@@ -27,7 +27,7 @@
                             <FormInput name="days" type="number" v-model="hardwareschedule.props.days" label="Days"
                                 @change="hardwareschedule.save('days')" />
                         </div>
-                        <HardwareItemTaskSelectorEdit :target="hardwareschedule" />
+                        <HardwareItemTaskSelectorEdit :target="hardwareschedule" :taskFilter="{ status : '!=backup', }"/>
                         <div class="mb-4">
                             <FormInput name="description" type="markdown" v-model="hardwareschedule.props.description"
                                 required label="Description" @change="hardwareschedule.save('description')" />

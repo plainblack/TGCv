@@ -7,14 +7,15 @@
     </div>
     <div class="mb-4">
         <FormInput type="select" :options="hardwaretasks.recordsAsOptions('props', 'description')" name="hardwareTaskId"
-            v-model="target.props.hardwareTaskId" label="Hardware Task" @change="target.update()">
+        placeholder="Choose Task" v-model="target.props.hardwareTaskId" label="Hardware Task" @change="target.update()">
         </FormInput>
     </div>
 </template>
 
 <script setup>
 const props = defineProps({
-    target: Object,
+    target: { required : true },
+    taskFilter: { required : true },
 });
 
 const hardwaretasks = useVingKind({
@@ -27,7 +28,7 @@ const hardwareitems = useVingKind({
     ego: 'hardwaretaskselectoredititem',
     listApi: `/api/${useRestVersion()}/hardwareitem`,
     createApi: `/api/${useRestVersion()}/hardwareitem`,
-    query: { sortBy: 'name' },
+    query: { sortBy: 'name', ...props.taskFilter,  },
 });
 await Promise.all([
     hardwareitems.all(),

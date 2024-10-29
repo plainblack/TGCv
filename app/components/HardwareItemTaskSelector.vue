@@ -15,8 +15,8 @@
 
 <script setup>
 const props = defineProps({
-    hardwareitems: Object,
-    target: Object,
+    hardwareitems: { required : true },
+    target: { required : true },
 });
 
 const hardwaretasks = useVingKind({

@@ -116,7 +116,7 @@ const hardwareschedules = useVingKind({
 const allhardwareitems = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareitem`,
     createApi: `/api/${useRestVersion()}/hardwareitem`,
-    query: { sortBy: 'name' },
+    query: { sortBy: 'name', 'status' : '!=backup', },
 });
 
 const allhardwaretasks = useVingKind({
