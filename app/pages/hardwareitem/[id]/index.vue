@@ -58,7 +58,7 @@ const hardwareitem = useVingRecord({
     id,
     fetchApi: `/api/${useRestVersion()}/hardwareitem/${id}`,
     createApi: `/api/${useRestVersion()}/hardwareitem`,
-    query: { includeMeta: true, includeRelated: ['itemSet'] },
+    query: { includeMeta: true, includeOptions: true, includeRelated: ['itemSet'] },
     onUpdate() {
         notify.success('Updated Hardware Item.');
     },
