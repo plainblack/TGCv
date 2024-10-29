@@ -1,0 +1,1 @@
+ALTER TABLE `hardwareitems` MODIFY COLUMN `status` enum('in_use','retired','backup') NOT NULL DEFAULT 'in_use';

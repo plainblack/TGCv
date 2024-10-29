@@ -8,7 +8,7 @@ export const HardwareItemTable = mysqlTable('hardwareitems',
 		createdAt: timestamp('createdAt').defaultNow().notNull(),
 		updatedAt: timestamp('updatedAt').defaultNow().notNull().onUpdateNow(),
 		name: varchar('name', { length: 60 }).notNull().default(''),
-		status: mysqlEnum('status', ['in_use','retired']).notNull().default('in_use'),
+		status: mysqlEnum('status', ['in_use','retired','backup']).notNull().default('in_use'),
 		hardwareItemSetId: bigint('hardwareItemSetId', {mode:'number', unsigned: true}).notNull()
     }, 
     (table) => ({
