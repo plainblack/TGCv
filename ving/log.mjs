@@ -1,5 +1,5 @@
 import { createLogger, format, transports } from 'winston';
-//import DailyRotateFile from 'winston-daily-rotate-file';
+import DailyRotateFile from 'winston-daily-rotate-file';
 
 /**
  * Creates a `winston` logger and returns it
@@ -8,7 +8,7 @@ import { createLogger, format, transports } from 'winston';
 export const mainlog = createLogger({
     level: 'debug',
     format: format.combine(format.timestamp(), format.json()),
-    /* transports: [
+    transports: [
          new DailyRotateFile({
              dirname: './logs',
              filename: 'ving-%DATE%.log',
@@ -17,7 +17,7 @@ export const mainlog = createLogger({
              maxSize: '20m',
              maxFiles: '14d'
          })
-     ],*/
+     ],
 });
 
 /**
