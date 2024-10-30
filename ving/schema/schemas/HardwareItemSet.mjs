@@ -15,7 +15,7 @@ export const hardwareItemSetSchema = {
             default: '',
             db: (prop) => dbString(prop),
             zod: (prop) => zodString(prop),
-            view: ['public'],
+            view: ['owner'],
             edit: ['owner'],
         },
         {
@@ -27,7 +27,7 @@ export const hardwareItemSetSchema = {
             default: 0,
             db: (prop) => dbInt(prop),
             zod: (prop) => zodNumber(prop),
-            view: ['public'],
+            view: ['owner'],
             edit: [],
         },
         {
@@ -39,7 +39,7 @@ export const hardwareItemSetSchema = {
             default: 0,
             db: (prop) => dbInt(prop),
             zod: (prop) => zodNumber(prop),
-            view: ['public'],
+            view: ['owner'],
             edit: [],
         },
         {
@@ -50,7 +50,7 @@ export const hardwareItemSetSchema = {
             db: (prop) => dbEnum(prop),
             enums: ['in_use', 'retired'],
             enumLabels: ['In use', 'Retired'],
-            view: ['public'],
+            view: ['owner'],
             edit: ['owner'],
         },
         {
@@ -58,7 +58,7 @@ export const hardwareItemSetSchema = {
             name: 'hardwareItemSetId',
             required: false,
             default: undefined,
-            view: ['public'],
+            view: ['owner'],
             edit: [],
             relation: {
                 type: 'child',
@@ -71,7 +71,7 @@ export const hardwareItemSetSchema = {
             name: 'hardwareItemSetId',
             required: true,
             default: undefined,
-            view: ['public'],
+            view: ['owner'],
             edit: [],
             relation: {
                 type: 'child',
