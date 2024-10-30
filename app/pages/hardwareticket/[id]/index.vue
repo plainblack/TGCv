@@ -117,7 +117,7 @@
 
 <script setup>
 definePageMeta({
-    middleware: ['auth']
+    middleware: ['auth', 'maintenance-production-manager']
 });
 const route = useRoute();
 const id = route.params.id.toString();

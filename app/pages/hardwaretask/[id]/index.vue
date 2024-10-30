@@ -45,7 +45,7 @@
 import PanelFrame from '~/components/ving/PanelFrame.vue';
 
 definePageMeta({
-    middleware: ['auth']
+    middleware: ['auth', 'maintenance-manager']
 });
 const route = useRoute();
 const notify = useNotify();

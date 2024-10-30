@@ -122,7 +122,7 @@
 
 <script setup>
 definePageMeta({
-    middleware: ['auth']
+    middleware: ['auth', 'maintenance-production-manager', 'all-workaround']
 });
 const hardwaretickets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareticket`,
@@ -143,9 +143,9 @@ const allhardwaretasks = useVingKind({
 });
 const links = useHardwareLinks();
 
+await  hardwaretickets.search();
 
 await Promise.all([
-    hardwaretickets.search(),
     hardwaretickets.fetchPropsOptions(),
     allhardwareitems.all(),
     allhardwaretasks.all(),

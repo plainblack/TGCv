@@ -105,7 +105,7 @@
 
 <script setup>
 definePageMeta({
-    middleware: ['auth']
+    middleware: ['auth', 'maintenance-manager']
 });
 const hardwareschedules = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareschedule`,

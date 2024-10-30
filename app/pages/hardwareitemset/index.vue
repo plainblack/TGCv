@@ -75,7 +75,7 @@
 
 <script setup>
 definePageMeta({
-    middleware: ['auth']
+    middleware: ['auth', 'maintenance-production-manager']
 });
 const hardwareitemsets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareitemset`,

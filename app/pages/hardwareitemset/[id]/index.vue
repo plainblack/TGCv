@@ -160,7 +160,7 @@
 
 <script setup>
 definePageMeta({
-    middleware: ['auth']
+    middleware: ['auth', 'maintenance-manager']
 });
 const route = useRoute();
 const notify = useNotify();
