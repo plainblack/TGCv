@@ -17,8 +17,6 @@
  * const response = await useRest('/api/v1/user/xxx')
  */
 export default async function (url, behavior = {}) {
-    console.log("URL : " + url);
-    console.log("Behavior: " + JSON.stringify(behavior));
     const notify = useNotify();
     const throbber = useThrobber();
     let error = null
