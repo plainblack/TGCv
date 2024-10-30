@@ -68,7 +68,7 @@ const hardwareitem = useVingRecord({
 });
 
 
-await hardwareitem.fetch();
 const links = useHardwareLinks();
+await hardwareitem.fetch();
 onBeforeRouteLeave(() => hardwareitem.dispose());
 </script>

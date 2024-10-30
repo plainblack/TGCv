@@ -181,19 +181,19 @@ await hardwareitemset.fetch()
 
 const links = useHardwareLinks();
 const hardwareitems = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwareitem`,
+    listApi: hardwareitemset.links.items.href,
     createApi: `/api/${useRestVersion()}/hardwareitem`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareItemSetId: hardwareitemset.props.id },
-    newDefaults: { name: '', status: 'in_use', hardwareItemSetId: hardwareitemset.props.id },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc',},
+    newDefaults: { name: '', status: 'in_use', hardwareItemSetId: hardwareitemset.props?.id },
 });
 await Promise.all([
     hardwareitems.search(),
     hardwareitems.fetchPropsOptions(),
 ]);
 const hardwaretasks = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwaretask`,
+    listApi: hardwareitemset.links.tasks.href,
     createApi: `/api/${useRestVersion()}/hardwaretask`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareItemSetId: hardwareitemset.props.id },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', },
     newDefaults: { description: '', hardwareItemSetId: hardwareitemset.props.id },
 });
 await Promise.all([
