@@ -72,7 +72,7 @@
 
 <script setup>
 definePageMeta({
-    middleware: ['auth', 'maintenance-production-manager']
+    middleware: ['auth', 'maintenance-production-manager', 'all-workaround']
 });
 const route = useRoute();
 const notify = useNotify();
