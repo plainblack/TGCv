@@ -137,9 +137,9 @@ const hardwareticket = useVingRecord({
 await hardwareticket.fetch();
 
 const hardwareremarks = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwareticketremark`,
+    listApi: hardwareticket.links.remarks.href,
     createApi: `/api/${useRestVersion()}/hardwareticketremark`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', },
+    query: { includeMeta: true, includeOptions: true, sortBy: 'createdAt', sortOrder: 'desc', },
     newDefaults: { description: '', resolution: 'n_a', resolutionMinutes: 0, submittedBy: '', hardwareTicketId: hardwareticket.props?.id },
     async onCreate() {
         showAddComment.value = false;
@@ -150,9 +150,9 @@ const hardwareremarks = useVingKind({
     }
 });
 const hardwarefiles = useVingKind({
-    listApi: `${hardwareticket.links.self.href}/files`,
+    listApi: hardwareticket.links.files.href,
     createApi: `/api/${useRestVersion()}/hardwareticketfile`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['s3file'], },
+    query: { includeMeta: true, includeOptions: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['s3file'], },
     newDefaults: { s3FileId: '', hardwareTicketId: hardwareticket.props?.id },
     async onCreate() {
         showAddFiles.value = false;
