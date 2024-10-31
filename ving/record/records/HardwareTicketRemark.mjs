@@ -28,7 +28,6 @@ export class HardwareTicketRemarkRecord extends VingRecord {
     set(key, value) {
         const out = super.set(key, value);
         if (key == 'resolution' && value == 'resolved') {
-            console.log("Update parent ticket");
             this.#markParentResolved = true;
         }
         return out;
@@ -38,7 +37,6 @@ export class HardwareTicketRemarkRecord extends VingRecord {
         const ticket = await this.parent('ticket');
         if (this.#markParentResolved) {
             ticket.status = 'resolved';
-            console.log("Ticket id: " + ticket.get('id'));
             await ticket.update();
             this.#markParentResolved = false;
         }
