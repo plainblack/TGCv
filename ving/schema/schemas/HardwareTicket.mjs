@@ -14,7 +14,7 @@ export const hardwareTicketSchema = {
             default: '',
             db: (prop) => dbMediumText(prop),
             zod: (prop) => zodMediumText(prop),
-            view: [],
+            view: ['owner'],
             edit: ['owner'],
         },
         {
@@ -26,7 +26,7 @@ export const hardwareTicketSchema = {
             db: (prop) => dbEnum(prop),
             enums: ['routine', 'needs_help'],
             enumLabels: ['Routine', 'Needs Help'],
-            view: [],
+            view: ['owner'],
             edit: ['owner'],
         },
         {
@@ -38,7 +38,7 @@ export const hardwareTicketSchema = {
             db: (prop) => dbEnum(prop),
             enums: ['working', 'intermittent', 'down'],
             enumLabels: ['Working', 'Intermittent', 'Down'],
-            view: [],
+            view: ['owner'],
             edit: ['owner'],
         },
         {
@@ -50,7 +50,7 @@ export const hardwareTicketSchema = {
             db: (prop) => dbEnum(prop),
             enums: ['resolved', 'unresolved'],
             enumLabels: ['Resolved', 'Unresolved'],
-            view: [],
+            view: ['owner'],
             edit: ['owner'],
         },
         {
@@ -60,8 +60,8 @@ export const hardwareTicketSchema = {
             default: 0,
             db: (prop) => dbInt(prop),
             zod: (prop) => zodNumber(prop).positive(),
-            view: ['public'],
-            edit: [],
+            view: ['owner'],
+            edit: ['owner'],
         },
         {
             type: "string",
@@ -72,7 +72,7 @@ export const hardwareTicketSchema = {
             length: 64,
             db: (prop) => dbString(prop),
             zod: (prop) => zodString(prop),
-            view: ['public'],
+            view: ['owner'],
             edit: ['owner'],
         },
 
@@ -81,7 +81,7 @@ export const hardwareTicketSchema = {
             type: "virtual",
             name: 'hardwareTicketId', // the name of this record's id in the remote table
             required: false,
-            view: ['public'],
+            view: ['owner'],
             edit: [],
             default: undefined,
             relation: {
@@ -94,7 +94,7 @@ export const hardwareTicketSchema = {
             type: "virtual",
             name: 'hardwareTicketId', // the name of this record's id in the remote table
             required: false,
-            view: ['public'],
+            view: ['owner'],
             edit: [],
             default: undefined,
             relation: {
@@ -115,7 +115,7 @@ export const hardwareTicketSchema = {
                 kind: 'HardwareTask',
             },
             default: undefined,
-            view: ['public'],
+            view: ['owner'],
             edit: ['owner'],
         },
         {
@@ -130,7 +130,7 @@ export const hardwareTicketSchema = {
                 kind: 'HardwareItem',
             },
             default: undefined,
-            view: ['public'],
+            view: ['owner'],
             edit: ['owner'],
         },
     ],
