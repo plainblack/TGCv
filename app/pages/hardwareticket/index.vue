@@ -112,10 +112,6 @@
                                 :options="hardwaretickets.propsOptions?.status"
                                     required label="Status" />
                             </div>
-                            <div class="mb-4" v-if="hardwaretickets.new.status == 'resolved'">
-                                    <FormInput name="resolutionMinutes" type="number" append="minutes"
-                                        v-model="hardwaretickets.new.resolutionMinutes" label="Time Spent" />
-                                </div>
                             <div>
                                 <Button type="submit" class="w-auto" severity="success">
                                     <i class="pi pi-plus mr-1"></i> Create Hardware Ticket
@@ -137,7 +133,7 @@ const hardwaretickets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareticket`,
     createApi: `/api/${useRestVersion()}/hardwareticket`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: '', type: 'needs_help', status: 'unresolved' },
-    newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', resolutionMinutes : 0, submittedBy: '', hardwareTaskId: '', hardwareItemId: '' },
+    newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', hardwareTaskId: '', hardwareItemId: '' },
     onCreate: (data) => { return navigateTo(`/hardwareticket/${data.props.id}`) },
 });
 const allhardwareitems = useVingKind({
