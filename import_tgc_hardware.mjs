@@ -88,7 +88,7 @@ for (const log of maintenanceLogs) {
         hardwareItemId: item.id,
         hardwareTaskId: task.id,
         description: log.note || '',
-        status: log.who ? 'resolved' : 'pending',
+        status: 'resolved',
         severity: 'working',
         submittedBy: log.who || 'TGC',
     });
