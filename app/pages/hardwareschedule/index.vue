@@ -28,7 +28,7 @@
 
                     <Column field="props.hardwareItemId" header="Hardware Item" sortable>
                         <template #body="slotProps">
-                            <NuxtLink :to="'/hardwareitem/'+allhardwareitems.find(slotProps.data.props?.hardwareItemId)?.props?.id">{{ allhardwareitems.find(slotProps.data.props?.hardwareItemId)?.props?.name }}</NuxtLink>
+                            <NuxtLinkRecord :kind="allhardwareitems" :recordId="hardwareItemId"></NuxtLinkRecord>
                         </template>
                     </Column>
                     <Column field="props.hardwareTaskId" header="Task" sortable>
@@ -116,7 +116,7 @@ const hardwareschedules = useVingKind({
 const allhardwareitems = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareitem`,
     createApi: `/api/${useRestVersion()}/hardwareitem`,
-    query: { sortBy: 'name', 'status' : '!=backup', },
+    query: { sortBy: 'name', 'status': '!=backup', },
 });
 
 const allhardwaretasks = useVingKind({
