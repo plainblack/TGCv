@@ -20,12 +20,6 @@
                         </FormInput>
                     </div>
                     <div>
-                        <FormInput type="select" :options="allhardwaretasks.recordsAsOptions('props', 'description')"
-                            name="hardwareTaskIdFilter" placeholder="All Tasks"
-                            v-model="hardwaretickets.query.hardwareTaskId" @change="hardwaretickets.search()">
-                        </FormInput>
-                    </div>
-                    <div>
                         <FormInput type="select" :options="hardwaretickets.propsOptions?.status"
                             name="hardwareStatusFilter" placeholder="Open or Closed"
                             v-model="hardwaretickets.query.status" @change="hardwaretickets.search()">
@@ -34,11 +28,10 @@
                     <div>
                         <InputGroup>
                             <InputGroupAddon>
-                                <i class="pi pi-search" />
+                                <i class="mdi:pound">#</i>
                             </InputGroupAddon>
-                            <InputText type="text" placeholder="Hardware Tickets" class="w-full"
-                                v-model="hardwaretickets.query.search" @keydown.enter="hardwaretickets.search()" />
-                            <Button label="Search" @click="hardwaretickets.search()" />
+                            <InputText type="text" placeholder="Ticket #" class="w-full" v-model="ticketNumber" />
+                            <Button label="Search" @click="findTicket" />
                         </InputGroup>
                     </div>
                 </div>
@@ -103,14 +96,12 @@
                                     v-model="hardwaretickets.new.severity" label="Severity" />
                             </div>
                             <div class="mb-4">
-                                <FormInput name="submittedBy" type="text" v-model="hardwaretickets.new.submittedBy" placeholder="Your Initials"
-                                    required label="Submitted By" />
+                                <FormInput name="submittedBy" type="text" v-model="hardwaretickets.new.submittedBy"
+                                    placeholder="Your Initials" required label="Submitted By" />
                             </div>
                             <div class="mb-4">
-                                <FormInput name="status" type="select"
-                                v-model="hardwaretickets.new.status"
-                                :options="hardwaretickets.propsOptions?.status"
-                                    required label="Status" />
+                                <FormInput name="status" type="select" v-model="hardwaretickets.new.status"
+                                    :options="hardwaretickets.propsOptions?.status" required label="Status" />
                             </div>
                             <div>
                                 <Button type="submit" class="w-auto" severity="success">
@@ -133,7 +124,7 @@ const hardwaretickets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareticket`,
     createApi: `/api/${useRestVersion()}/hardwareticket`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: '', type: 'needs_help', status: 'unresolved' },
-    newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', hardwareTaskId: '', hardwareItemId: '' },
+    newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', hardwareTaskId: '', hardwareItemId: '', id: '' },
     onCreate: (data) => { return navigateTo(`/hardwareticket/${data.props.id}`) },
 });
 const allhardwareitems = useVingKind({
@@ -148,7 +139,7 @@ const allhardwaretasks = useVingKind({
 });
 const links = useHardwareLinks();
 
-await  hardwaretickets.search();
+await hardwaretickets.search();
 
 await Promise.all([
     hardwaretickets.fetchPropsOptions(),
@@ -161,4 +152,14 @@ onBeforeRouteLeave(() => {
     allhardwaretasks.dispose(); // throws an error after creating a new ticket if this is disposed
     allhardwareitems.dispose();
 });
+
+const ticketNumber = ref('');
+
+async function findTicket() {
+    const hardwareticket = useVingRecord({
+        fetchApi: `/api/${useRestVersion()}/hardwareticket/lookupticket?ticketNumber=${ticketNumber.value}`,
+    });
+    await hardwareticket.fetch();
+    await navigateTo(`/hardwareticket/${hardwareticket.props.id}`);
+}
 </script>
