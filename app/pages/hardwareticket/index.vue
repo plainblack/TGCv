@@ -26,6 +26,16 @@
                         </FormInput>
                     </div>
                     <div>
+                        <InputGroup>
+                            <InputGroupAddon>
+                                <i class="pi pi-search" />
+                            </InputGroupAddon>
+                            <InputText type="text" placeholder="Ticket Description" class="w-full"
+                                v-model="hardwaretickets.query.search" @keydown.enter="hardwaretickets.search()" />
+                            <Button label="Search" @click="hardwaretickets.search()" />
+                        </InputGroup>
+                    </div>
+                    <div>
                         <JumpToTicket />
                     </div>
                 </div>
@@ -117,7 +127,7 @@ definePageMeta({
 const hardwaretickets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareticket`,
     createApi: `/api/${useRestVersion()}/hardwareticket`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: '', type: 'needs_help', status: 'unresolved' },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: '', type: 'needs_help', status: 'unresolved', description: '' },
     newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', hardwareTaskId: '', hardwareItemId: '', id: '' },
     onCreate: (data) => { return navigateTo(`/hardwareticket/${data.props.id}`) },
 });

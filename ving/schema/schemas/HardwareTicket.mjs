@@ -10,6 +10,7 @@ export const hardwareTicketSchema = {
             type: "string",
             name: "description",
             required: true,
+            filterQuery: true,
             length: 16777215,
             default: '',
             db: (prop) => dbMediumText(prop),
