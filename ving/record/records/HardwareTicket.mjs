@@ -2,6 +2,8 @@ import { VingRecord, VingKind } from "#ving/record/VingRecord.mjs";
 import { sum } from '#ving/drizzle/orm.mjs';
 import ving from '#ving/index.mjs';
 import { WebClient } from '@slack/web-api';
+import { stringifyId } from '#ving/utils/int2str.mjs';
+
 
 /** Management of individual HardwareTickets.
  * @class
@@ -65,8 +67,9 @@ export class HardwareTicketRecord extends VingRecord {
         const channelId = process.env.SLACK_CHANNELID;
         const sitename = process.env.VING_SITE_URL;
         const web = new WebClient(token);
+        const stringyId = stringifyId(this.id);
         const result = await web.chat.postMessage({
-            text: `Added ticket ID: ${this.id} ${sitename}/hardwareticket/${this.id}`,
+            text: `Added ticket ID: ${this.id} ${sitename}/hardwareticket/${stringyId}`,
             channel: channelId,
         });
     }
