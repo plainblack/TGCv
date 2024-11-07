@@ -26,13 +26,7 @@
                         </FormInput>
                     </div>
                     <div>
-                        <InputGroup>
-                            <InputGroupAddon>
-                                <i class="mdi:pound">#</i>
-                            </InputGroupAddon>
-                            <InputText type="text" placeholder="Ticket #" class="w-full" v-model="ticketNumber" />
-                            <Button label="Search" @click="findTicket" />
-                        </InputGroup>
+                        <JumpToTicket />
                     </div>
                 </div>
 
@@ -153,13 +147,4 @@ onBeforeRouteLeave(() => {
     allhardwareitems.dispose();
 });
 
-const ticketNumber = ref('');
-
-async function findTicket() {
-    const hardwareticket = useVingRecord({
-        fetchApi: `/api/${useRestVersion()}/hardwareticket/lookupticket?ticketNumber=${ticketNumber.value}`,
-    });
-    await hardwareticket.fetch();
-    await navigateTo(`/hardwareticket/${hardwareticket.props.id}`);
-}
 </script>

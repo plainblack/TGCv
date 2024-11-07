@@ -4,6 +4,9 @@
         <template #left>
             <PanelNav :links="links" />
         </template>
+        <template #right>
+            <JumpToTicket />
+        </template>
         <template #content>
 
             <FieldsetNav v-if="hardwareticket.props">
@@ -13,11 +16,13 @@
 
                 <FieldsetItem name="Actions" v-if="hardwareticket.meta?.isOwner">
 
-                    <Button @click="showAddComment = !showAddComment" severity="success" title="Add Comment" class=" mr-2 mb-2"
-                    alt="Comment on Ticket"><i class="pi pi-comment mr-1"></i> Add Comment / Resolve</Button>
+                    <Button @click="showAddComment = !showAddComment" severity="success" title="Add Comment"
+                        class=" mr-2 mb-2" alt="Comment on Ticket"><i class="pi pi-comment mr-1"></i> Add Comment /
+                        Resolve</Button>
 
-                    <Button @click="showAddFiles = !showAddFiles" severity="primary" title="Add Files" class=" mr-2 mb-2"
-                    alt="Upload Files to Ticket"><i class="pi pi-file mr-1"></i> Add Files</Button>
+                    <Button @click="showAddFiles = !showAddFiles" severity="primary" title="Add Files"
+                        class=" mr-2 mb-2" alt="Upload Files to Ticket"><i class="pi pi-file mr-1"></i> Add
+                        Files</Button>
 
                     <NuxtLink :to="`/hardwareticket/${hardwareticket.props?.id}/edit`" class="no-underline mr-2 mb-2">
                         <Button severity="primary" title="Edit" alt="Edit Hardware Ticket"><i
@@ -71,14 +76,14 @@
                 </FieldsetItem>
 
                 <FieldsetItem name="Files" v-if="hardwarefiles.records.length > 0">
-                    <HardwareTicketFile v-for=" file  in  hardwarefiles.records " :key="file.props.id" :mFile="file" />
+                    <HardwareTicketFile v-for=" file in hardwarefiles.records " :key="file.props.id" :mFile="file" />
                 </FieldsetItem>
 
                 <FieldsetItem name="Comments" v-if="hardwareremarks.records.length > 0">
 
-                    <HardwareTicketRemark v-for=" remark  in  hardwareremarks.records " :key="remark.props?.id"
-                    :remark="remark" />
-                    
+                    <HardwareTicketRemark v-for=" remark in hardwareremarks.records " :key="remark.props?.id"
+                        :remark="remark" />
+
                 </FieldsetItem>
                 <FieldsetItem name="Statistics">
                     <div><b>Item</b>: {{ hardwareticket.related?.item?.props?.name }}
@@ -90,7 +95,7 @@
                     <div><b>Type</b>: {{ enum2label(hardwareticket.props?.type, hardwareticket.options?.type) }}</div>
 
                     <div><b>Severity</b>: {{ enum2label(hardwareticket.props?.severity,
-            hardwareticket.options?.severity) }}
+                        hardwareticket.options?.severity) }}
                     </div>
 
                     <div><b>Status</b>: {{ enum2label(hardwareticket.props?.status, hardwareticket.options?.status) }}
@@ -110,7 +115,7 @@
                 </FieldsetItem>
             </FieldsetNav>
         </template>
-        
+
     </PanelFrame>
 </template>
 
