@@ -28,9 +28,7 @@ export class HardwareScheduleRecord extends VingRecord {
     #skipUpdateJobCreation = false;
 
     async update() {
-        ving.log('Schedule').debug(`Schedule ${this.id} before SUPER update`);
         await super.update();
-        ving.log('Schedule').debug(`Schedule ${this.id} after SUPER update`);
         if (!this.#skipUpdateJobCreation) {
             const myId = this.get('id');
             const cronJobId = this.get('cronJobId');
