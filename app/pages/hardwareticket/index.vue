@@ -21,8 +21,8 @@
                     </div>
                     <div>
                         <FormInput type="select" :options="hardwaretickets.propsOptions?.status"
-                            name="hardwareStatusFilter" placeholder="Open or Closed"
-                            v-model="hardwaretickets.query.status" @change="hardwaretickets.search()">
+                            name="hardwareStatusFilter" placeholder="Any Status" v-model="hardwaretickets.query.status"
+                            @change="hardwaretickets.search()">
                         </FormInput>
                     </div>
                     <div>
