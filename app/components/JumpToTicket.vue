@@ -4,7 +4,7 @@
             <Icon name="mdi:pound" color="red" />
         </InputGroupAddon>
         <InputText type="text" placeholder="Ticket #" class="w-full" v-model="ticketNumber" />
-        <Button label="Search" @click="findTicket" />
+        <Button label="Go to" @click="findTicket" />
     </InputGroup>
 </template>
 
