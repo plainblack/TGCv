@@ -28,7 +28,7 @@
 
                     <Column field="props.hardwareItemId" header="Hardware Item" sortable>
                         <template #body="slotProps">
-                            <NuxtLinkRecord :kind="allhardwareitems" :recordId="hardwareItemId"></NuxtLinkRecord>
+                            <NuxtLinkRecord :kind="allhardwareitems" :recordId="props.hardwareItemId"></NuxtLinkRecord>
                         </template>
                     </Column>
                     <Column field="props.hardwareTaskId" header="Task" sortable>

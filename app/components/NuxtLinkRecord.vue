@@ -11,6 +11,10 @@ const props = defineProps({
 });
 
 const thisRecord = computed(() => {
+    const record = props.kind.find(props.recordId);
+    if (record == undefined) {
+        return { links : { self : "#" }, props : { name : "Unknown"} };
+    }
     return props.kind.find(props.recordId);
 });
 
