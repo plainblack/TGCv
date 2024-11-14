@@ -1,5 +1,5 @@
 <template>
-    <NuxtLink :to="thisRecord.links?.self">{{ thisRecord.props?.name }}</NuxtLink>
+    <NuxtLink :to="props.pageHref + '/' + thisRecord.props?.id">{{ thisRecord.props?.name }}</NuxtLink>
 </template>
 
 <script setup>
@@ -8,6 +8,7 @@ import { computed } from 'vue';
 const props = defineProps({
     kind: { required: true },
     recordId: { required: true },
+    pageHref: { required: true },
 });
 
 const thisRecord = computed(() => {
