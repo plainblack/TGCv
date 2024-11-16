@@ -49,8 +49,8 @@ export class HardwareScheduleRecord extends VingRecord {
             type: 'routine',
             submittedBy: 'TGC',
             description: this.description,
-            maintenanceTaskId: this.maintenanceTaskId,
-            maintenanceItemId: this.maintenanceItemId,
+            hardwareTaskId: this.hardwareTaskId,
+            hardwareItemId: this.hardwareItemId,
         });
     }
 
