@@ -1,0 +1,1 @@
+ALTER TABLE `hardwaretickets` ADD `claimedBy` varchar(64) DEFAULT '' NOT NULL;

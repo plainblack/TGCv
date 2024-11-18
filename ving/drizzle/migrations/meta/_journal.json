@@ -15,6 +15,13 @@
       "when": 1730151764926,
       "tag": "0001_mushy_bushwacker",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1731937126345,
+      "tag": "0002_silky_mindworm",
+      "breakpoints": true
     }
   ]
 }

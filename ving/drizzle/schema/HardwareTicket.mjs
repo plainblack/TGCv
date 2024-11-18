@@ -15,7 +15,8 @@ export const HardwareTicketTable = mysqlTable('hardwaretickets',
 		resolutionMinutes: int('resolutionMinutes').notNull().default(0),
 		submittedBy: varchar('submittedBy', { length: 64 }).notNull().default(''),
 		hardwareTaskId: bigint('hardwareTaskId', {mode:'number', unsigned: true}).notNull(),
-		hardwareItemId: bigint('hardwareItemId', {mode:'number', unsigned: true}).notNull()
+		hardwareItemId: bigint('hardwareItemId', {mode:'number', unsigned: true}).notNull(),
+		claimedBy: varchar('claimedBy', { length: 64 }).notNull().default('')
     }, 
     (table) => ({
         hardwaretickets_task_652b79c5_fk: foreignKey({ name: "hardwaretickets_task_652b79c5_fk", columns: [table.hardwareTaskId], foreignColumns: [HardwareTaskTable.id]}).onDelete("cascade").onUpdate("cascade"),

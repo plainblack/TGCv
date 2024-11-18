@@ -3,6 +3,10 @@ outline: deep
 ---
 # Change Log
 
+## 2024-11-18
+* Add claimed by for tickets.
+* Add more information to Slack ping.
+
 ## 2024-11-15
 * Fix ticket creation from hardware schedules.
 

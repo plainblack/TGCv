@@ -31,6 +31,7 @@
                     </NuxtLink>
                     <Button @click="hardwareticket.delete()" severity="danger" title="Delete" class=" mr-2 mb-2"
                         alt="Delete Hardware Ticket"><i class="pi pi-trash mr-1"></i> Delete</Button>
+                    <FormInput name="claimedBy" type="text" v-model="hardwareticket.props.claimedBy" label="Claimed by" placeholder="Your initials" @change="hardwareticket.save('claimedBy')" />
                 </FieldsetItem>
 
 

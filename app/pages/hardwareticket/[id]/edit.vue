@@ -33,6 +33,9 @@
                             <FormInput name="submittedBy" type="text" v-model="hardwareticket.props.submittedBy"
                                 required label="Submitted By" @change="hardwareticket.save('submittedBy')" />
                         </div>
+                        <div class="mb-4">
+                            <FormInput name="claimedBy" type="text" v-model="hardwareticket.props.claimedBy" label="Claimed by" placeholder="Your initials" @change="hardwareticket.save('claimedBy')" />
+                        </div>
                     </FieldsetItem>
 
                     <FieldsetItem name="Statistics">

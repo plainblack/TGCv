@@ -68,8 +68,9 @@ export class HardwareTicketRecord extends VingRecord {
         const sitename = process.env.VING_SITE_URL;
         const web = new WebClient(token);
         const stringyId = stringifyId(this.id);
+        const item = await this.parent('item');
         const result = await web.chat.postMessage({
-            text: `Added ticket ID: ${this.id} ${sitename}/hardwareticket/${stringyId}`,
+            text: `Added ticket ID: ${this.id} ${item.name} ${sitename}/hardwareticket/${stringyId}`,
             channel: channelId,
         });
     }

@@ -134,5 +134,16 @@ export const hardwareTicketSchema = {
             view: ['owner'],
             edit: ['owner'],
         },
+        {
+            type: "string",
+            name: "claimedBy",
+            default: '',
+            required: false,
+            length: 64,
+            db: (prop) => dbString(prop),
+            zod: (prop) => zodString(prop),
+            view: ['public'],
+            edit: ['owner'],
+        },
     ],
 };

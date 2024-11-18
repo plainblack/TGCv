@@ -72,6 +72,7 @@
                             {{ allhardwaretasks.find(slotProps.data.props?.hardwareTaskId)?.props?.description }}
                         </template>
                     </Column>
+                    <Column field="props.claimedBy" header="Claimed By"></Column>
                     <Column field="props.updatedAt" header="Updated At" sortable>
                         <template #body="slotProps">
                             {{ formatDate(slotProps.data.props.updatedAt) }}
