@@ -19,4 +19,7 @@ const props = defineProps({
 .md-editor-previewOnly > .md-editor-preview-wrapper { 
     padding: 0; 
 }
+.md-editor-preview {
+    word-break: normal;
+}
 </style>
