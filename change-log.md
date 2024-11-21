@@ -3,6 +3,9 @@ outline: deep
 ---
 # Change Log
 
+## 2024-11-21
+* Change default ticket type filter to all.  Fixes #36
+
 ## 2024-11-20
 * Fix word wrapping in markdown preview panes.  Fixes #35
 

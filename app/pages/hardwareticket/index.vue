@@ -128,7 +128,7 @@ definePageMeta({
 const hardwaretickets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareticket`,
     createApi: `/api/${useRestVersion()}/hardwareticket`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: '', type: 'needs_help', status: 'unresolved', description: '' },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: '', type: '', status: 'unresolved', description: '' },
     newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', hardwareTaskId: '', hardwareItemId: '', id: '' },
     onCreate: (data) => { return navigateTo(`/hardwareticket/${data.props.id}`) },
 });
