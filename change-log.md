@@ -5,6 +5,7 @@ outline: deep
 
 ## 2024-11-21
 * Change default ticket type filter to all.  Fixes #36
+* Fetch 100 hardware items/tasks at a time on the ticket page.  Fixes #37
 
 ## 2024-11-20
 * Fix word wrapping in markdown preview panes.  Fixes #35
