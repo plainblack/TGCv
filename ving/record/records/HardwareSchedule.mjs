@@ -89,7 +89,7 @@ export class HardwareScheduleRecord extends VingRecord {
         const newJob = await CronJobs.create({
             schedule: cronSpec,
             handler: 'CreateTicketFromSchedule',
-            params: JSON.stringify({ id: this.id }),
+            params: { id: this.id },
             enabled: true,
             note: "Cron job for Hardware Schedule " + this.id,
         });
