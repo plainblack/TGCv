@@ -11,11 +11,9 @@ import { argv } from 'node:process';
 const scheduleId = Number(argv[2]);
 console.log(scheduleId);
 
-const schedule = await Schedules.findOrDie( scheduleId );
+const schedule = await Schedules.findOrDie(scheduleId);
 
 await schedule.createTicket();
-
-//await schedule.createTicket();
 
 console.log("Done");
 await ving.close();

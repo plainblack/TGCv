@@ -3,6 +3,10 @@ outline: deep
 ---
 # Change Log
 
+## 2024-12-17
+* Do not stringify data sent to a CronJob.
+* Fixup script for broken cronjobs that were tied to hardware schedules.
+
 ## 2024-11-21
 * Change default ticket type filter to all.  Fixes #36
 * Fetch 100 hardware items/tasks at a time on the ticket page.  Fixes #37
