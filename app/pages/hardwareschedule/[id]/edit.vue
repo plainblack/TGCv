@@ -7,61 +7,49 @@
         </template>
         <template #content>
 
-                <FieldsetNav v-if="hardwareschedule.props">
-                    <FieldsetItem name="Properties">
+            <FieldsetNav v-if="hardwareschedule.props">
+                <FieldsetItem name="Properties">
 
-                        <div class="mb-4">
-                            <FormInput type="select" name="recurrence" :options="hardwareschedule.options?.recurrence"
-                                v-model="hardwareschedule.props.recurrence" label="Recurrence"
-                                @change="hardwareschedule.save('recurrence')" />
-                        </div>
-                        <div class="mb-4">
-                            <FormInput name="months" type="number" v-model="hardwareschedule.props.months"
-                                label="Months" @change="hardwareschedule.save('months')" />
-                        </div>
-                        <div class="mb-4">
-                            <FormInput name="weeks" type="number" v-model="hardwareschedule.props.weeks" label="Weeks"
-                                @change="hardwareschedule.save('weeks')" />
-                        </div>
-                        <div class="mb-4">
-                            <FormInput name="days" type="number" v-model="hardwareschedule.props.days" label="Days"
-                                @change="hardwareschedule.save('days')" />
-                        </div>
-                        <HardwareItemTaskSelectorEdit :target="hardwareschedule" :taskFilter="{ status : '!=backup', }"/>
-                        <div class="mb-4">
-                            <FormInput name="description" type="markdown" v-model="hardwareschedule.props.description"
-                                required label="Description" @change="hardwareschedule.save('description')" />
-                        </div>
-                    </FieldsetItem>
+                    <div class="mb-4">
+                        <FormInput name="schedule" type="text" v-model="hardwareschedule.props.schedule"
+                            label="Schedule" @change="hardwareschedule.save('schedule')" />
+                        <CronToHuman :schedule="hardwareschedule.props.schedule" />
+                    </div>
+                    <HardwareItemTaskSelectorEdit :target="hardwareschedule" :taskFilter="{ status: '!=backup', }" />
+                    <div class="mb-4">
+                        <FormInput name="description" type="markdown" v-model="hardwareschedule.props.description"
+                            required label="Description" @change="hardwareschedule.save('description')" />
+                    </div>
+                </FieldsetItem>
 
-                    <FieldsetItem name="Statistics">
+                <FieldsetItem name="Statistics">
 
-                        <div class="mb-4"><b>Id</b>: {{ hardwareschedule.props?.id }}
-                            <CopyToClipboard size="xs" :text="hardwareschedule.props?.id" />
-                        </div>
+                    <div class="mb-4"><b>Id</b>: {{ hardwareschedule.props?.id }}
+                        <CopyToClipboard size="xs" :text="hardwareschedule.props?.id" />
+                    </div>
 
-                        <div class="mb-4"><b>Created At</b>: {{ formatDateTime(hardwareschedule.props?.createdAt) }}
-                        </div>
+                    <div class="mb-4"><b>Created At</b>: {{ formatDateTime(hardwareschedule.props?.createdAt) }}
+                    </div>
 
-                        <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(hardwareschedule.props?.updatedAt) }}
-                        </div>
+                    <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(hardwareschedule.props?.updatedAt) }}
+                    </div>
 
-                    </FieldsetItem>
+                </FieldsetItem>
 
-                    <FieldsetItem name="Actions">
-                        <NuxtLink :to="`/hardwareschedule/${hardwareschedule.props?.id}`" class="no-underline">
-                            <Button title="View" alt="View Hardware Schedule" class="mr-2 mb-2"><i
-                                    class="pi pi-eye mr-1"></i>
-                                View</Button>
-                        </NuxtLink>
-                        <Button @click="hardwareschedule.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
-                            alt="Delete Hardware Schedule"><i class="pi pi-trash mr-1"></i> Delete</Button>
-                    </FieldsetItem>
+                <FieldsetItem name="Actions">
+                    <NuxtLink :to="`/hardwareschedule/${hardwareschedule.props?.id}`" class="no-underline">
+                        <Button title="View" alt="View Hardware Schedule" class="mr-2 mb-2"><i
+                                class="pi pi-eye mr-1"></i>
+                            View</Button>
+                    </NuxtLink>
+                    <Button @click="hardwareschedule.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
+                        alt="Delete Hardware Schedule"><i class="pi pi-trash mr-1"></i> Delete</Button>
+                </FieldsetItem>
 
-                    <FieldsetItem name="Examples">
-                        <HardwareScheduleExamples />
-                    </FieldsetItem>
-                </FieldsetNav>
+                <FieldsetItem name="Examples">
+                    <HardwareScheduleExamples />
+                </FieldsetItem>
+            </FieldsetNav>
         </template>
     </PanelFrame>
 

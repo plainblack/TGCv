@@ -1,4 +1,4 @@
-import { baseSchemaProps, dbVarChar, zodString, dbBoolean, dbText, dbJson, zodJsonObject } from '../helpers.mjs';
+import { baseSchemaProps, dbVarChar, zodString, zodCron, dbBoolean, dbText, dbJson, zodJsonObject } from '../helpers.mjs';
 
 export const cronJobSchema = {
     kind: 'CronJob',
@@ -11,11 +11,11 @@ export const cronJobSchema = {
             name: "schedule",
             required: true,
             unique: false,
-            length: 60,
+            length: 120,
             default: '* * * * *',
             filterQualifier: true,
             db: (prop) => dbVarChar(prop),
-            zod: (prop) => zodString(prop),
+            zod: (prop) => zodCron(prop),
             view: [],
             edit: ['owner'],
         },

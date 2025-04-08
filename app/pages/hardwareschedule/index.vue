@@ -28,7 +28,8 @@
 
                     <Column field="props.hardwareItemId" header="Hardware Item" sortable>
                         <template #body="slotProps">
-                            <NuxtLinkRecord :kind="allhardwareitems" :recordId="slotProps.data.props?.hardwareItemId" pageHref="/hardwareitem"></NuxtLinkRecord>
+                            <NuxtLinkRecord :kind="allhardwareitems" :recordId="slotProps.data.props?.hardwareItemId"
+                                pageHref="/hardwareitem"></NuxtLinkRecord>
                         </template>
                     </Column>
                     <Column field="props.hardwareTaskId" header="Task" sortable>
@@ -42,10 +43,7 @@
                             <MarkdownView :text="slotProps.data.props?.description" />
                         </template>
                     </Column>
-                    <Column field="props.recurrence" header="Recurs" sortable></Column>
-                    <Column field="props.months" header="Months" sortable></Column>
-                    <Column field="props.weeks" header="Weeks" sortable></Column>
-                    <Column field="props.days" header="Days" sortable></Column>
+                    <Column field="props.schedule" header="Schedule"></Column>
 
                     <Column header="Manage">
                         <template #body="slotProps">
@@ -67,23 +65,9 @@
                         <div class="flex-auto">
 
                             <div class="mb-4">
-                                <FormInput type="select" name="recurrence"
-                                    :options="hardwareschedules.propsOptions?.recurrence"
-                                    v-model="hardwareschedules.new.recurrence" label="Recurrence" />
+                                <FormInput name="schedule" type="text" required v-model="hardwareschedules.new.schedule"
+                                    label="Schedule" />
                             </div>
-                            <div class="mb-4">
-                                <FormInput name="months" type="number" v-model="hardwareschedules.new.months"
-                                    label="Months" />
-                            </div>
-                            <div class="mb-4">
-                                <FormInput name="weeks" type="number" v-model="hardwareschedules.new.weeks"
-                                    label="Weeks" />
-                            </div>
-                            <div class="mb-4">
-                                <FormInput name="days" type="number" v-model="hardwareschedules.new.days"
-                                    label="Days" />
-                            </div>
-
                             <HardwareItemTaskSelector :target="hardwareschedules" :hardwareitems="allhardwareitems" />
                             <div class="mb-4">
                                 <FormInput name="description" type="markdown"
@@ -111,7 +95,7 @@ const hardwareschedules = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareschedule`,
     createApi: `/api/${useRestVersion()}/hardwareschedule`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareItemId: '', hardwareId: '', },
-    newDefaults: { recurrence: 'monthly', hardwareItemId: '', hardwareTaskId: '', days: 0, months: 0, weeks: 0, description: '', },
+    newDefaults: { schedule: '1 10 * * *', hardwareItemId: '', hardwareTaskId: '', description: '', },
 });
 const allhardwareitems = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareitem`,

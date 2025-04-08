@@ -1,77 +1,55 @@
 <template>
     <DataTable :value="examples" stripedRows>
         <Column field="example" header="Example" />
-        <Column field="recurrence" header="Recurrence" />
-        <Column field="months" header="Months" />
-        <Column field="weeks" header="Weeks" />
-        <Column field="days" header="Days" />
+        <Column field="schedule" header="Schedule" />
     </DataTable>
 </template>
 
 <script setup>
 const examples = [
     {
+        example: "Basic cron format",
+        schedule: "1 10 DayOfMonth Month DayOfWeek",
+    },
+    {
         example: "Every Day",
-        recurrence: "Daily",
-        months: 0,
-        weeks: 0,
-        days: 0,
+        schedule: "1 10 * * *",
     },
     {
         example: "Every week on Tuesday",
-        recurrence: "Weekly",
-        months: 0,
-        weeks: 0,
-        days: 2,
+        schedule: "1 10 * * 2",
+    },
+    {
+        example: "Every week on Tuesday using day name",
+        schedule: "1 10 * * Tue",
     },
     {
         example: "Every week on Thursday",
-        recurrence: "Weekly",
-        months: 0,
-        weeks: 0,
-        days: 4,
+        schedule: "1 10 * * 4",
+    },
+    {
+        example: "Every week on Thursday using day name",
+        schedule: "1 10 * * Thu",
     },
     {
         example: "First day of every month",
-        recurrence: "Monthly",
-        months: 0,
-        weeks: 0,
-        days: 1,
+        schedule: "1 10 1 * *",
     },
     {
         example: "Tenth day of every month",
-        recurrence: "Monthly",
-        months: 0,
-        weeks: 0,
-        days: 10,
+        schedule: "1 10 10 * *",
     },
     {
         example: "Third Tuesday of every month",
-        recurrence: "Monthly",
-        months: 0,
-        weeks: 3,
-        days: 2,
+        schedule: "31 1 * * 2#3",
     },
     {
         example: "Tenth day of every year",
-        recurrence: "Yearly",
-        months: 0,
-        weeks: 0,
-        days: 10,
+        schedule: "1 10 10 1 *",
     },
     {
         example: "Tenth day of every December",
-        recurrence: "Yearly",
-        months: 12,
-        weeks: 0,
-        days: 10,
-    },
-    {
-        example: "Third Tuesday of every month",
-        recurrence: "Yearly",
-        months: 0,
-        weeks: 3,
-        days: 2,
+        schedule: "1 10 10 12 *",
     },
 ];
 </script>
