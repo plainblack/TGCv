@@ -23,8 +23,8 @@
                 <div class="flex items-center gap-2">
                     <DarkModeSelector />
                     <SplitButton v-if="currentUser.props?.id" :model="userMenu" text>
-                        <NuxtLink to="/user/settings" class="flex items-center">
-                            <Avatar :image="currentUser.meta?.avatarUrl" alt="user avatar" shape="circle" />
+                        <NuxtLink to="/users/settings" class="flex items-center">
+                            <Avatar :image="currentUser.links?.avatarImage?.href" alt="user avatar" shape="circle" />
                             <span class="ml-2">
                                 {{ currentUser.meta?.displayName }}
                             </span>
@@ -36,7 +36,7 @@
                             </NuxtLink>
                         </template>
                     </SplitButton>
-                    <NuxtLink v-else to="/user/login" class="flex p-3 items-center text-nowrap">
+                    <NuxtLink v-else to="/users/login" class="flex p-3 items-center text-nowrap">
                         <Icon name="fa6-solid:door-open" class="mr-2" />
                         Sign In
                     </NuxtLink>
@@ -75,8 +75,8 @@ const topNav = [
 
 const userMenu = computed(() => {
     const out = [
-        { label: 'Settings', to: '/user/settings', icon: 'fa6-solid:sliders' },
-        { label: 'Sign Out', to: '/user/logout', icon: 'fa6-solid:door-closed' },
+        { label: 'Settings', to: '/users/settings', icon: 'fa6-solid:sliders' },
+        { label: 'Sign Out', to: '/users/logout', icon: 'fa6-solid:door-closed' },
     ];
     if (currentUser.props.admin)
         out.unshift({ label: 'Admin', to: '/admin', icon: 'prime:user-plus' });

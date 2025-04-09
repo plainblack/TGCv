@@ -25,7 +25,7 @@ const fixColumnData = (column, data) => {
         return data == 'true' ? true : false;
     }
     if (column.vingSchemaProp.type == 'id') {
-        return parseId(data);
+        return parseId(data, { stringToNumber: column.vingSchemaProp.allowRealPubicId ? true : false });
     }
     if (column.vingSchemaProp.type == 'int') {
         return Number(data);
@@ -71,7 +71,7 @@ export const describeListWhere = (event, filter) => {
         }
         const matchColumn = filter.qualifiers.find(col => col.drizzleColumn.name == key);
         if (matchColumn) {
-            const matchOp = value.toString().match(/^(>|<|>=|<=|!=|<>)?(.+)$/);
+            const matchOp = value.toString().match(/^(|>=|<=|!=|<>|>|<)?(.+)$/);
             if (matchOp) {
                 const data = fixColumnData(matchColumn, matchOp[2]);
                 switch (matchOp[1]) {

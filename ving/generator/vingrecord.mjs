@@ -71,6 +71,22 @@ const describeExample = ({ bare }) => {
   `;
 }
 
+const describeLinks = ({ name }) => {
+    return `
+  /**
+   * Extends \`describeLinks()\` in \`VingRecord\` 
+   * @see VingRecord.describeLinks()
+   */
+    async describeLinks(idString, restVersion, schema, params = {}) {
+        const links = await super.describeLinks(idString, restVersion, schema, params);
+        links.view = { href: \`/${name.toLowerCase()}s/\${idString}\`, methods: ['GET'], usage: 'page' };
+        links.edit = { href: \`/${name.toLowerCase()}s/\${idString}/edit\`, methods: ['GET'], usage: 'page' };
+        links.list = { href: '/${name.toLowerCase()}s', methods: ['GET'], usage: 'page' };
+        return links;
+    }
+  `;
+}
+
 const shortcutQueryExample = ({ bare, name }) => {
     if (bare)
         return '';
@@ -97,6 +113,7 @@ ${bare ? '' : "import { isUndefined } from '#ving/utils/identify.mjs';"}
 export class ${name}Record extends VingRecord {
     // add custom Record code here
     ${describeExample({ bare })}
+    ${describeLinks({ bare, name })}
     ${addRelationshipDelete({ schema })}
 }
 
