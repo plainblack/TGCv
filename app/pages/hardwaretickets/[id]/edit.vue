@@ -34,7 +34,9 @@
                                 required label="Submitted By" @change="hardwareticket.save('submittedBy')" />
                         </div>
                         <div class="mb-4">
-                            <FormInput name="claimedBy" type="text" v-model="hardwareticket.props.claimedBy" label="Claimed by" placeholder="Your initials" @change="hardwareticket.save('claimedBy')" />
+                            <FormInput name="claimedBy" type="text" v-model="hardwareticket.props.claimedBy"
+                                label="Claimed by" placeholder="Your initials"
+                                @change="hardwareticket.save('claimedBy')" />
                         </div>
                     </FieldsetItem>
 
@@ -83,14 +85,14 @@ const id = route.params.id.toString();
 const links = useHardwareLinks();
 const hardwareticket = useVingRecord({
     id,
-    fetchApi: `/api/${useRestVersion()}/hardwareticket/${id}`,
-    createApi: `/api/${useRestVersion()}/hardwareticket`,
+    fetchApi: `/api/${useRestVersion()}/hardwaretickets/${id}`,
+    createApi: `/api/${useRestVersion()}/hardwaretickets`,
     query: { includeMeta: true, includeOptions: true },
     onUpdate() {
         notify.success('Updated Hardware Ticket.');
     },
     async onDelete() {
-        await navigateTo('/hardwareticket');
+        await navigateTo('/hardwaretickets');
     },
 });
 await hardwareticket.fetch()

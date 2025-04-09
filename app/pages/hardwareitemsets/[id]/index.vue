@@ -163,14 +163,14 @@ const notify = useNotify();
 const id = route.params.id.toString();
 const hardwareitemset = useVingRecord({
     id,
-    fetchApi: `/api/${useRestVersion()}/hardwareitemset/${id}`,
-    createApi: `/api/${useRestVersion()}/hardwareitemset`,
+    fetchApi: `/api/${useRestVersion()}/hardwareitemsets/${id}`,
+    createApi: `/api/${useRestVersion()}/hardwareitemsets`,
     query: { includeMeta: true, includeOptions: true },
     onUpdate() {
         notify.success('Updated Hardware Item Set.');
     },
     async onDelete() {
-        await navigateTo('/hardwareitemset');
+        await navigateTo('/hardwareitemsets');
     },
 });
 await hardwareitemset.fetch()
@@ -178,7 +178,7 @@ await hardwareitemset.fetch()
 const links = useHardwareLinks();
 const hardwareitems = useVingKind({
     listApi: hardwareitemset.links.items.href,
-    createApi: `/api/${useRestVersion()}/hardwareitem`,
+    createApi: `/api/${useRestVersion()}/hardwareitems`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', },
     newDefaults: { name: '', status: 'in_use', hardwareItemSetId: hardwareitemset.props?.id },
 });
@@ -188,7 +188,7 @@ await Promise.all([
 ]);
 const hardwaretasks = useVingKind({
     listApi: hardwareitemset.links.tasks.href,
-    createApi: `/api/${useRestVersion()}/hardwaretask`,
+    createApi: `/api/${useRestVersion()}/hardwaretasks`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', },
     newDefaults: { description: '', hardwareItemSetId: hardwareitemset.props.id },
 });

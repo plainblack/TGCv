@@ -78,11 +78,11 @@ definePageMeta({
     middleware: ['auth', 'maintenance-production-manager', 'all-workaround']
 });
 const hardwareitemsets = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwareitemset`,
-    createApi: `/api/${useRestVersion()}/hardwareitemset`,
+    listApi: `/api/${useRestVersion()}/hardwareitemsets`,
+    createApi: `/api/${useRestVersion()}/hardwareitemsets`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' },
     newDefaults: { name: 'New Hardware Set', status: 'in_use' },
-    onCreate: async (data) => { console.log(data); await navigateTo(`/hardwareitemset/${data.props.id}`) },
+    onCreate: async (data) => { await navigateTo(`/hardwareitemsets/${data.props.id}`) },
 });
 const links = useHardwareLinks();
 await Promise.all([

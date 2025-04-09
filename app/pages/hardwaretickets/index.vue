@@ -126,20 +126,20 @@ definePageMeta({
     middleware: ['auth', 'maintenance-production-manager', 'all-workaround']
 });
 const hardwaretickets = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwareticket`,
-    createApi: `/api/${useRestVersion()}/hardwareticket`,
+    listApi: `/api/${useRestVersion()}/hardwaretickets`,
+    createApi: `/api/${useRestVersion()}/hardwaretickets`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: '', type: '', status: 'unresolved', description: '' },
     newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', hardwareTaskId: '', hardwareItemId: '', id: '' },
-    onCreate: (data) => { return navigateTo(`/hardwareticket/${data.props.id}`) },
+    onCreate: (data) => { return navigateTo(`/hardwaretickets/${data.props.id}`) },
 });
 const allhardwareitems = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwareitem`,
-    createApi: `/api/${useRestVersion()}/hardwareitem`,
+    listApi: `/api/${useRestVersion()}/hardwareitems`,
+    createApi: `/api/${useRestVersion()}/hardwareitems`,
     query: { sortBy: 'name', itemsPerPage: 100, },
 });
 const allhardwaretasks = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwaretask`,
-    createApi: `/api/${useRestVersion()}/hardwaretask`,
+    listApi: `/api/${useRestVersion()}/hardwaretasks`,
+    createApi: `/api/${useRestVersion()}/hardwaretasks`,
     query: { sortBy: 'description', itemsPerPage: 100, },
 });
 const links = useHardwareLinks();

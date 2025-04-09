@@ -134,17 +134,17 @@ let showAddComment = ref(false);
 
 const hardwareticket = useVingRecord({
     id,
-    fetchApi: `/api/${useRestVersion()}/hardwareticket/${id}`,
+    fetchApi: `/api/${useRestVersion()}/hardwaretickets/${id}`,
     query: { includeMeta: true, includeOptions: true, includeRelated: ['item', 'task'] },
     async onDelete() {
-        await navigateTo('/hardwareticket');
+        await navigateTo('/hardwaretickets');
     },
 });
 await hardwareticket.fetch();
 
 const hardwareremarks = useVingKind({
     listApi: hardwareticket.links.remarks.href,
-    createApi: `/api/${useRestVersion()}/hardwareticketremark`,
+    createApi: `/api/${useRestVersion()}/hardwareticketremarks`,
     query: { includeMeta: true, includeOptions: true, sortBy: 'createdAt', sortOrder: 'desc', },
     newDefaults: { description: '', resolution: 'n_a', resolutionMinutes: 0, submittedBy: '', hardwareTicketId: hardwareticket.props?.id },
     async onCreate() {
@@ -157,7 +157,7 @@ const hardwareremarks = useVingKind({
 });
 const hardwarefiles = useVingKind({
     listApi: hardwareticket.links.files.href,
-    createApi: `/api/${useRestVersion()}/hardwareticketfile`,
+    createApi: `/api/${useRestVersion()}/hardwareticketfiles`,
     query: { includeMeta: true, includeOptions: true, sortBy: 'createdAt', sortOrder: 'desc', includeRelated: ['s3file'], },
     newDefaults: { s3FileId: '', hardwareTicketId: hardwareticket.props?.id },
     async onCreate() {

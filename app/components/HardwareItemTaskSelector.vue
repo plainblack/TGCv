@@ -15,14 +15,14 @@
 
 <script setup>
 const props = defineProps({
-    hardwareitems: { required : true },
-    target: { required : true },
+    hardwareitems: { required: true },
+    target: { required: true },
 });
 
 const hardwaretasks = useVingKind({
     ego: 'hardwaretaskselector',
-    listApi: `/api/${useRestVersion()}/hardwaretask`,
-    createApi: `/api/${useRestVersion()}/hardwaretask`,
+    listApi: `/api/${useRestVersion()}/hardwaretasks`,
+    createApi: `/api/${useRestVersion()}/hardwaretasks`,
     query: { sortBy: 'description' },
 });
 const updateHardwareTasks = (async () => {

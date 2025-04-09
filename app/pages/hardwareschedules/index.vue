@@ -92,20 +92,20 @@ definePageMeta({
     middleware: ['auth', 'maintenance-manager', 'all-workaround']
 });
 const hardwareschedules = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwareschedule`,
-    createApi: `/api/${useRestVersion()}/hardwareschedule`,
+    listApi: `/api/${useRestVersion()}/hardwareschedules`,
+    createApi: `/api/${useRestVersion()}/hardwareschedules`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareItemId: '', hardwareId: '', },
     newDefaults: { schedule: '1 10 * * *', hardwareItemId: '', hardwareTaskId: '', description: '', },
 });
 const allhardwareitems = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwareitem`,
-    createApi: `/api/${useRestVersion()}/hardwareitem`,
+    listApi: `/api/${useRestVersion()}/hardwareitems`,
+    createApi: `/api/${useRestVersion()}/hardwareitems`,
     query: { sortBy: 'name', 'status': '!=backup', },
 });
 
 const allhardwaretasks = useVingKind({
-    listApi: `/api/${useRestVersion()}/hardwaretask`,
-    createApi: `/api/${useRestVersion()}/hardwaretask`,
+    listApi: `/api/${useRestVersion()}/hardwaretasks`,
+    createApi: `/api/${useRestVersion()}/hardwaretasks`,
     query: { sortBy: 'description' },
 });
 

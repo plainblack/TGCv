@@ -66,14 +66,14 @@ const links = useHardwareLinks();
 
 const hardwareschedule = useVingRecord({
     id,
-    fetchApi: `/api/${useRestVersion()}/hardwareschedule/${id}`,
-    createApi: `/api/${useRestVersion()}/hardwareschedule`,
+    fetchApi: `/api/${useRestVersion()}/hardwareschedules/${id}`,
+    createApi: `/api/${useRestVersion()}/hardwareschedules`,
     query: { includeMeta: true, includeOptions: true },
     onUpdate() {
         notify.success('Updated Hardware Schedule.');
     },
     async onDelete() {
-        await navigateTo('/hardwareschedule');
+        await navigateTo('/hardwareschedules');
     },
 });
 await hardwareschedule.fetch()
