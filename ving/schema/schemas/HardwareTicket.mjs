@@ -1,4 +1,4 @@
-import { baseSchemaProps, dbString, zodString, zodMediumText, dbEnum, dbBoolean, dbMediumText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject } from '../helpers.mjs';
+import { baseSchemaId, baseSchemaCreatedAt, baseSchemaUpdatedAt, dbString, zodString, zodMediumText, dbEnum, dbBoolean, dbMediumText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject } from '../helpers.mjs';
 
 export const hardwareTicketSchema = {
     kind: 'HardwareTicket',

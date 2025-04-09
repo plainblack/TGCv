@@ -1,4 +1,4 @@
-import { baseSchemaProps, dbString, zodString, zodMediumText, dbMediumText, dbInt, dbEnum, dbRelation } from '../helpers.mjs';
+import { baseSchemaId, baseSchemaCreatedAt, baseSchemaUpdatedAt, dbString, zodString, zodMediumText, dbMediumText, dbInt, dbEnum, dbRelation } from '../helpers.mjs';
 
 export const hardwareTaskSchema = {
     kind: 'HardwareTask',

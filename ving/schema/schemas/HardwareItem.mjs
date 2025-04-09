@@ -1,4 +1,4 @@
-import { baseSchemaProps, dbString, zodString, dbEnum, dbRelation } from '../helpers.mjs';
+import { baseSchemaId, baseSchemaCreatedAt, baseSchemaUpdatedAt, dbString, zodString, dbEnum, dbRelation } from '../helpers.mjs';
 
 export const hardwareItemSchema = {
     kind: 'HardwareItem',
