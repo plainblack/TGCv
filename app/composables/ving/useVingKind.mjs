@@ -1,6 +1,5 @@
 import { defu } from "defu";
 import { debounce } from 'perfect-debounce';
-import { ouch } from '#ving/utils/ouch.mjs';
 class VingKind {
     #notify = useNotify();
 
@@ -146,7 +145,7 @@ class VingKind {
      * @param {object} options Modify the behavior of this call.
      * @returns {Promise<object>} A promise containing the response to the call.
      * @example
-     * const result = Users.call('post', '/user/xxx/send-reset-password', {os:'Windows'});
+     * const result = Users.call('post', '/users/xxx/send-reset-password', {os:'Windows'});
      */
     async call(method, url, query = {}, options = {}) {
         const response = await useRest(url, {
@@ -223,7 +222,7 @@ class VingKind {
         for (const record of this.records) {
             record.dispose();
         }
-        this.reset();
+        this.records.splice(0);
     }
 
     /**
@@ -265,7 +264,7 @@ class VingKind {
             return this.records[index];
         }
         else {
-            throw ouch(404, `cannot find "${id}" in record list`);
+            throw createError({ statusCode: 404, message: `cannot find "${id}" in record list` });
         }
     }
 
@@ -293,7 +292,7 @@ class VingKind {
             return this.#behavior.createApi;
         }
         this.#notify.error('No createApi');
-        throw ouch(401, 'No createApi');
+        throw createError({ statusCode: 401, message: 'No createApi' });
     }
 
     /**
@@ -308,7 +307,7 @@ class VingKind {
             return this.#behavior.listApi;
         }
         this.#notify.error('No listApi');
-        throw ouch(401, 'No listApi');
+        throw createError({ statusCode: 401, message: 'No listApi' });
     }
 
     /**
@@ -337,6 +336,7 @@ class VingKind {
         const self = this;
         return useVingRecord({
             ...params,
+            ego: self.#behavior.ego,
             query: self.query,
             createApi: self.getCreateApi(),
             onCreate: self.#behavior.onCreate,
@@ -405,18 +405,6 @@ class VingKind {
     }
 
     /**
-     * Locally empties the `records` array.
-     * 
-     * @returns {object} A reference to this object for chaining
-     * @example
-     * users.reset()
-     */
-    reset() {
-        this.records.splice(0);
-        return this;
-    }
-
-    /**
      * Sets the `new` property back to its default state. Something you usually want to do after you create a new record.
      * @example
      * Users.resetNew()
@@ -448,7 +436,7 @@ class VingKind {
         if (!response.error) {
             const data = response.data;
             if (options.accumulate != true) {
-                this.reset();
+                this.dispose();
             }
             for (let index = 0; index < data.items.length; index++) {
                 this.append({ id: data.items[index].props.id, ...data.items[index] }, options);
@@ -520,6 +508,20 @@ class VingKind {
  * Creates an instance of VingKind in the form of a composable
  * 
  * @param {object} behavior An object that defines the behavior of the kind
+ * @param {boolean} behavior.unshift If true, new records will be added to the beginning of the list instead of the end.
+ * @param {boolean} behavior.suppressErrorNotifications If true, errors will not be displayed to the user.
+ * @param {object} behavior.query An object containing query parameters to send when interacting with endpoints for this kind.
+ * @param {object} behavior.newDefaults An object containing default values for new records.
+ * @param {function} behavior.onCreate A callback function that will be called when a new record is created.
+ * @param {function} behavior.onUpdate A callback function that will be called when a record is updated.
+ * @param {function} behavior.onDelete A callback function that will be called when a record is deleted.
+ * @param {function} behavior.onSearch A callback function that will be called when a search is performed.
+ * @param {function} behavior.onAllDone A callback function that will be called when all the requests have been processed.
+ * @param {function} behavior.onEach A callback function that will be called for each record fetched.
+ * @param {string} behavior.createApi The endpoint for creating records.
+ * @param {string} behavior.listApi The endpoint for fetching the list of records.
+ * @param {string} behavior.optionsApi The endpoint for fetching the enumerated props options.
+ * @param {string} behavior.ego An optional string that will be prepended to the id of fetched records in Pinia so that they can be distinguished from other instances of the same record. Useful if you're loading multiple instances of the same object on the same page.
  * @returns {object} A VingKind instance
  */
 export const useVingKind = (behavior = {}) => {

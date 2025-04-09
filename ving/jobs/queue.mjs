@@ -2,6 +2,7 @@ import { Queue } from 'bullmq';
 import ving from '#ving/index.mjs';
 import { useRedis } from '#ving/redis.mjs';
 import { jobHandlers } from '#ving/jobs/map.mjs';
+import { isObject } from '#ving/utils/identify.mjs';
 
 /**
  * Get BullMQ queue object.
@@ -12,7 +13,11 @@ import { jobHandlers } from '#ving/jobs/map.mjs';
  * getQueue();
  */
 export const getQueue = (options = {}) => {
-    const queue = new Queue(options?.queueName || 'jobs');
+    const params = { connection: useRedis() };
+    if (params.connection.isCluster) {
+        params.prefix = '{vingjobs}';
+    }
+    const queue = new Queue(options?.queueName || 'jobs', params);
     return queue;
 }
 
@@ -31,7 +36,7 @@ export const getHandlerNames = () => {
  * Enqueues a job in the jobs system.
  * 
  * @param {string} type Must match the filename (without the `.mjs`) of a job handler.
- * @param {Object} data An object containing whatever data you wish to pass into the job.
+ * @param {Object|Undefined} data An object containing whatever data you wish to pass into the job.
  * @param {Object} options An object with optional properties.
  * @param {string} options.queueName The name of the queue to add this job to. Defaults to `jobs`.
  * @param {number} options.delay The number of milliseconds to wait before executing this job. Defaults to running as soon as possible.
@@ -45,17 +50,24 @@ export const getHandlerNames = () => {
 export const addJob = async (type, data = {}, options = { queueName: 'jobs' }) => {
     if (!(getHandlerNames().includes(type)))
         throw ving.ouch(404, `Job handler ${type} is not available.`);
+    if (!isObject(data)) {
+        throw ving.ouch(442, `Data must be an object.`);
+    }
     const queue = getQueue(options);
     const jobOptions = {
-        connection: useRedis(),
         removeOnComplete: {
             age: 3600, // keep up to 1 hour
             count: 1000, // keep up to 1000 jobs
         },
         removeOnFail: {
-            age: 24 * 3600, // keep up to 24 hours
+            age: 24 * 3600 * 3, // keep up to 72 hours
         },
-        priority: 2097152
+        priority: 2097152,
+        attempts: 3,
+        backoff: {
+            type: 'exponential',
+            delay: 1000 * 60, // 1 minute
+        },
     }
     if (options?.delay)
         jobOptions.delay = options?.delay;

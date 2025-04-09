@@ -21,7 +21,7 @@ const columns = (name, schema) => {
             out += `
             <Column field="props.${prop.name}" header="${makeLabel(prop.name)}" sortable>
                 <template #body="slotProps">
-                    <NuxtLink :to="\`/${name.toLowerCase()}/\${slotProps.data.props.id}\`">
+                    <NuxtLink :to="slotProps.data.links?.view?.href">
                         {{ slotProps.data.props.${prop.name} }}
                     </NuxtLink>
                 </template>
@@ -47,7 +47,7 @@ const columns = (name, schema) => {
             out += `
         <Column field="props.${prop.name}" header="${makeLabel(prop.name)}" sortable>
             <template #body="slotProps">
-                <Image size="50" :src="slotProps.data.related?.${prop.relation?.name}?.meta?.thumbnailUrl" alt="thumbnail" :title="slotProps.data.related?.${prop.relation?.name}?.props?.filename + ' thumbnail'"/>
+                <Image size="50" :src="slotProps.data.related?.${prop.relation?.name}?.links?.thumbnail?.href" alt="thumbnail" :title="slotProps.data.related?.${prop.relation?.name}?.props?.filename + ' thumbnail'"/>
             </template>
         </Column>`;
         }
@@ -138,8 +138,8 @@ const indexTemplate = ({ name, schema }) =>
                     <Column header="Manage">
                         <template #body="slotProps">
                             <ManageButton severity="primary" :items="[
-                                { icon:'ph:eye', label:'View', to:\`/${name.toLowerCase()}/\${slotProps.data.props.id}\`},
-                                { icon:'ph:pencil', label:'Edit', to:\`/${name.toLowerCase()}/\${slotProps.data.props.id}/edit\`},
+                                { icon:'ph:eye', label:'View', to:slotProps.data.links?.view?.href },
+                                { icon:'ph:pencil', label:'Edit', to:slotProps.data.links?.edit?.href },
                                 { icon:'ph:trash', label:'Delete', action:slotProps.data.delete}
                                 ]" /> 
                         </template>
@@ -148,14 +148,14 @@ const indexTemplate = ({ name, schema }) =>
                 <Pager :kind="${schema.tableName}" />
             </PanelZone>
             <PanelZone title="Create ${makeWords(name)}">
-                <Form :send="() => ${schema.tableName}.create()">
+                <VForm :send="() => ${schema.tableName}.create()">
                     ${createProps(schema)}
                     <div>
                         <Button type="submit" class="w-auto" severity="success">
                             <Icon name="ph:plus" class="mr-1"/> Create ${makeWords(name)}
                         </Button>
                     </div>
-                </Form>
+                </VForm>
             </PanelZone>
         </template>
     </PanelFrame>
@@ -163,10 +163,13 @@ const indexTemplate = ({ name, schema }) =>
 
 <script setup>
 const ${schema.tableName} = useVingKind({
-    listApi: \`/api/\${useRestVersion()}/${name.toLowerCase()}\`,
-    createApi: \`/api/\${useRestVersion()}/${name.toLowerCase()}\`,
+    listApi: \`/api/\${useRestVersion()}/${name.toLowerCase()}s\`,
+    createApi: \`/api/\${useRestVersion()}/${name.toLowerCase()}s\`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc' ${includeRelatedTemplate(schema)} },
     newDefaults: { ${newDefaults(schema)} },
+    onCreate(props) {
+        navigateTo(props.links.edit.href)
+    },
 });
 await Promise.all([
     ${schema.tableName}.search(),
@@ -197,18 +200,25 @@ const viewProps = (schema) => {
             else if (prop.relation?.kind == 'S3File' && prop.relation.type == 'parent') {
                 out += `
             <div><b>${makeLabel(prop.name)}</b>: 
-                <Image size="100" :src="${schema.kind.toLowerCase()}.related?.${prop.relation?.name}?.meta?.thumbnailUrl" alt="thumbnail" :title="${schema.kind.toLowerCase()}.related?.${prop.relation?.name}?.props?.filename + ' thumbnail'">
+                <Image size="100" :src="${schema.kind.toLowerCase()}.related?.${prop.relation?.name}?.links?.thumbnail?.href" alt="thumbnail" :title="${schema.kind.toLowerCase()}.related?.${prop.relation?.name}?.props?.filename + ' thumbnail'">
                     <template v-if="['png','jpg','gif'].includes(${schema.kind.toLowerCase()}.related?.${prop.relation?.name}?.props?.extension)" #image>
-                        <img :src="${schema.kind.toLowerCase()}.related?.${prop.relation?.name}?.meta?.fileUrl" alt="file" :title="${schema.kind.toLowerCase()}.related?.${prop.relation?.name}?.props?.filename + ' full size image'" />
+                        <img :src="${schema.kind.toLowerCase()}.related?.${prop.relation?.name}?.links?.file?.href" alt="file" :title="${schema.kind.toLowerCase()}.related?.${prop.relation?.name}?.props?.filename + ' full size image'" />
                     </template>
                 </Image>
             </div>
             `;
             }
             else if (prop.type == 'id') {
-                out += `
-            <div><b>${makeLabel(prop.name)}</b>: {{${schema.kind.toLowerCase()}.props?.${prop.name}}} <CopyToClipboard :text="${schema.kind.toLowerCase()}.props?.${prop.name}" size="xs" /></div>
-            `;
+                if (prop.relation?.type == 'parent') {
+                    out += `
+                    <div><b>${makeLabel(prop.name)}</b>: <NuxtLink :to="${schema.kind.toLowerCase()}.links?.view?.href">{{${schema.kind.toLowerCase()}.props?.${prop.name}}}</NuxtLink> <CopyToClipboard :text="${schema.kind.toLowerCase()}.props?.${prop.name}" size="xs" /></div>
+                    `;
+                }
+                else {
+                    out += `
+                    <div><b>${makeLabel(prop.name)}</b>: {{${schema.kind.toLowerCase()}.props?.${prop.name}}} <CopyToClipboard :text="${schema.kind.toLowerCase()}.props?.${prop.name}" size="xs" /></div>
+                    `;
+                }
             }
             else if (prop.type != 'virtual') {
                 out += `
@@ -243,7 +253,7 @@ const viewTemplate = ({ name, schema }) =>
     <PanelFrame :title="${name.toLowerCase()}.props?.${nameOrId(schema)}" section="${makeWords(name)}s">
         <template #left>
             <PanelNav :links="[
-                { label: '${makeWords(name)}s', to: '/${name.toLowerCase()}', icon: 'ep:back' },
+                { label: '${makeWords(name)}s', to: ${name.toLowerCase()}.links?.list?.href, icon: 'ep:back' },
             ]" />
         </template>
         <template #content>
@@ -251,7 +261,7 @@ const viewTemplate = ({ name, schema }) =>
                 ${viewProps(schema)}
             </PanelZone>
             <div v-if="${name.toLowerCase()}.meta?.isOwner">
-                <NuxtLink :to="\`/${name.toLowerCase()}/\${${name.toLowerCase()}.props?.id}/edit\`" class="no-underline mr-2 mb-2">
+                <NuxtLink :to="${name.toLowerCase()}.links?.edit?.href" class="no-underline mr-2 mb-2">
                     <Button severity="success" title="Edit" alt="Edit ${makeWords(name)}"><Icon name="ph:pencil" class="mr-1"/> Edit</Button>
                 </NuxtLink>
                 <Button @mousedown="${name.toLowerCase()}.delete()" severity="danger" title="Delete" alt="Delete ${makeWords(name)}"><Icon name="ph:trash" class="mr-1"/> Delete</Button>
@@ -265,10 +275,10 @@ const route = useRoute();
 const id = route.params.id.toString();
 const ${name.toLowerCase()} = useVingRecord({
     id,
-    fetchApi: \`/api/\${useRestVersion()}/${name.toLowerCase()}/\${id}\`,
+    fetchApi: \`/api/\${useRestVersion()}/${name.toLowerCase()}s/\${id}\`,
     query: { includeMeta: true, includeOptions: true ${includeRelatedTemplate(schema)} },
     async onDelete() {
-        await navigateTo('/${name.toLowerCase()}');
+        await navigateTo(${name.toLowerCase()}.links.list.href);
     },
 });
 await ${name.toLowerCase()}.fetch();
@@ -286,7 +296,7 @@ const editProps = (schema) => {
             else if (prop.type == 'id' && prop?.relation?.type == 'parent' && prop.relation?.kind == 'S3File') {
                 out += `
                     <div class="mb-4">
-                        <Dropzone id="${prop?.relation?.name}" :acceptedFiles="${schema.kind.toLowerCase()}.meta?.acceptedFileExtensions?.${prop?.relation?.name}" :afterUpload="(s3file) => ${schema.kind.toLowerCase()}.importS3File('${prop?.relation?.name}', s3file.props?.id)"
+                        <Dropzone id="${prop?.relation?.name}" :acceptedFiles="${schema.kind.toLowerCase()}.options?.${prop?.relation?.name}" :afterUpload="(s3file) => ${schema.kind.toLowerCase()}.importS3File('${prop?.relation?.name}', s3file.props?.id)"
                             :maxFiles="1" :resizeHeight="300" :resizeWidth="300" resizeMethod="crop"></Dropzone>
                     </div>`;
             }
@@ -309,9 +319,16 @@ const statProps = (schema) => {
             `;
             }
             else if (prop.type == 'id') {
-                out += `
-                <div class="mb-4"><b>${makeLabel(prop.name)}</b>: {{${schema.kind.toLowerCase()}.props?.${prop.name}}} <CopyToClipboard :text="${schema.kind.toLowerCase()}.props?.${prop.name}" size="xs" /></div>
-                `;
+                if (prop.relation?.type == 'parent') {
+                    out += `
+                    <div class="mb-4"><b>${makeLabel(prop.name)}</b>: <NuxtLink :to="${schema.kind.toLowerCase()}.links?.view?.href">{{${schema.kind.toLowerCase()}.props?.${prop.name}}}</NuxtLink> <CopyToClipboard :text="${schema.kind.toLowerCase()}.props?.${prop.name}" size="xs" /></div>
+                    `;
+                }
+                else {
+                    out += `
+                    <div class="mb-4"><b>${makeLabel(prop.name)}</b>: {{${schema.kind.toLowerCase()}.props?.${prop.name}}} <CopyToClipboard :text="${schema.kind.toLowerCase()}.props?.${prop.name}" size="xs" /></div>
+                    `;
+                }
             }
             else if (prop.type != 'virtual') {
                 out += `
@@ -329,7 +346,7 @@ const editTemplate = ({ name, schema }) =>
     <PanelFrame :title="'Edit '+${name.toLowerCase()}.props?.${nameOrId(schema)}" section="${makeWords(name)}s">
         <template #left>
             <PanelNav :links="[
-                { label: '${makeWords(name)}s', to: '/${name.toLowerCase()}', icon: 'ep:back' },
+                { label: '${makeWords(name)}s', to: ${name.toLowerCase()}.links?.list?.href, icon: 'ep:back' },
             ]" />
         </template>
         <template #content>
@@ -343,7 +360,7 @@ const editTemplate = ({ name, schema }) =>
                 </FieldsetItem>
 
                 <FieldsetItem name="Actions">
-                    <NuxtLink :to="\`/${name.toLowerCase()}/\${${name.toLowerCase()}.props?.id}\`" class="no-underline">
+                    <NuxtLink :to="${name.toLowerCase()}.links?.view?.href" class="no-underline">
                         <Button title="View" alt="View ${makeWords(name)}" class="mr-2 mb-2"><Icon name="ph:eye" class="mr-1"/> View</Button>
                     </NuxtLink>
                     <Button @mousedown="${name.toLowerCase()}.delete()" severity="danger" class="mr-2 mb-2" title="Delete" alt="Delete ${makeWords(name)}"><Icon name="ph:trash" class="mr-1"/> Delete</Button>
@@ -362,14 +379,14 @@ const notify = useNotify();
 const id = route.params.id.toString();
 const ${name.toLowerCase()} = useVingRecord({
     id,
-    fetchApi: \`/api/\${useRestVersion()}/${name.toLowerCase()}/\${id}\`,
-    createApi: \`/api/\${useRestVersion()}/${name.toLowerCase()}\`,
+    fetchApi: \`/api/\${useRestVersion()}/${name.toLowerCase()}s/\${id}\`,
+    createApi: \`/api/\${useRestVersion()}/${name.toLowerCase()}s\`,
     query: { includeMeta: true, includeOptions: true ${includeRelatedTemplate(schema)} },
     onUpdate() {
         notify.success('Updated ${makeWords(name)}.');
     },
     async onDelete() {
-        await navigateTo('/${name.toLowerCase()}');
+        await navigateTo(${name.toLowerCase()}.links.list.href);
     },
 });
 await ${name.toLowerCase()}.fetch()
@@ -379,8 +396,8 @@ onBeforeRouteLeave(() => ${name.toLowerCase()}.dispose());
 export const generateWeb = (params) => {
     const context = { ...getContext({}), ...params };
     return Promise.resolve(context)
-        .then(renderTemplate(indexTemplate, toFile(`app/pages/${context.name.toLowerCase()}/index.vue`)))
-        .then(renderTemplate(viewTemplate, toFile(`app/pages/${context.name.toLowerCase()}/[id]/index.vue`)))
-        .then(renderTemplate(editTemplate, toFile(`app/pages/${context.name.toLowerCase()}/[id]/edit.vue`)))
+        .then(renderTemplate(indexTemplate, toFile(`app/pages/${context.name.toLowerCase()}s/index.vue`)))
+        .then(renderTemplate(viewTemplate, toFile(`app/pages/${context.name.toLowerCase()}s/[id]/index.vue`)))
+        .then(renderTemplate(editTemplate, toFile(`app/pages/${context.name.toLowerCase()}s/[id]/edit.vue`)))
 }
 

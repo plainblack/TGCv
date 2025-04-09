@@ -43,6 +43,13 @@ import {useKind} from '#ving/record/VingKind.mjs';
 const users = await useKind('User');
 ```
 
+### Access to Drizzle Schema
+You can access the drizzle schema for a kind by calling `.table` on the kind. For example, if you wanted to get the schema for the `username` field on the `User` kind you could do this:
+
+```js
+const schema = Users.table.username;
+```
+
 ### Creating Records
 You can create records many different ways. In all three methods you'll pass in a list of `props` which is an object containing the values (or columns) to set on the record.
 
@@ -146,14 +153,14 @@ const record = await Users.find('xxx');
 Locates and returns a list of [record](#record-api)s by a drizzle where clause or an empty array if no records are found.
 
 ```js
-const listOfFredRecords = await Users.findMany(like(Users.realName, 'Fred%'));
+const listOfFredRecords = await Users.findMany(like(Users.table.realName, 'Fred%'));
 ```
 
 #### findAll
 Does the same thing as `findMany` except with an iterator so not all records are loaded into memory at the same time.
 
 ```js
-const allFreds = await Users.findMany(like(Users.realName, 'Fred%'));
+const allFreds = await Users.findMany(like(Users.table.realName, 'Fred%'));
 for await (const fred of allFreds) { 
     console.log(fred.get('id'));
 }
@@ -163,7 +170,7 @@ for await (const fred of allFreds) {
 Locates and returns a single [record](#record-api) by a drizzle where clause or `undefined` if no record is found.
 
 ```js
-const fredRecord = await Users.findOne(eq(Users.username, 'Fred'));
+const fredRecord = await Users.findOne(eq(Users.table.username, 'Fred'));
 ```
 
 #### findOrDie
@@ -177,7 +184,7 @@ const record = await Users.findOrDie('xxx');
 Write your own custom select function. Returns a drizzle result set, not a list of records.
 
 ```js
-const results = await Users.select.where(like(Users.realName, 'Fred%'));
+const results = await Users.select.where(like(Users.table.realName, 'Fred%'));
 ```
 
 ### Updating Records
@@ -187,7 +194,7 @@ Updating existing records.
 Update records already in the database without first selecting them by writing your own custom query.
 
 ```js
-const results = await Users.update.set({admin: false}).where(like(Users.realName, 'Fred%'))
+const results = await Users.update.set({admin: false}).where(like(Users.table.realName, 'Fred%'))
 ```
 
 > Note that this where clause is raw. To use it safeley you should wrap the `like(Users.realName, 'Fred%')` portion in the `calcWhere()` method below.
@@ -200,7 +207,7 @@ See also the `update()` method in the [Record API](#record-api) for updating a r
 Delete records by writing your own custom query. 
 
 ```js
-const results = await Users.delete.where(like(Users.realName, 'Fred%'));
+const results = await Users.delete.where(like(Users.table.realName, 'Fred%'));
 ```
 
 > Note that this where clause is raw. To use it safeley you should wrap the `like(Users.realName, 'Fred%')` portion in the `calcWhere()` method below.
@@ -211,7 +218,7 @@ See also the `delete()` method in the [Record API](#record-api) for deleting a r
 A safer version of `delete` above as it uses `calcWhere()`.
 
 ```js
-await Users.deleteMany(like(Users.realName, 'Fred%'));
+await Users.deleteMany(like(Users.table.realName, 'Fred%'));
 ```
 
 ### Utility Methods
@@ -220,14 +227,14 @@ await Users.deleteMany(like(Users.realName, 'Fred%'));
 Adds `propDefaults` (if any) into a where clause to limit the scope of affected records. As long as you're using the built in queries you don't need to use this method. But you might want to use it if you're using `create`, `select`, `update`, or `delete` directly.
 
 ```js
-const results = await Users.delete.where(Users.calcWhere(like(Users.realName, 'Fred%')));
+const results = await Users.delete.where(Users.calcWhere(like(Users.table.realName, 'Fred%')));
 ```
 
 #### count
 Returns an integer representing how many records match a given where clause.
 
 ```ts
-const usersNamedFred = await Users.count(like(Users.realName, 'Fred%'));
+const usersNamedFred = await Users.count(like(Users.table.realName, 'Fred%'));
 ```
 
 ### Properties
@@ -296,6 +303,41 @@ const description = await record.describe(params)
    - **meta** - A boolean that if `true` will include calculated properties.
    - **links** - A boolean that if `true` will include a list of API links.
    - **private** - A boolean that if `true` will ignore the privileges of the `currentUser` passed in and include all private information.
+
+
+#### describeLinks
+
+Called by `describe()` to generate the links for this record. Links are used to generate URL links to pages in the UI and to API endpoints. 
+    
+There are several links that are always generated:
+- `base` is the base URL of the API endpoint for this VingKind.
+- `self` is the URL of the VingRecord itself.
+- There are also links for each relation defined in the VingSchema. For example, if you have a VingSchema with a`userId` relation, then there will be a link called `user` that points to the API endpoint for the User VingKind.
+
+You can also add your own links by overriding this method in the VingRecord subclass.
+
+```js
+    async describeLinks(idString, restVersion, schema, params = {}) {
+        const links = await super.describeLinks(idString, restVersion, schema, params);
+        links.view = { href: `/cronjob/${idString}`, methods: ['GET'], usage: 'page' };
+        links.edit = { href: `/cronjob/${idString}/edit`, methods: ['GET'], usage: 'page' };
+        links.list = { href: '/cronjob', methods: ['GET'], usage: 'page' };
+        return links;
+    }
+```
+The above example links are automatically generated when you generate your Ving Record, but you can modify them as needed for your application.
+    
+##### href
+    
+The `href` is the actual URL that will be generated for this link.
+
+##### methods
+
+The `methods` field is an array of HTTP methods that the link is valid for.
+
+##### usage
+
+The `usage` field is a string that can be `page`, `rest`, `file`, or `image`, but you can also use your own custom strings if you need to. It is simply an identifier for the type of link so that automatic tools reading the links can know what to do with them.
 
 
 #### get
@@ -429,7 +471,7 @@ const user = apikey.parent('user');
 ```
 
 #### propOptions
-Returns a list of enumeration options for this record.
+Returns a list of validation options for fields in this record.
 
 ```js
 const options = await user.propOptions(params, false);
@@ -442,6 +484,7 @@ const options = await user.propOptions(params, false);
         { label : 'Username', value : 'username' },
         ...
     ],
+    avatar : [ 'png', 'jpg' ],
     ...
 }
 ```

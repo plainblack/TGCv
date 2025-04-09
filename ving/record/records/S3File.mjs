@@ -5,6 +5,7 @@ import { S3Client, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import ving from '#ving/index.mjs';
 import { extensionMap } from '#ving/schema/schemas/S3File.mjs';
 import { stringifyId } from '#ving/utils/int2str.mjs';
+import { isArray } from '#ving/utils/identify.mjs';
 
 /**
      * Gets a file extension.
@@ -82,7 +83,7 @@ export class S3FileRecord extends VingRecord {
          */
 
     fileUrl() {
-        return `https://${process.env.VING_AWS_UPLOADS_BUCKET}.s3.amazonaws.com/${this.get('s3folder')}/${this.get('filename')}`;
+        return `https://s3.amazonaws.com/${process.env.VING_AWS_UPLOADS_BUCKET}/${this.get('s3folder')}/${this.get('filename')}`;
     }
 
     /**
@@ -97,7 +98,7 @@ export class S3FileRecord extends VingRecord {
             case 'self':
                 return this.fileUrl();
             case 'thumbnail':
-                return `https://${process.env.VING_AWS_THUMBNAILS_BUCKET}.s3.amazonaws.com/${formatS3FolderName(stringifyId(this.get('id')))}.png`;
+                return `https://s3.amazonaws.com/${process.env.VING_AWS_THUMBNAILS_BUCKET}/${formatS3FolderName(stringifyId(this.get('id')))}.png`;
             case 'extension': {
                 const image = extensionMap[this.get('extension')] || 'unknown';
                 return `/img/filetype/${image}.png`;
@@ -107,25 +108,18 @@ export class S3FileRecord extends VingRecord {
         }
     }
 
+
     /**
-     * Generates a description of this S3File beyond the normal VingRecord
-     * description. This includes the `meta` fields `fileUrl` and `thumbnailUrl`.
-     * 
-     * @see VingRecord.describe()
-     * @param {Object} params See VingRecord describe for details.
-     * @returns {object} An object with the description. See VingRecord for details.
-     * @example
-     * const description = await s3file.describe()
+     * Extends `describeLinks()` in `VingRecord`.
+     * @see VingRecord.describeLinks()
      */
-    async describe(params = {}) {
-        const out = await super.describe(params);
-        if (params?.include?.meta && out.meta) {
-            if (await this.isOwner(params?.currentUser)) {
-                out.meta.fileUrl = this.fileUrl();
-            }
-            out.meta.thumbnailUrl = this.thumbnailUrl();
+    async describeLinks(idString, restVersion, schema, params = {}) {
+        const links = await super.describeLinks(idString, restVersion, schema, params);
+        if (await this.isOwner(params?.currentUser)) {
+            links.file = { href: this.fileUrl(), methods: ['GET'], usage: 'file' };
         }
-        return out;
+        links.thumbnail = { href: this.thumbnailUrl(), methods: ['GET'], usage: 'image' };
+        return links;
     }
 
     /**
@@ -221,6 +215,8 @@ export class S3FileRecord extends VingRecord {
          * await s3file.verifyExtension(['png','gif','jpeg','jpg'])
          */
     async verifyExtension(whitelist, errorOnly = false) {
+        if (!isArray(whitelist))
+            throw ving.ouch(500, 'The whitelist must be an array of allowed file extensions defined in the ving schema.');
         if (!whitelist.includes(this.get('extension')))
             await this.markVerifiyFailed(`${this.get('filename')} needs to be one of ${whitelist.join(', ')}.`, errorOnly);
         return true;

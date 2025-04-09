@@ -132,9 +132,29 @@ export class UserRecord extends RoleMixin(VingRecord) {
         const out = await super.describe(params);
         if (params?.include?.meta && out.meta) {
             out.meta.displayName = this.displayName();
-            out.meta.avatarUrl = await this.avatarUrl();
         }
         return out;
+    }
+
+    /**
+     * Extends `describeLinks()` in `VingRecord`.
+     * @see VingRecord.describeLinks()
+     */
+    async describeLinks(idString, restVersion, schema, params = {}) {
+        const links = await super.describeLinks(idString, restVersion, schema, params);
+        links.profile = { href: `/users/${idString}/profile`, methods: ['GET'], usage: 'page' };
+        links.logout = { href: '/users/logout', methods: ['GET'], usage: 'page' };
+        links.list = { href: '/users/admin', methods: ['GET'], usage: 'page' };
+        links.edit = { href: `/users/admin/${idString}`, methods: ['GET'], usage: 'page' };
+        links.settings = { href: '/users/settings', methods: ['GET'], usage: 'page' };
+        links.preferences = { href: '/users/settings/preferences', methods: ['GET'], usage: 'page' };
+        links.listApikeys = { href: '/users/settings/apikeys', methods: ['GET'], usage: 'page' };
+        links.account = { href: '/users/settings/account', methods: ['GET'], usage: 'page' };
+        links.messagebus = { href: `${links.base.href}/messagebus`, methods: ['GET'], usage: 'rest' };
+        links.avatarImage = { href: await this.avatarUrl(), methods: ['GET'], usage: 'image' };
+        links.describeAvatar = { href: `${links.self.href}/avatar`, methods: ['GET'], usage: 'rest' };
+        links.importAvatar = { href: `${links.self.href}/import-avatar`, methods: ['PUT'], usage: 'rest' };
+        return links;
     }
 
     /**

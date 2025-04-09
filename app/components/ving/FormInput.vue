@@ -6,7 +6,7 @@
             <InputNumber v-if="type == 'number' && (isNumber(val) || isNull(val) || isUndefined(val))"
                 v-model="val" showButtons :placeholder="placeholder" :name="name" :id="computedId"
                 :autocomplete="autocomplete" :required="required" :inputClass="fieldClass" :step="step"
-                :incrementButtonClass="append ? 'rounded-none' : ''" @change="emit('change')"
+                :incrementButtonClass="append ? 'rounded-none' : ''" @update:modelValue="emit('change')"
                 :decrementButtonClass="append ? 'rounded-none' : ''" />
             <ToggleSwitch v-else-if="type == 'switch' && (isBoolean(val) || isUndefined(val))"
                 v-model="val" :placeholder="placeholder" :name="name" :id="computedId"
@@ -34,7 +34,7 @@
             </Message>
             <InputGroupAddon v-if="$slots.append || append"><slot name="append">{{ append }}</slot></InputGroupAddon>
         </InputGroup>
-        <small :class="invalid && !empty ? 'text-red-500' : ''" v-if="subtext">{{ subtext }}</small>
+        <client-only><small :class="invalid && !empty ? 'text-red-500' : ''" v-if="subtext">{{ subtext }}</small></client-only>
     </div>
 </template>
 

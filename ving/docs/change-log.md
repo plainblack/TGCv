@@ -3,6 +3,118 @@ outline: deep
 ---
 # Change Log
 
+## January 2025
+
+### 2025-01-21
+ * Fixed a bug where undefined tables were added to the drizzle map due to yesterday's fix.
+ * Updated to latest drizzle, mysql2, nuxt, primevue, bullmq, and keyv modules.
+ * NOTE: Run `npm i` to update your modules.
+ * NOTE: PrimeVue now has a component called Form, so the Ving component called Form has been renamed to VForm. You'll need to update all your pages to use VForm. 
+ * Fixed: replace db.session.client.pool.end() with db.$client.pool.end() #195
+
+### 2025-01-20
+ * Fixed a problem where CLI would try to update the drizzle map when creating a new ving schema.
+
+### 2025-01-15
+ * Jobs now automatically retry 3 times and then are aborted.
+ * Fixed: job runner not gracefully erroring #198
+ * Added better documentation for the job handlers.
+ * Added generic email template.
+ * Added EmailRole job handler.
+ * Aborted jobs now automatically use the EmailRole job handler to email all admins.
+ * Fixed CLI docs for email.
+ * Fixed the generator deployment location for email templates.
+
+### 2025-01-14
+ * Added VingRecord.describeLinks() to generate links for the UI rather than having to manually code them in a describe() override. They are automatically generated for all VingRecords via the CLI, and then pages that are generated also use the exposed links. #179
+ * NOTE: You'll need to add a describeLinks() override to classes generated before now.
+ * NOTE: S3File's describe() now exposes the links for the file and thumbnail in links.file.href and links.thumbnail.href respectively instead of meta.fileUrl and meta.thumbnailUrl. This is a breaking change.
+ * NOTE: User's describe() now exposes the link for the avatar in links.avatarImage.href instead of meta.avatarUrl. This is a breaking change.
+ * Implemented: apis should use plurals #183
+ * NOTE: rest endpoints and pages use plurals like /users instead of /user now. This is a breaking change. Update your APIs and pages to use plurals.
+ * Implemented: page generator should link to parent objects in the statistics section #158
+ * Implemented: useCurrentUser() now has isRole() and isaRole() #202
+ * Fixed: Inequality with angle brackets <> doesn't work #199
+
+### 2025-01-12
+ * Removed pulumi from the project.
+ * Fixed: Documentation: useVingRecord findOne docs are wrong #201
+ * refactored to use Intl instead of date-fns #204
+ * NOTE: If you are using the date formating strings in dateTime.mjs you will need to update them to use Intl instead of date-fns.
+ * Fixed: note in docs how to reference drizzle schema #174
+ * Removed the ving schema helper `baseSchemaProps` in favor of the new exports `baseSchemaId`, `baseSchemaCreatedAt`, and `baseSchemaUpdatedAt`. This is a breaking change that allows you to modify the base schema props in your schema.
+ * NOTE: Update your Ving Schemas to use the new baseSchemaId, baseSchemaCreatedAt, and baseSchemaUpdatedAt exports in place of the baseSchemaProps array. In each of your ving schemas replace this:
+
+```js
+        ...baseSchemaProps,
+```
+
+With this:
+
+```js
+        { ...baseSchemaId },
+        { ...baseSchemaCreatedAt },
+        { ...baseSchemaUpdatedAt },
+```
+
+Also don't forget to update the imports in your schema files.
+
+* Added better error handling for int2str parseId().
+* Added stringToNumber option to int2str parseId().
+* Added allowRealPubicId to ving schema props.
+* Fixed: filter on id #203
+* Fixed: How to do a search for hardware ticket by ticket number? #29
+
+## December 2024
+
+### 2024-12-17
+ * Added validation to addJob() in jobs/queue.mjs to ensure that data is an object.
+
+## October 2024
+
+### 2024-10-30
+ * Fixed: Instead of ouching middleware should call abortNavigation() to prevent navigation.
+ * Moved error.vue to app/error.vue.
+ * NOTE: If you customized error.vue you'll need to move it to app/error.vue.
+ * On the client-side, replaced `ouch()` with the built in `createError()` function.
+ * Added stack trace to error.vue.
+
+### 2024-10-28
+ * Switched jobs to use redis from a remote cluster.
+ * Switched S3File bucket url from app.domain.com.s3.amazonaws.com to s3.amazonaws.com/app.domain.com. And the same for the thumbnail bucket.
+
+### 2024-10-27
+* Added ego behavior to useVingRecord() and useVingKind() to allow disambiguation of multiple copies of the same record with different views.
+* VingRecord.propOptions() now returns validation options S3File relations in the form of acceptedFileExtensions.
+* VingRecord.describe().meta no longer includes the acceptedFileExtensions on S3File relations.
+* NOTE: If you are using `record.meta.acceptedFileExtensions` in your UI, you will need to change it to `record.options.relationName` instead. For example `record.meta.acceptedFileExtensions.avatar` would become `record.options.avatar`.
+
+### 2024-10-25
+ * Fix a bug in redis client where it wouldn't connect to the AWS valkey/redis cluster.
+ * Fix a hydration mismatch in form inputs subtext.
+ * Fix a hydration mismatch in markdown inputs.
+ * Added error handling to verifyExtension() in S3File.
+ * Added validation for acceptedFileExtensions in ving schemas being in the wrong place.
+ * Make ioredis quit gracefully.
+ * useVingKind().reset() is removed. Use .dispose() instead.
+
+### 2024-10-24
+ * Installed dotenv for environment variables.
+ * Updated the redis client to use dotenv to get the connection string.
+ * Updated the redis client to trap bad connection strings with an error message.
+ * Updated the drizzle client to use dotenv to get the connection string.
+ * Updated the drizzle client to trap bad connection strings with an error message.
+ * Fixed a potential bug where someone enters a negative page number into the paginator.
+ * Fixed a bug in the Pager component introduced with the upgrade to PrimeVue 4 where the default page was 0 rather than 1.
+ * Updated the redis client to allow for cluster. 
+ * Installed keyv-anyredis for cache instead of @keyv/redis.
+ * Updated cache to use which allows for cluster and allows us to reuse the existing redis client.
+ * NOTE: You will need to run `npm i` to get the new modules.
+
+### 2024-10-01
+ * Added colin's patch for mysql pagination.
+ * Disabled winston log rotation as it's not compatible with AWS Amplify.
+
 ## September 2024
 
 ### 2024-09-06

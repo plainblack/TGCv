@@ -2,7 +2,7 @@ import { Worker } from 'bullmq';
 import ving from '#ving/index.mjs';
 import { useRedis } from '#ving/redis.mjs';
 import { jobHandlers } from '#ving/jobs/map.mjs';
-
+import { addJob } from '#ving/jobs/queue.mjs';
 /** 
  * A class for running Ving jobs
  * @class
@@ -30,13 +30,19 @@ export class VingJobWorker {
 
     async start() {
 
-
+        const params = { connection: useRedis() };
+        if (params.connection.isCluster) {
+            params.prefix = '{vingjobs}';
+        }
         this.worker = new Worker(
             this.#queueName,
             async (job) => {
                 ving.log('jobs').info(`got job ${job.id} ${job.name}`);
+                ving.log('jobs').debug(`job ${job.id} parameters: ${JSON.stringify(job.data)
+
+                    }`);
                 if (job.name in jobHandlers) {
-                    jobHandlers[job.name](job);
+                    await jobHandlers[job.name](job);
                 }
                 else {
                     const message = `No job handler for job ${job.id} ${job.name}`;
@@ -44,19 +50,29 @@ export class VingJobWorker {
                     throw ving.ouch(501, message);
                 }
             },
-            {
-                connection: useRedis(),
-            }
+            { ...params }
         );
 
         this.worker.on('completed', job => {
             ving.log('jobs').info(`${job.id} ${job.name} has completed`);
         });
 
-        this.worker.on('failed', (job, err) => {
-            ving.log('jobs').error(`${job.id} ${job.name} has failed with ${err.message}`);
+        this.worker.on('failed', async (job, err) => {
+            ving.log('jobs').error(`${job.id} ${job.name} has errored with ${err.message} using data ${JSON.stringify(job.data)}`);
+            if (job.attemptsMade >= job.opts.attempts) {
+                ving.log('jobs').error(`CRITICAL: ${job.id} ${job.name} aborted after ${job.attemptsMade} attempts`);
+                await ving.addJob('EmailRole', {
+                    role: 'admin',
+                    subject: `Job ${job.name} aborted`,
+                    message: `Job ${job.name} aborted after ${job.attemptsMade} attempts.
+                    
+                    Job Id: ${job.id}
+                    Error: ${err.message}
+                    Data: 
+                    ${JSON.stringify(job.data)}`,
+                });
+            }
         });
-
         ving.log('jobs').info(`worker started`);
     }
 
