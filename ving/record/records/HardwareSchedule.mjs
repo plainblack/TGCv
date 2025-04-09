@@ -54,8 +54,7 @@ export class HardwareScheduleRecord extends VingRecord {
         });
     }
 
-    async createJob() {
-        //Hour Minute DayOfMonth Month DayOfWeek
+    scheduleToCron() {
         let cronSpec = '1 10 ';
         let dayOfMonth = 0;
         if (this.weeks >= 1) {
@@ -85,9 +84,14 @@ export class HardwareScheduleRecord extends VingRecord {
             }
             cronSpec += `${dayOfMonth} ${monthOfYear} *`;
         }
+        return cronSpec;
+    }
+
+    async createJob() {
+        //Hour Minute DayOfMonth Month DayOfWeek
         const CronJobs = await useKind("CronJob");
         const newJob = await CronJobs.create({
-            schedule: cronSpec,
+            schedule: this.schedule,
             handler: 'CreateTicketFromSchedule',
             params: { id: this.id },
             enabled: true,

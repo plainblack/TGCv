@@ -1,4 +1,4 @@
-import { baseSchemaProps, dbString, zodString, dbEnum, dbBoolean, dbMediumText, zodMediumText, dbText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject } from '../helpers.mjs';
+import { baseSchemaProps, dbVarChar, dbString, zodString, zodCron, dbEnum, dbBoolean, dbMediumText, zodMediumText, dbText, zodText, dbRelation, dbDateTime, dbTimestamp, dbInt, dbJson, zodNumber, zodJsonObject } from '../helpers.mjs';
 
 export const hardwareScheduleSchema = {
     kind: 'HardwareSchedule',
@@ -45,6 +45,19 @@ export const hardwareScheduleSchema = {
             db: (prop) => dbInt(prop),
             zod: (prop) => zodNumber(prop).gte(0).lte(31),
             view: ['owner'],
+            edit: ['owner'],
+        },
+        {
+            type: "string",
+            name: "schedule",
+            required: true,
+            unique: false,
+            length: 120,
+            default: '* * * * *',
+            filterQualifier: true,
+            db: (prop) => dbVarChar(prop),
+            zod: (prop) => zodCron(prop),
+            view: [],
             edit: ['owner'],
         },
         {

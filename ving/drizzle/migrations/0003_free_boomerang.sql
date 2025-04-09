@@ -1,0 +1,2 @@
+ALTER TABLE `cronjobs` MODIFY COLUMN `schedule` varchar(120) NOT NULL DEFAULT '* * * * *';--> statement-breakpoint
+ALTER TABLE `hardwareschedules` ADD `schedule` varchar(120) DEFAULT '* * * * *' NOT NULL;

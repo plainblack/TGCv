@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const uuid = v4;
 import { isFunction, isString, isNumber, isBoolean } from '#ving/utils/identify.mjs';
 import { ouch } from '#ving/utils/ouch.mjs';
+import { isValidCron } from 'cron-validator';
 
 
 /**
@@ -104,6 +105,15 @@ export const zodJsonObject = (prop) => {
     return z.object({});
 }
 
+/**
+ * Generates a zod rule for a json object prop which must be a Cron string according to
+ * cron-validator.
+ * @param {Object} prop An object containing the properties of this prop
+ * @returns a zod rule
+ */
+export const zodCron = (prop) => {
+    return z.string().min(0).max(prop.length).refine((val) => isValidCron(val, { alias: true, allowSevenAsSunday: true, allowNthWeekdayOfMonth: true }));
+}
 /**
  * Generates a drizzle schema field definition for a timestamp prop that defaults itself to now and is not null, and `onUpdateNow()` if `autoUpdate` is set to `true`
  * @param {Object} prop An object containing the properties of this prop

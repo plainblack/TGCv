@@ -22,6 +22,13 @@
       "when": 1731937126345,
       "tag": "0002_silky_mindworm",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1744149232602,
+      "tag": "0003_free_boomerang",
+      "breakpoints": true
     }
   ]
 }
