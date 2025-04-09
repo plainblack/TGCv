@@ -5,7 +5,9 @@ export const hardwareItemSchema = {
     tableName: 'hardwareitems',
     owner: ['admin', 'maintenanceManager',],
     props: [
-        ...baseSchemaProps,
+        { ...baseSchemaId },
+        { ...baseSchemaCreatedAt },
+        { ...baseSchemaUpdatedAt },
         {
             type: "string",
             name: "name",

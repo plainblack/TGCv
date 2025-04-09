@@ -5,7 +5,9 @@ export const hardwareTicketFileSchema = {
     tableName: 'hardwareticketfiles',
     owner: ['admin', 'maintenanceManager', 'productionManager'],
     props: [
-        ...baseSchemaProps,
+        { ...baseSchemaId },
+        { ...baseSchemaCreatedAt },
+        { ...baseSchemaUpdatedAt }, ,
         {
             type: "id",
             name: 's3FileId', // the name of the remote record's id in this table

@@ -5,7 +5,9 @@ export const hardwareScheduleSchema = {
     tableName: 'hardwareschedules',
     owner: ['admin', 'maintenanceManager'],
     props: [
-        ...baseSchemaProps,
+        { ...baseSchemaId },
+        { ...baseSchemaCreatedAt },
+        { ...baseSchemaUpdatedAt },
         {
             type: "enum",
             name: "recurrence",
