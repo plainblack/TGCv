@@ -60,7 +60,7 @@
                 <Pager :kind="hardwareschedules" />
             </PanelZone>
             <PanelZone title="Create Hardware Schedule">
-                <Form :send="() => hardwareschedules.create()">
+                <VForm :send="() => hardwareschedules.create()">
                     <div class="flex gap-5 flex-column-reverse md:flex-row">
                         <div class="flex-auto">
 
@@ -80,7 +80,7 @@
                             </div>
                         </div>
                     </div>
-                </Form>
+                </VForm>
                 <HardwareScheduleExamples />
             </PanelZone>
         </template>

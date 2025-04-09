@@ -47,7 +47,7 @@
                 <Pager :kind="hardwareitemsets" />
             </PanelZone>
             <PanelZone title="Create Hardware Set">
-                <Form :send="() => hardwareitemsets.create()">
+                <VForm :send="() => hardwareitemsets.create()">
                     <div class="flex gap-5 flex-column-reverse md:flex-row">
                         <div class="flex-auto">
 
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                     </div>
-                </Form>
+                </VForm>
             </PanelZone>
         </template>
     </PanelFrame>

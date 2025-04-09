@@ -31,7 +31,8 @@
                     </NuxtLink>
                     <Button @click="hardwareticket.delete()" severity="danger" title="Delete" class=" mr-2 mb-2"
                         alt="Delete Hardware Ticket"><i class="pi pi-trash mr-1"></i> Delete</Button>
-                    <FormInput name="claimedBy" type="text" v-model="hardwareticket.props.claimedBy" label="Claimed by" placeholder="Your initials" @change="hardwareticket.save('claimedBy')" />
+                    <FormInput name="claimedBy" type="text" v-model="hardwareticket.props.claimedBy" label="Claimed by"
+                        placeholder="Your initials" @change="hardwareticket.save('claimedBy')" />
                 </FieldsetItem>
 
 
@@ -43,7 +44,7 @@
                 </FieldsetItem>
 
                 <FieldsetItem v-if="showAddComment" name="Add Comment">
-                    <Form :send="() => hardwareremarks.create()">
+                    <VForm :send="() => hardwareremarks.create()">
                         <div class="grid">
 
                             <div class="col-8">
@@ -73,16 +74,16 @@
                                 </div>
                             </div>
                         </div>
-                    </Form>
+                    </VForm>
                 </FieldsetItem>
 
                 <FieldsetItem name="Files" v-if="hardwarefiles.records.length > 0">
-                    <HardwareTicketFile v-for=" file in hardwarefiles.records " :key="file.props.id" :mFile="file" />
+                    <HardwareTicketFile v-for="file in hardwarefiles.records" :key="file.props.id" :mFile="file" />
                 </FieldsetItem>
 
                 <FieldsetItem name="Comments" v-if="hardwareremarks.records.length > 0">
 
-                    <HardwareTicketRemark v-for=" remark in hardwareremarks.records " :key="remark.props?.id"
+                    <HardwareTicketRemark v-for="remark in hardwareremarks.records" :key="remark.props?.id"
                         :remark="remark" />
 
                 </FieldsetItem>

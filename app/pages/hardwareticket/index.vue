@@ -82,7 +82,7 @@
                 <Pager :kind="hardwaretickets" />
             </PanelZone>
             <PanelZone title="Create A Ticket">
-                <Form :send="() => hardwaretickets.create()">
+                <VForm :send="() => hardwaretickets.create()">
                     <div class="flex gap-5 flex-column-reverse md:flex-row">
                         <div class="flex-auto">
                             <HardwareItemTaskSelector :target="hardwaretickets" :hardwareitems="allhardwareitems" />
@@ -115,7 +115,7 @@
                             </div>
                         </div>
                     </div>
-                </Form>
+                </VForm>
             </PanelZone>
         </template>
     </PanelFrame>
