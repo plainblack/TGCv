@@ -67,9 +67,9 @@ const topNav = [
     { label: 'Admin Console', to: 'https://www.thegamecrafter.com/admin', icon: 'prime:home' },
     {
         label: 'Maintenance', icon: "wpf:maintenance", items: [
-            { label: 'Tickets', to: '/hardwareticket', icon: 'lucide:list-todo' },
-            { label: 'Equipment', to: '/hardwareitemset', icon: 'mdi:printer-pos-cog-outline' },
-            { label: 'Schedule', to: '/hardwareschedule', icon: 'healthicons:i-schedule-school-date-time' },]
+            { label: 'Tickets', to: '/hardwaretickets', icon: 'lucide:list-todo' },
+            { label: 'Equipment', to: '/hardwareitemsets', icon: 'mdi:printer-pos-cog-outline' },
+            { label: 'Schedule', to: '/hardwareschedules', icon: 'healthicons:i-schedule-school-date-time' },]
     },
 ]
 

@@ -43,6 +43,17 @@ export class HardwareScheduleRecord extends VingRecord {
         this.#skipUpdateJobCreation = false;
     }
 
+    /**
+     * Extends `describeLinks()` in `VingRecord`.
+     * @see VingRecord.describeLinks()
+     */
+    async describeLinks(idString, restVersion, schema, params = {}) {
+        const links = await super.describeLinks(idString, restVersion, schema, params);
+        links.edit = { href: `/${schema.kind?.toLowerCase()}s/${idString}/edit`, methods: ['GET'], usage: 'page' };
+        links.list = { href: `/${schema.kind?.toLowerCase()}s`, methods: ['GET'], usage: 'page' };
+        return links;
+    }
+
     async createTicket() {
         const Tickets = await useKind('HardwareTicket');
         await Tickets.create({

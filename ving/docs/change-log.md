@@ -3,7 +3,9 @@ outline: deep
 ---
 # Change Log
 
-## April 2025
+## 2025-04-10
+ * Move from repetition parameters to cron strings
+ * Core Ving merge
 
 ### 2025-04-09
  * Added @primevue/forms
