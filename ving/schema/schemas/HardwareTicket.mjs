@@ -7,7 +7,7 @@ export const hardwareTicketSchema = {
     props: [
         { ...baseSchemaId },
         { ...baseSchemaCreatedAt },
-        { ...baseSchemaUpdatedAt }, ,
+        { ...baseSchemaUpdatedAt },
         {
             type: "string",
             name: "description",

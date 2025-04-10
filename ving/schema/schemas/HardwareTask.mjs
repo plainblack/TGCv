@@ -7,7 +7,7 @@ export const hardwareTaskSchema = {
     props: [
         { ...baseSchemaId },
         { ...baseSchemaCreatedAt },
-        { ...baseSchemaUpdatedAt }, ,
+        { ...baseSchemaUpdatedAt },
         {
             type: "string",
             name: "description",
