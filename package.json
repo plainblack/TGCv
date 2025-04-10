@@ -46,6 +46,7 @@
     "@aws-sdk/s3-request-presigner": "^3.504.0",
     "@keyv/redis": "^2.8.4",
     "@pinia/nuxt": "^0.4.11",
+    "@primevue/forms": "^4.3.3",
     "@primevue/themes": "^4.0.0-rc.1",
     "@slack/web-api": "^7.3.1",
     "bcryptjs": "^2.4.3",
