@@ -45,7 +45,7 @@
 
                     <Column field="props.ticketNumber" header="#" sortable>
                         <template #body="slotProps">
-                            <NuxtLink :to="`/hardwareticket/${slotProps.data.props.id}`" v-ripple>
+                            <NuxtLink to=slotProps.data.links.edit.href v-ripple>
                                 {{ slotProps.data.meta.ticketNumber }}
                             </NuxtLink>
                         </template>
@@ -57,7 +57,7 @@
                     </Column>
                     <Column field="props.description" header="Description">
                         <template #body="slotProps">
-                            <NuxtLink :to="`/hardwareticket/${slotProps.data.props.id}`" v-ripple>
+                            <NuxtLink to=slotProps.data.links.edit.href v-ripple>
                                 {{ slotProps.data.props.description.slice(0, 60) }}
                             </NuxtLink>
                         </template>

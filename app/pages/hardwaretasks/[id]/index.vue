@@ -26,7 +26,7 @@
 
                     <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(hardwaretask.props.updatedAt) }}</div>
                     <div class="mb-4"><b>Hardware Set</b>: <NuxtLink
-                            :to="`/hardwareitemset/${hardwaretask.props?.hardwareItemSetId}`">{{
+                            to=slotProps.data.links.edit.href>{{
                                 hardwaretask.related?.itemSet?.props?.name }}</NuxtLink>
                     </div>
                 </FieldsetItem>
