@@ -30,7 +30,7 @@
 
                     <div class="mb-4"><b>Updated At</b>: {{ formatDateTime(hardwareitem.props.updatedAt) }}</div>
                     <div class="mb-4"><b>Hardware Set</b>: <NuxtLink
-                            :to="`/hardwareitemset/${hardwareitem.props?.hardwareItemSetId}`">{{
+                            :to="`/hardwareitemsets/${hardwareitem.props?.hardwareItemSetId}`">{{
                                 hardwareitem.related?.itemSet?.props?.name }}</NuxtLink>
                     </div>
 
