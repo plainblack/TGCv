@@ -47,8 +47,8 @@
 
                     <Column header="Manage">
                         <template #body="slotProps">
-                            <NuxtLink v-if="slotProps.data.meta?.isOwner"
-                                to=slotProps.data.props.links.edit.href class="mr-2 no-underline">
+                            <NuxtLink v-if="slotProps.data.meta?.isOwner" :to="slotProps.data.props.links.edit.href"
+                                class="mr-2 no-underline">
                                 <Button icon="pi pi-pencil" severity="success" title="Edit"
                                     alt="Edit Hardware Schedule" />
                             </NuxtLink>
