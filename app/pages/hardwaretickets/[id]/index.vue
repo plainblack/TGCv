@@ -24,7 +24,7 @@
                         class=" mr-2 mb-2" alt="Upload Files to Ticket"><i class="pi pi-file mr-1"></i> Add
                         Files</Button>
 
-                    <NuxtLink :to="`/hardwareticket/${hardwareticket.props?.id}/edit`" class="no-underline mr-2 mb-2">
+                    <NuxtLink :to="`/hardwaretickets/${hardwareticket.props?.id}/edit`" class="no-underline mr-2 mb-2">
                         <Button severity="primary" title="Edit" alt="Edit Hardware Ticket"><i
                                 class="pi pi-pencil mr-1"></i>
                             Edit</Button>
