@@ -85,7 +85,7 @@
                     <DataTable :value="hardwaretasks.records" stripedRows @sort="(e) => hardwaretasks.sortDataTable(e)">
                         <Column field="props.description" header="Description" sortable>
                             <template #body="slotProps">
-                                <NuxtLink :to="`/hardwaretask/${slotProps.data.props.id}`" v-ripple>
+                                <NuxtLink :to="`/hardwaretasks/${slotProps.data.props.id}`" v-ripple>
                                     {{ slotProps.data.props.description }}
                                 </NuxtLink>
                             </template>
@@ -93,7 +93,7 @@
                         <Column header="Manage">
                             <template #body="slotProps">
                                 <NuxtLink v-if="slotProps.data.meta?.isOwner"
-                                    :to="`/hardwaretask/${slotProps.data.props.id}`" class="mr-2 no-underline">
+                                    :to="`/hardwaretasks/${slotProps.data.props.id}`" class="mr-2 no-underline">
                                     <Button icon="pi pi-pencil" severity="success" title="Edit"
                                         alt="Edit Hardware Task" />
                                 </NuxtLink>
