@@ -60,7 +60,7 @@
                     </FieldsetItem>
 
                     <FieldsetItem name="Actions">
-                        <NuxtLink :to="`/hardwareticket/${hardwareticket.props?.id}`" class="no-underline">
+                        <NuxtLink :to="hardwareticket.links.view.href" class="no-underline">
                             <Button title="View" alt="View Hardware Ticket" class="mr-2 mb-2"><i
                                     class="pi pi-eye mr-1"></i>
                                 View</Button>
