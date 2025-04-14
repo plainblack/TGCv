@@ -37,11 +37,6 @@
                 </FieldsetItem>
 
                 <FieldsetItem name="Actions">
-                    <NuxtLink :to="`/hardwareschedule/${hardwareschedule.props?.id}`" class="no-underline">
-                        <Button title="View" alt="View Hardware Schedule" class="mr-2 mb-2"><i
-                                class="pi pi-eye mr-1"></i>
-                            View</Button>
-                    </NuxtLink>
                     <Button @click="hardwareschedule.delete()" severity="danger" class="mr-2 mb-2" title="Delete"
                         alt="Delete Hardware Schedule"><i class="pi pi-trash mr-1"></i> Delete</Button>
                 </FieldsetItem>
