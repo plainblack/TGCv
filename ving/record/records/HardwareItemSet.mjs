@@ -13,7 +13,7 @@ export class HardwareItemSetRecord extends VingRecord {
      */
     async describeLinks(idString, restVersion, schema, params = {}) {
         const links = await super.describeLinks(idString, restVersion, schema, params);
-        links.edit = { href: `/${schema.kind?.toLowerCase()}s/${idString}/edit`, methods: ['GET'], usage: 'page' };
+        links.view = { href: `/${schema.kind?.toLowerCase()}s/${idString}`, methods: ['GET'], usage: 'page' };
         links.list = { href: `/${schema.kind?.toLowerCase()}s`, methods: ['GET'], usage: 'page' };
         return links;
     }

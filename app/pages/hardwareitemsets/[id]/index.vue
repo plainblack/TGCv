@@ -24,7 +24,7 @@
 
                         <Column field="props.name" header="Name" sortable>
                             <template #body="slotProps">
-                                <NuxtLink :to="`/hardwareitem/${slotProps.data.props.id}`" v-ripple>
+                                <NuxtLink :to="`/hardwareitems/${slotProps.data.props.id}`" v-ripple>
                                     {{ slotProps.data.props.name }}
                                 </NuxtLink>
                             </template>
@@ -37,7 +37,7 @@
                         <Column header="Manage">
                             <template #body="slotProps">
                                 <NuxtLink v-if="slotProps.data.meta?.isOwner"
-                                    :to="`/hardwareitem/${slotProps.data.props.id}`" class="mr-2 no-underline">
+                                    :to="`/hardwareitems/${slotProps.data.props.id}`" class="mr-2 no-underline">
                                     <Button icon="pi pi-pencil" severity="success" title="Edit"
                                         alt="Edit Hardware Item" />
                                 </NuxtLink>
