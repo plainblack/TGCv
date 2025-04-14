@@ -120,10 +120,10 @@ An inline page nav for a large scrollable form to be divided up into sections us
 </FieldsetNav>
 ```
 
-### Form
+### VForm
 A form element to allow coordination of validation of inputs.
 ```html
-<Form :send="someFunc()">...</Form>
+<VForm :send="someFunc()">...</VForm>
 ```
 
 Props:
@@ -182,8 +182,8 @@ Sometimes you need to list a bunch of management functions in a tight space, lik
 
 ```html
 <ManageButton severity="primary" :items="[
-    { icon:'ph:eye', label:'View', to:`/foo`},
-    { icon:'ph:pencil', label:'Edit', to:`/foo/edit`},
+    { icon:'ph:eye', label:'View', to:`/foos`},
+    { icon:'ph:pencil', label:'Edit', to:`/foos/xxx/edit`},
     { icon:'ph:trash', label:'Delete', action: () => { console.log('delete me')}}
     ]" /> 
 ```
@@ -377,6 +377,28 @@ It also triggers 2 window events for when the user logs in or out.
     });
 ```
 
+#### Extended Functionality
+`useCurrentUser()` as all the same functionality as the `useVingRecord()` composable, but also has a few extra methods:
+
+##### login()
+Logs in a user.
+
+##### logout()
+Logs out a user.
+
+##### isRole(role)
+Returns `true` if the current user has the specified role.
+
+##### isaRole(roles)
+Returns `true` if the current user has any of the specified roles.
+
+##### sendVerifyEmail(redirectAfter)
+Sends a verification email to the user. If `redirectAfter` is passed in, then the user will be redirected to that URL after they verify their email.
+
+##### verifyEmail(verify)
+Verifies a user's email. If `verify` is passed in, then the user will be redirected to that URL after they verify their email.
+
+
 
 ### useMessageBus()
 Connects the browser to the server's [message bus](messagebus). It establishes a connection between your browser and the server, so it needs to be installed in an `onMounted()` handler in your layouts.
@@ -406,7 +428,7 @@ You would then use the Notify Component in your layout.
 A wrapper around the Nuxt composable `$fetch()` that allows for streamlined fetches, but integrate's with ving's subsystems.
 
 ```js
-const response = useFetch(`/api/${useRestVersion()}/user`);
+const response = useFetch(`/api/${useRestVersion()}/users`);
 ```
 
 ### useRestVersion()
@@ -458,14 +480,30 @@ A client for interacting with [server-side ving kinds](ving-record#kind-api) thr
 
 ```js
 const users = useVingKind({
-    listApi : `/api/${useRestVersion()}/user`,
-    createApi : `/api/${useRestVersion()}/user`,
+    listApi : `/api/${useRestVersion()}/users`,
+    createApi : `/api/${useRestVersion()}/users`,
     query: { includeMeta: true, sortBy: 'username', sortOrder: 'asc' },
     newDefaults: { username: '', realName: '', email: '' },
 });
 await users.search();
 onBeforeRouteLeave(() => users.dispose());
 ```
+
+#### Filtering
+
+You can filter the list of records by passing in values to the query object. For example, to filter by an exact value:
+
+```js
+users.query.id = 'xxx';
+```
+
+or filter by a keyword:
+
+```js
+users.query.search = 'foo';
+```
+For more on filtering see the [rest api](rest#filters) documentation.
+
 
 ### useVingRecord()
 A client for interacting with [server-side ving records](ving-record#record-api) through the [Rest API](rest).
@@ -474,14 +512,14 @@ A client for interacting with [server-side ving records](ving-record#record-api)
 const id = route.params.id.toString();
 const user = useVingRecord<'User'>({
     id,
-    fetchApi: `/api/${useRestVersion()}/user/${id}`,
-    createApi: `/api/${useRestVersion()}/user`,
+    fetchApi: `/api/${useRestVersion()}/users/${id}`,
+    createApi: `/api/${useRestVersion()}/users`,
     query: { includeMeta: true, includeOptions: true },
     onUpdate() {
         notify.success('Updated user.');
     },
     async onDelete() {
-        await navigateTo('/user/admin');
+        await navigateTo(user.links.list.href);
     },
 });
 await user.fetch()

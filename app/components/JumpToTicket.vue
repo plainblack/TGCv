@@ -13,9 +13,9 @@ const ticketNumber = ref('');
 
 async function findTicket() {
     const hardwareticket = useVingRecord({
-        fetchApi: `/api/${useRestVersion()}/hardwareticket/lookupticket?ticketNumber=${ticketNumber.value}`,
+        fetchApi: `/api/${useRestVersion()}/hardwaretickets/lookupticket?ticketNumber=${ticketNumber.value}`,
     });
     await hardwareticket.fetch();
-    await navigateTo(`/hardwareticket/${hardwareticket.props.id}`);
+    await navigateTo(`/hardwaretickets/${hardwareticket.props.id}`);
 }
 </script>

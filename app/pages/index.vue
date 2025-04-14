@@ -1,6 +1,6 @@
 <template>
-    
+
 </template>
 <script setup>
-navigateTo('/hardwareticket');
+navigateTo('/hardwaretickets');
 </script>

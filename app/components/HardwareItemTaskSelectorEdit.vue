@@ -7,28 +7,29 @@
     </div>
     <div class="mb-4">
         <FormInput type="select" :options="hardwaretasks.recordsAsOptions('props', 'description')" name="hardwareTaskId"
-        placeholder="Choose Task" v-model="target.props.hardwareTaskId" label="Hardware Task" @change="target.update()">
+            placeholder="Choose Task" v-model="target.props.hardwareTaskId" label="Hardware Task"
+            @change="target.update()">
         </FormInput>
     </div>
 </template>
 
 <script setup>
 const props = defineProps({
-    target: { required : true },
-    taskFilter: { required : true },
+    target: { required: true },
+    taskFilter: { required: true },
 });
 
 const hardwaretasks = useVingKind({
     ego: 'hardwaretaskselectoredit',
-    listApi: `/api/${useRestVersion()}/hardwaretask`,
-    createApi: `/api/${useRestVersion()}/hardwaretask`,
+    listApi: `/api/${useRestVersion()}/hardwaretasks`,
+    createApi: `/api/${useRestVersion()}/hardwaretasks`,
     query: { sortBy: 'description' },
 });
 const hardwareitems = useVingKind({
     ego: 'hardwaretaskselectoredititem',
-    listApi: `/api/${useRestVersion()}/hardwareitem`,
-    createApi: `/api/${useRestVersion()}/hardwareitem`,
-    query: { sortBy: 'name', ...props.taskFilter,  },
+    listApi: `/api/${useRestVersion()}/hardwareitems`,
+    createApi: `/api/${useRestVersion()}/hardwareitems`,
+    query: { sortBy: 'name', ...props.taskFilter, },
 });
 await Promise.all([
     hardwareitems.all(),

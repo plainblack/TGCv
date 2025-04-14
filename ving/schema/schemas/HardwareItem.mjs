@@ -1,11 +1,13 @@
-import { baseSchemaProps, dbString, zodString, dbEnum, dbRelation } from '../helpers.mjs';
+import { baseSchemaId, baseSchemaCreatedAt, baseSchemaUpdatedAt, dbString, zodString, dbEnum, dbRelation } from '../helpers.mjs';
 
 export const hardwareItemSchema = {
     kind: 'HardwareItem',
     tableName: 'hardwareitems',
     owner: ['admin', 'maintenanceManager',],
     props: [
-        ...baseSchemaProps,
+        { ...baseSchemaId },
+        { ...baseSchemaCreatedAt },
+        { ...baseSchemaUpdatedAt },
         {
             type: "string",
             name: "name",

@@ -8,9 +8,9 @@
 export default () => {
     const links = computed(() => {
         const out = [
-            { label: 'Tickets', to: '/hardwareticket', icon: 'lucide:list-todo' },
-            { label: 'Hardware Item Sets', to: '/hardwareitemset', icon: 'mdi:printer-pos-cog-outline' },
-            { label: 'Schedule', to: '/hardwareschedule', icon: 'healthicons:i-schedule-school-date-time' },
+            { label: 'Tickets', to: '/hardwaretickets', icon: 'lucide:list-todo' },
+            { label: 'Hardware Item Sets', to: '/hardwareitemsets', icon: 'mdi:printer-pos-cog-outline' },
+            { label: 'Schedule', to: '/hardwareschedules', icon: 'healthicons:i-schedule-school-date-time' },
         ];
         return out;
     });

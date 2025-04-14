@@ -1,5 +1,6 @@
 import { renderTemplate, toFile, getContext, inject, after } from '@featherscloud/pinion';
 import { miniHash } from '#ving/utils/miniHash.mjs';
+import { isFile } from '#ving/utils/fs.mjs';
 
 export const makeBaseTable = (schema) => {
     const columns = [];
@@ -12,16 +13,16 @@ export const makeBaseTable = (schema) => {
                     const fields = [prop.name, ...prop.uniqueQualifiers];
                     const composite = fields.join('_');
                     const key = composite.substring(0, 48) + '_' + miniHash(composite) + '_uq';
-                    specialConstraints.push(`${key}: unique('${key}').on(table.${fields.join(', table.')})`);
+                    specialConstraints.push(`unique('${key}').on(table.${fields.join(', table.')})`);
                 }
                 else {
-                    specialConstraints.push(`${prop.name}Index: uniqueIndex('${prop.name}Index').on(table.${prop.name})`);
+                    specialConstraints.push(`uniqueIndex('${prop.name}Index').on(table.${prop.name})`);
                 }
             }
             if (prop.relation && ['parent', 'sibling'].includes(prop.relation.type)) {
                 const composite = [schema.tableName, prop.relation.name].join('_');
                 const key = composite.substring(0, 48) + '_' + miniHash(composite) + '_fk';
-                specialConstraints.push(`${key}: foreignKey({ name: "${key}", columns: [table.${prop.name}], foreignColumns: [${prop.relation?.kind}Table.id]}).onDelete(${prop.required ? '"cascade"' : '"set null"'}).onUpdate(${prop.required ? '"cascade"' : '"no action"'})`);
+                specialConstraints.push(`foreignKey({ name: "${key}", columns: [table.${prop.name}], foreignColumns: [${prop.relation?.kind}Table.id]}).onDelete(${prop.required ? '"cascade"' : '"set null"'}).onUpdate(${prop.required ? '"cascade"' : '"no action"'})`);
             }
         }
     }
@@ -30,9 +31,9 @@ export const ${schema.kind}Table = mysqlTable('${schema.tableName}',
     {
         ${columns.join(",\n\t\t")}
     }, 
-    (table) => ({
+    (table) => ([
         ${specialConstraints.join(",\n\t\t")}
-    })
+    ])
 );
 `;
 }
@@ -53,6 +54,14 @@ ${makeBaseTable(schema)}
 
 export const makeTableFile = (params) => {
     const context = { ...getContext({}), ...params };
-    return Promise.resolve(context)
-        .then(renderTemplate(makeTable, toFile(`ving/drizzle/schema/${context.schema.kind}.mjs`), { force: true }));
+    const tablePath = `ving/drizzle/schema/${context.schema.kind}.mjs`;
+    const alreadyExists = isFile(tablePath)
+    const promise = Promise.resolve(context)
+        .then(renderTemplate(makeTable, toFile(tablePath), { force: true }));
+    if (!alreadyExists) {
+        promise
+            .then(inject(`import { ${context.name}Table } from "#ving/drizzle/schema/${context.name}.mjs";`, after('import { UserTable } from "#ving/drizzle/schema/User.mjs";'), toFile('ving/drizzle/map.mjs')))
+            .then(inject(`    ${context.name}: ${context.name}Table,`, after('    User: UserTable,'), toFile('ving/drizzle/map.mjs')));
+    }
+    return promise;
 }
