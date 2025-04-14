@@ -39,6 +39,7 @@
                         <JumpToTicket />
                     </div>
                 </div>
+                <div>[{{ hardwaretickets.query.type }}]</div>
 
 
                 <DataTable :value="hardwaretickets.records" stripedRows @sort="(e) => hardwaretickets.sortDataTable(e)">
@@ -50,7 +51,7 @@
                             </NuxtLink>
                         </template>
                     </Column>
-                    <Column field="props.type" header="Type" sortable v-if="hardwaretickets.query.type == ''">
+                    <Column field="props.type" header="Type" sortable>
                         <template #body="slotProps">
                             {{ enum2label(slotProps.data.props.type, hardwaretickets.propsOptions.type) }}
                         </template>
