@@ -29,7 +29,7 @@
                     <Column field="props.hardwareItemId" header="Hardware Item" sortable>
                         <template #body="slotProps">
                             <NuxtLinkRecord :kind="allhardwareitems" :recordId="slotProps.data.props?.hardwareItemId"
-                                pageHref="/hardwareitem"></NuxtLinkRecord>
+                                pageHref="/hardwareitems"></NuxtLinkRecord>
                         </template>
                     </Column>
                     <Column field="props.hardwareTaskId" header="Task" sortable>
@@ -47,7 +47,7 @@
 
                     <Column header="Manage">
                         <template #body="slotProps">
-                            <NuxtLink v-if="slotProps.data.meta?.isOwner" :to="slotProps.data.props.links.edit.href"
+                            <NuxtLink v-if="slotProps.data.meta?.isOwner" :to="slotProps.data.links.edit.href"
                                 class="mr-2 no-underline">
                                 <Button icon="pi pi-pencil" severity="success" title="Edit"
                                     alt="Edit Hardware Schedule" />
