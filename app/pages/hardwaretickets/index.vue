@@ -39,8 +39,6 @@
                         <JumpToTicket />
                     </div>
                 </div>
-                <div>[{{ hardwaretickets.query.type }}]</div>
-
 
                 <DataTable :value="hardwaretickets.records" stripedRows @sort="(e) => hardwaretickets.sortDataTable(e)">
 
