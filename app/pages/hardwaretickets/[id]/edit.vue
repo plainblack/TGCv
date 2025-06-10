@@ -20,6 +20,10 @@
                                 @change="hardwareticket.save('type')" />
                         </div>
                         <div class="mb-4">
+                            <FormInput type="number" name="priority" v-model="hardwareticket.props.priority"
+                                label="Priority" @change="hardwareticket.save('priority')" />
+                        </div>
+                        <div class="mb-4">
                             <FormInput type="select" name="severity" :options="hardwareticket.options.severity"
                                 v-model="hardwareticket.props.severity" label="Severity"
                                 @change="hardwareticket.save('severity')" />

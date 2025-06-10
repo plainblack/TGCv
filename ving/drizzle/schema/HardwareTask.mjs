@@ -10,8 +10,8 @@ export const HardwareTaskTable = mysqlTable('hardwaretasks',
 		description: mediumText('description').notNull(),
 		hardwareItemSetId: bigint('hardwareItemSetId', {mode:'number', unsigned: true}).notNull()
     }, 
-    (table) => ({
-        hardwaretasks_itemSet_6afcc4a_fk: foreignKey({ name: "hardwaretasks_itemSet_6afcc4a_fk", columns: [table.hardwareItemSetId], foreignColumns: [HardwareItemSetTable.id]}).onDelete("cascade").onUpdate("cascade")
-    })
+    (table) => ([
+        foreignKey({ name: "hardwaretasks_itemSet_6afcc4a_fk", columns: [table.hardwareItemSetId], foreignColumns: [HardwareItemSetTable.id]}).onDelete("cascade").onUpdate("cascade")
+    ])
 );
 

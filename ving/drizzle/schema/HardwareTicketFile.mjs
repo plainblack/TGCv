@@ -11,9 +11,9 @@ export const HardwareTicketFileTable = mysqlTable('hardwareticketfiles',
 		s3FileId: bigint('s3FileId', {mode:'number', unsigned: true}).notNull(),
 		hardwareTicketId: bigint('hardwareTicketId', {mode:'number', unsigned: true}).notNull()
     }, 
-    (table) => ({
-        hardwareticketfiles_s3file_77c6b8a8_fk: foreignKey({ name: "hardwareticketfiles_s3file_77c6b8a8_fk", columns: [table.s3FileId], foreignColumns: [S3FileTable.id]}).onDelete("cascade").onUpdate("cascade"),
-		hardwareticketfiles_ticket_731a4138_fk: foreignKey({ name: "hardwareticketfiles_ticket_731a4138_fk", columns: [table.hardwareTicketId], foreignColumns: [HardwareTicketTable.id]}).onDelete("cascade").onUpdate("cascade")
-    })
+    (table) => ([
+        foreignKey({ name: "hardwareticketfiles_s3file_77c6b8a8_fk", columns: [table.s3FileId], foreignColumns: [S3FileTable.id]}).onDelete("cascade").onUpdate("cascade"),
+		foreignKey({ name: "hardwareticketfiles_ticket_731a4138_fk", columns: [table.hardwareTicketId], foreignColumns: [HardwareTicketTable.id]}).onDelete("cascade").onUpdate("cascade")
+    ])
 );
 

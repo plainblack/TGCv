@@ -149,5 +149,16 @@ export const hardwareTicketSchema = {
             view: ['public'],
             edit: ['owner'],
         },
+        {
+            type: "int",
+            name: "priority",
+            default: 3,
+            required: false,
+            filterQualifier: true,
+            db: (prop) => dbInt(prop),
+            zod: (prop) => zodNumber(prop).gte(1).lte(5),
+            view: ['public'],
+            edit: ['admin'],
+        },
     ],
 };

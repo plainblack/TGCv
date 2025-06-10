@@ -1,0 +1,1 @@
+ALTER TABLE `hardwaretickets` ADD `priority` int DEFAULT 3 NOT NULL;

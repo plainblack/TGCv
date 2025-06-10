@@ -16,11 +16,12 @@ export const HardwareTicketTable = mysqlTable('hardwaretickets',
 		submittedBy: varchar('submittedBy', { length: 64 }).notNull().default(''),
 		hardwareTaskId: bigint('hardwareTaskId', {mode:'number', unsigned: true}).notNull(),
 		hardwareItemId: bigint('hardwareItemId', {mode:'number', unsigned: true}).notNull(),
-		claimedBy: varchar('claimedBy', { length: 64 }).notNull().default('')
+		claimedBy: varchar('claimedBy', { length: 64 }).notNull().default(''),
+		priority: int('priority').notNull().default(3)
     }, 
-    (table) => ({
-        hardwaretickets_task_652b79c5_fk: foreignKey({ name: "hardwaretickets_task_652b79c5_fk", columns: [table.hardwareTaskId], foreignColumns: [HardwareTaskTable.id]}).onDelete("cascade").onUpdate("cascade"),
-		hardwaretickets_item_6526bf53_fk: foreignKey({ name: "hardwaretickets_item_6526bf53_fk", columns: [table.hardwareItemId], foreignColumns: [HardwareItemTable.id]}).onDelete("cascade").onUpdate("cascade")
-    })
+    (table) => ([
+        foreignKey({ name: "hardwaretickets_task_652b79c5_fk", columns: [table.hardwareTaskId], foreignColumns: [HardwareTaskTable.id]}).onDelete("cascade").onUpdate("cascade"),
+		foreignKey({ name: "hardwaretickets_item_6526bf53_fk", columns: [table.hardwareItemId], foreignColumns: [HardwareItemTable.id]}).onDelete("cascade").onUpdate("cascade")
+    ])
 );
 

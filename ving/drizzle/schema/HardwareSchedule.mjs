@@ -19,10 +19,10 @@ export const HardwareScheduleTable = mysqlTable('hardwareschedules',
 		description: mediumText('description').notNull(),
 		cronJobId: bigint('cronJobId', {mode:'number', unsigned: true}).default(null)
     }, 
-    (table) => ({
-        hardwareschedules_item_33d0762_fk: foreignKey({ name: "hardwareschedules_item_33d0762_fk", columns: [table.hardwareItemId], foreignColumns: [HardwareItemTable.id]}).onDelete("cascade").onUpdate("cascade"),
-		hardwareschedules_task_3384cf0_fk: foreignKey({ name: "hardwareschedules_task_3384cf0_fk", columns: [table.hardwareTaskId], foreignColumns: [HardwareTaskTable.id]}).onDelete("cascade").onUpdate("cascade"),
-		hardwareschedules_cronjob_1b3e3efc_fk: foreignKey({ name: "hardwareschedules_cronjob_1b3e3efc_fk", columns: [table.cronJobId], foreignColumns: [CronJobTable.id]}).onDelete("set null").onUpdate("no action")
-    })
+    (table) => ([
+        foreignKey({ name: "hardwareschedules_item_33d0762_fk", columns: [table.hardwareItemId], foreignColumns: [HardwareItemTable.id]}).onDelete("cascade").onUpdate("cascade"),
+		foreignKey({ name: "hardwareschedules_task_3384cf0_fk", columns: [table.hardwareTaskId], foreignColumns: [HardwareTaskTable.id]}).onDelete("cascade").onUpdate("cascade"),
+		foreignKey({ name: "hardwareschedules_cronjob_1b3e3efc_fk", columns: [table.cronJobId], foreignColumns: [CronJobTable.id]}).onDelete("set null").onUpdate("no action")
+    ])
 );
 

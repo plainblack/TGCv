@@ -12,8 +12,8 @@ export const HardwareItemSetTable = mysqlTable('hardwareitemsets',
 		taskCount: int('taskCount').notNull().default(0),
 		status: mysqlEnum('status', ['in_use','retired']).notNull().default('in_use')
     }, 
-    (table) => ({
+    (table) => ([
         
-    })
+    ])
 );
 

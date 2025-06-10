@@ -13,8 +13,8 @@ export const HardwareTicketRemarkTable = mysqlTable('hardwareticketremarks',
 		submittedBy: varchar('submittedBy', { length: 64 }).notNull().default(''),
 		hardwareTicketId: bigint('hardwareTicketId', {mode:'number', unsigned: true}).notNull()
     }, 
-    (table) => ({
-        hardwareticketremarks_ticket_1ddadbcc_fk: foreignKey({ name: "hardwareticketremarks_ticket_1ddadbcc_fk", columns: [table.hardwareTicketId], foreignColumns: [HardwareTicketTable.id]}).onDelete("cascade").onUpdate("cascade")
-    })
+    (table) => ([
+        foreignKey({ name: "hardwareticketremarks_ticket_1ddadbcc_fk", columns: [table.hardwareTicketId], foreignColumns: [HardwareTicketTable.id]}).onDelete("cascade").onUpdate("cascade")
+    ])
 );
 

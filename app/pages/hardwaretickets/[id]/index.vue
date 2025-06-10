@@ -96,6 +96,9 @@
                     </div>
                     <div><b>Type</b>: {{ enum2label(hardwareticket.props?.type, hardwareticket.options?.type) }}</div>
 
+                    <div><b>Priority</b>: {{ hardwareticket.props?.priority }}
+                    </div>
+
                     <div><b>Severity</b>: {{ enum2label(hardwareticket.props?.severity,
                         hardwareticket.options?.severity) }}
                     </div>

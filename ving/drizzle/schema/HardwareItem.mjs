@@ -11,8 +11,8 @@ export const HardwareItemTable = mysqlTable('hardwareitems',
 		status: mysqlEnum('status', ['in_use','retired','backup']).notNull().default('in_use'),
 		hardwareItemSetId: bigint('hardwareItemSetId', {mode:'number', unsigned: true}).notNull()
     }, 
-    (table) => ({
-        hardwareitems_itemSet_fef4de8_fk: foreignKey({ name: "hardwareitems_itemSet_fef4de8_fk", columns: [table.hardwareItemSetId], foreignColumns: [HardwareItemSetTable.id]}).onDelete("cascade").onUpdate("cascade")
-    })
+    (table) => ([
+        foreignKey({ name: "hardwareitems_itemSet_fef4de8_fk", columns: [table.hardwareItemSetId], foreignColumns: [HardwareItemSetTable.id]}).onDelete("cascade").onUpdate("cascade")
+    ])
 );
 

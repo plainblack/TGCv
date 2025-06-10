@@ -3,6 +3,9 @@ outline: deep
 ---
 # Change Log
 
+## 2025-06-10
+ * Add a priority field for tickets.
+
 ## 2025-04-10
  * Move from repetition parameters to cron strings
  * Core Ving merge
