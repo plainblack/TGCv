@@ -62,40 +62,8 @@ export class HardwareScheduleRecord extends VingRecord {
             description: this.description,
             hardwareTaskId: this.hardwareTaskId,
             hardwareItemId: this.hardwareItemId,
+            priority: this.ticketPriority,
         });
-    }
-
-    scheduleToCron() {
-        let cronSpec = '1 10 ';
-        let dayOfMonth = 0;
-        if (this.weeks >= 1) {
-            dayOfMonth += (this.weeks * 7 + this.days)
-        }
-        else {
-            if (this.days > 0) {
-                dayOfMonth += this.days;
-            }
-            else {
-                dayOfMonth = 1;
-            }
-        }
-        if (this.recurrence == 'daily') {
-            cronSpec += '* * *';
-        }
-        else if (this.recurrence == 'weekly') {
-            cronSpec += '* * ' + this.days;
-        }
-        else if (this.recurrence == 'monthly') {
-            cronSpec += dayOfMonth + ' * *';
-        }
-        else if (this.recurrence == 'yearly') {
-            let monthOfYear = 1;
-            if (this.months > 0) {
-                monthOfYear = this.months;
-            }
-            cronSpec += `${dayOfMonth} ${monthOfYear} *`;
-        }
-        return cronSpec;
     }
 
     async createJob() {

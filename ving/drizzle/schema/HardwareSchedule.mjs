@@ -9,15 +9,12 @@ export const HardwareScheduleTable = mysqlTable('hardwareschedules',
         id: bigint('id', {mode:'number', unsigned: true}).notNull().autoincrement().primaryKey(),
 		createdAt: timestamp('createdAt').defaultNow().notNull(),
 		updatedAt: timestamp('updatedAt').defaultNow().notNull().onUpdateNow(),
-		recurrence: mysqlEnum('recurrence', ['yearly','monthly','weekly','daily']).notNull().default('monthly'),
-		months: int('months').notNull().default(0),
-		weeks: int('weeks').notNull().default(0),
-		days: int('days').notNull().default(0),
 		schedule: varchar('schedule', { length: 120 }).notNull().default('* * * * *'),
 		hardwareItemId: bigint('hardwareItemId', {mode:'number', unsigned: true}).notNull(),
 		hardwareTaskId: bigint('hardwareTaskId', {mode:'number', unsigned: true}).notNull(),
 		description: mediumText('description').notNull(),
-		cronJobId: bigint('cronJobId', {mode:'number', unsigned: true}).default(null)
+		cronJobId: bigint('cronJobId', {mode:'number', unsigned: true}).default(null),
+		ticketPriority: int('ticketPriority').notNull().default(3)
     }, 
     (table) => ([
         foreignKey({ name: "hardwareschedules_item_33d0762_fk", columns: [table.hardwareItemId], foreignColumns: [HardwareItemTable.id]}).onDelete("cascade").onUpdate("cascade"),
