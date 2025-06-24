@@ -32,6 +32,7 @@
                                 pageHref="/hardwareitems"></NuxtLinkRecord>
                         </template>
                     </Column>
+                    <Column field="props.ticketPriority" header="Priority" sortable />
                     <Column field="props.hardwareTaskId" header="Task" sortable>
                         <template #body="slotProps">
                             {{ allhardwaretasks.find(slotProps.data.props?.hardwareTaskId)?.props?.description
@@ -63,12 +64,15 @@
                 <VForm :send="() => hardwareschedules.create()">
                     <div class="flex gap-5 flex-column-reverse md:flex-row">
                         <div class="flex-auto">
-
                             <div class="mb-4">
                                 <FormInput name="schedule" type="text" required v-model="hardwareschedules.new.schedule"
                                     label="Schedule" />
                             </div>
                             <HardwareItemTaskSelector :target="hardwareschedules" :hardwareitems="allhardwareitems" />
+                            <div class="mb-4">
+                                <FormInput name="ticketPriority" type="number" required v-model="hardwareschedules.new.ticketPriority"
+                                    label="Priority" />
+                            </div>
                             <div class="mb-4">
                                 <FormInput name="description" type="markdown"
                                     v-model="hardwareschedules.new.description" required label="Description" />
@@ -95,7 +99,7 @@ const hardwareschedules = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareschedules`,
     createApi: `/api/${useRestVersion()}/hardwareschedules`,
     query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareItemId: '', hardwareId: '', },
-    newDefaults: { schedule: '1 10 * * *', hardwareItemId: '', hardwareTaskId: '', description: '', },
+    newDefaults: { schedule: '1 10 * * *', ticketPriority: 3, hardwareItemId: '', hardwareTaskId: '', description: '', },
 });
 const allhardwareitems = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareitems`,

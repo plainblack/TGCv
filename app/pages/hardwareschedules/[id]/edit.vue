@@ -15,6 +15,10 @@
                             label="Schedule" @change="hardwareschedule.save('schedule')" />
                         <CronToHuman :schedule="hardwareschedule.props.schedule" />
                     </div>
+                    <div class="mb-4">
+                        <FormInput name="ticketPriority" type="number" v-model="hardwareschedule.props.ticketPriority"
+                            label="Priority" @change="hardwareschedule.save('ticketPriority')" />
+                    </div>
                     <HardwareItemTaskSelectorEdit :target="hardwareschedule" :taskFilter="{ status: '!=backup', }" />
                     <div class="mb-4">
                         <FormInput name="description" type="markdown" v-model="hardwareschedule.props.description"
