@@ -36,13 +36,6 @@
       "when": 1749583129076,
       "tag": "0004_eminent_whistler",
       "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1750287263667,
-      "tag": "0005_spooky_whiplash",
-      "breakpoints": true
     }
   ]
 }
