@@ -40,7 +40,7 @@
                     </Column>
                     <Column field="props.description" header="Description" sortable>
                         <template #body="slotProps">
-                            <MarkdownView :text="slotProps.data.props?.description" />
+                            <client-only><MarkdownView :text="slotProps.data.props?.description" /></client-only>
                         </template>
                     </Column>
                     <Column field="props.schedule" header="Schedule"></Column>

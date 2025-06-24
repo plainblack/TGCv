@@ -10,7 +10,7 @@ const props = defineProps({
     schedule: { required: true },
 });
 function translate(schedule) {
-    if (isValidCron(schedule, { alias: true, allowSevenAsSunday: true, allowNthWeekdayOfMonth: true })) {
+    if (schedule !== undefined && isValidCron(schedule, { alias: true, allowSevenAsSunday: true, allowNthWeekdayOfMonth: true })) {
         return cronstrue.toString(schedule, { verbose: true });
     }
     else {
