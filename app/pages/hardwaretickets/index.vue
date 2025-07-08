@@ -22,7 +22,7 @@
                     <div>
                         <FormInput type="select" :options="allhardwareitems.recordsAsOptions('props', 'name')"
                             name="hardwareItemIdFilter" placeholder="All Equipment"
-                            v-model="hardwaretickets.query.hardwareItemId" @change="hardwaretickets.search()">
+                            v-model="hardwaretickets.query.hardwareItemId" @change="updateHardwareItem()">
                         </FormInput>
                     </div>
                     <div>
@@ -131,6 +131,7 @@
 definePageMeta({
     middleware: ['auth', 'maintenance-production-manager', 'all-workaround']
 });
+const route = useRoute();
 const priorities = ref([
     { value: 1, label: '1' },
     { value: 2, label: '2' },
@@ -141,7 +142,7 @@ const priorities = ref([
 const hardwaretickets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwaretickets`,
     createApi: `/api/${useRestVersion()}/hardwaretickets`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: '', type: '', priority: '', status: 'unresolved', description: '' },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: route.query.hardwareItemId || '', type: '', priority: '', status: 'unresolved', description: '' },
     newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', hardwareTaskId: '', hardwareItemId: '', id: '' },
     onCreate: (data) => { return navigateTo(`/hardwaretickets/${data.props.id}`) },
 });
@@ -170,5 +171,19 @@ onBeforeRouteLeave(() => {
     allhardwaretasks.dispose(); // throws an error after creating a new ticket if this is disposed
     allhardwareitems.dispose();
 });
+
+async function updateHardwareItem () {
+    console.log(hardwaretickets.query.hardwareItemId);
+    const queryParams = {...route.query};
+    if (hardwaretickets.query.hardwareItemId) {
+        queryParams.hardwareItemId = hardwaretickets.query.hardwareItemId;
+    }
+    else {
+        delete queryParams.hardwareItemId;
+    }
+    await navigateTo({ path : route.path, query: queryParams, }, {replace: true,});
+    hardwaretickets.search();
+
+}
 
 </script>
