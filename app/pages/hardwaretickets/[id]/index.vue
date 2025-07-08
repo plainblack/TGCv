@@ -11,7 +11,7 @@
 
             <FieldsetNav v-if="hardwareticket.props">
                 <FieldsetItem name="Description">
-                    <MarkdownView :text="hardwareticket.props?.description" class="px-2" />
+                    <client-only><MarkdownView :text="hardwareticket.props?.description" class="px-2" /></client-only>
                 </FieldsetItem>
 
                 <FieldsetItem name="Actions" v-if="hardwareticket.meta?.isOwner">
