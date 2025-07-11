@@ -16,7 +16,18 @@ export class HardwareItemRecord extends VingRecord {
         const set = await this.parent('itemSet');
         await set.countItems();
     }
-}
+
+
+    /**
+     * Extends `describeLinks()` in `VingRecord`.
+     * @see VingRecord.describeLinks()
+     */
+    async describeLinks(idString, restVersion, schema, params = {}) {
+        const links = await super.describeLinks(idString, restVersion, schema, params);
+        links.tickets = { href: `/hardwaretickets?hardwareItemId=${idString}`, methods: ['GET'], usage: 'page' };
+        return links;
+    }
+};
 
 /** Management of all HardwareItems.
  * @class

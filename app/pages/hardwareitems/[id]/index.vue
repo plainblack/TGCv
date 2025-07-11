@@ -33,6 +33,10 @@
                             :to="`/hardwareitemsets/${hardwareitem.props?.hardwareItemSetId}`">{{
                                 hardwareitem.related?.itemSet?.props?.name }}</NuxtLink>
                     </div>
+                    <div class="mb-4"><b>Tickets for</b>: <NuxtLink
+                        :to="hardwareitem.links?.tickets?.href">{{
+                            hardwareitem.props?.name }}</NuxtLink>
+                    </div>
 
                 </FieldsetItem>
 
