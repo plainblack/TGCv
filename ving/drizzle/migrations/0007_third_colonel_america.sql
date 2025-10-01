@@ -1,0 +1,1 @@
+ALTER TABLE `hardwaretickets` MODIFY COLUMN `type` enum('routine','needs_help','project') NOT NULL DEFAULT 'routine';

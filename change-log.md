@@ -3,6 +3,9 @@ outline: deep
 ---
 # Change Log
 
+## 2025-10-01
+* Create a new ticket type, "project".
+
 ## 2024-12-17
 * Do not stringify data sent to a CronJob.
 * Fixup script for broken cronjobs that were tied to hardware schedules.
