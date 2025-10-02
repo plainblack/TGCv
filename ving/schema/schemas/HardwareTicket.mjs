@@ -158,7 +158,7 @@ export const hardwareTicketSchema = {
             db: (prop) => dbInt(prop),
             zod: (prop) => zodNumber(prop).gte(1).lte(5),
             view: ['public'],
-            edit: ['admin'],
+            edit: ['maintenanceManager'],
         },
     ],
 };

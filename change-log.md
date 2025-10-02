@@ -5,6 +5,7 @@ outline: deep
 
 ## 2025-10-01
 * Create a new ticket type, "project".
+* Allow maintenance managers to change ticket priorities.
 
 ## 2024-12-17
 * Do not stringify data sent to a CronJob.
