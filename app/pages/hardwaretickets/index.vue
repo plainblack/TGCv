@@ -149,7 +149,7 @@ const hardwaretickets = useVingKind({
 const allhardwareitems = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwareitems`,
     createApi: `/api/${useRestVersion()}/hardwareitems`,
-    query: { sortBy: 'name', itemsPerPage: 100, status: 'in_use', },
+    query: { sortBy: 'name', itemsPerPage: 100, },
 });
 const allhardwaretasks = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwaretasks`,
