@@ -10,19 +10,19 @@
                     <div class="col">
                         <FormInput type="select" :options="hardwaretickets.propsOptions?.type" name="typeFilter"
                             v-model="hardwaretickets.query.type" placeholder="All Types"
-                            @change="hardwaretickets.search()">
+                            @change="updateQueryAndSearch()">
                         </FormInput>
                     </div>
                     <div class="col">
                         <FormInput type="select" :options="priorities" name="priorityFilter"
                             v-model="hardwaretickets.query.priority" placeholder="All Priorities"
-                            @change="hardwaretickets.search()">
+                            @change="updateQueryAndSearch()">
                         </FormInput>
                     </div>
                     <div>
                         <FormInput type="select" :options="allhardwareitems.recordsAsOptions('props', 'name')"
                             name="hardwareItemIdFilter" placeholder="All Equipment"
-                            v-model="hardwaretickets.query.hardwareItemId" @change="updateHardwareItem()">
+                            v-model="hardwaretickets.query.hardwareItemId" @change="updateQueryAndSearch()">
                         </FormInput>
                     </div>
                     <div>
@@ -142,7 +142,7 @@ const priorities = ref([
 const hardwaretickets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwaretickets`,
     createApi: `/api/${useRestVersion()}/hardwaretickets`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: route.query.hardwareItemId || '', type: '', priority: '', status: 'unresolved', description: '' },
+    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: route.query.hardwareItemId || '', type: route.query.type || '', priority: route.query.priority || '', status: 'unresolved', description: '' },
     newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', hardwareTaskId: '', hardwareItemId: '', id: '' },
     onCreate: (data) => { return navigateTo(`/hardwaretickets/${data.props.id}`) },
 });
@@ -172,14 +172,16 @@ onBeforeRouteLeave(() => {
     allhardwareitems.dispose();
 });
 
-async function updateHardwareItem () {
-    console.log(hardwaretickets.query.hardwareItemId);
+async function updateQueryAndSearch () {
     const queryParams = {...route.query};
-    if (hardwaretickets.query.hardwareItemId) {
-        queryParams.hardwareItemId = hardwaretickets.query.hardwareItemId;
-    }
-    else {
-        delete queryParams.hardwareItemId;
+    const stickyParams = ['hardwareItemId', 'type', 'priority'];
+    for (const sticky of stickyParams) {
+        if (hardwaretickets.query[sticky]) {
+            queryParams[sticky] = hardwaretickets.query[sticky];
+        }
+        else {
+            delete queryParams[sticky];
+        }
     }
     await navigateTo({ path : route.path, query: queryParams, }, {replace: true,});
     hardwaretickets.search();

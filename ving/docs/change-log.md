@@ -3,6 +3,9 @@ outline: deep
 ---
 # Change Log
 
+## 2025-11-06
+ * Make ticket priority and type sticky query params.
+
 ## 2025-06-10
  * Add a priority field for tickets.
 
