@@ -3,6 +3,9 @@ outline: deep
 ---
 # Change Log
 
+## 2025-12-22
+ * Update Hardware Ticket to use the new links object properties.
+
 ## 2025-11-06
  * Make ticket priority and type sticky query params.
 
