@@ -3,6 +3,9 @@ outline: deep
 ---
 # Change Log
 
+## 2025-12-08
+* Have to fetch ALL items for the hardware schedule equipment filter.  See TGC #3445
+
 ## 2025-10-01
 * Create a new ticket type, "project".
 * Allow maintenance managers to change ticket priorities.
