@@ -35,14 +35,6 @@ export class HardwareTicketRecord extends VingRecord {
         return links;
     }
 
-    async insert() {
-        await super.insert();
-        await this.refresh(); //Needed to get the projectNumber from the db.
-        if (this.get('type') == 'needs_help') {
-            this.sendSlackPing();
-        }
-    };
-
     /**
      * Count the number of minutes in all `HardwareTicketRemark`s.
      * 

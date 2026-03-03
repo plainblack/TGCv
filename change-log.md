@@ -3,6 +3,9 @@ outline: deep
 ---
 # Change Log
 
+## 2026-03-03
+* Stop sending Slack notifications.  See TGC #3503
+
 ## 2025-12-08
 * Have to fetch ALL items for the hardware schedule equipment filter.  See TGC #3445
 
