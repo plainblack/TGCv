@@ -3,6 +3,9 @@ outline: deep
 ---
 # Change Log
 
+## 2026-05-07
+* Add placeholder text to the Description field in the Create Ticket tab.  See TGC #3481
+
 ## 2026-03-03
 * Stop sending Slack notifications.  See TGC #3503
 

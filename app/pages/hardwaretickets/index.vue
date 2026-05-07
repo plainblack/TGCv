@@ -95,7 +95,10 @@
 
                             <div class="mb-4">
                                 <FormInput name="description" type="markdown" v-model="hardwaretickets.new.description"
-                                    required label="Description" />
+                                    required label="Description" placeholder="Describe what you were doing
+What should have happened, what actually happened.
+Does the problem happen every time or only sometimes?
+If it happens sometimes, are there any identifiable conditions that make it happen? (How can we reproduce the problem?)"/>
                             </div>
                             <div class="mb-4">
                                 <FormInput type="select" name="type" :options="hardwaretickets.propsOptions?.type"
