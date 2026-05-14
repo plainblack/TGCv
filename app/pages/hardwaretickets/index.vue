@@ -78,7 +78,11 @@
                             {{ allhardwaretasks.find(slotProps.data.props?.hardwareTaskId)?.props?.description }}
                         </template>
                     </Column>
-                    <Column field="props.claimedBy" header="Claimed By"></Column>
+                    <Column field="related.claimedByUserId" header="Claimed By">
+                        <template #body="slotProps">
+                            <MaintenanceUserSelectorEdit :target="slotProps.data" :musers="musers"/>
+                        </template>
+                    </Column>
                     <Column field="props.updatedAt" header="Updated At" sortable>
                         <template #body="slotProps">
                             {{ formatDate(slotProps.data.props.updatedAt) }}
@@ -145,7 +149,7 @@ const priorities = ref([
 const hardwaretickets = useVingKind({
     listApi: `/api/${useRestVersion()}/hardwaretickets`,
     createApi: `/api/${useRestVersion()}/hardwaretickets`,
-    query: { includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: route.query.hardwareItemId || '', type: route.query.type || '', priority: route.query.priority || '', status: 'unresolved', description: '' },
+    query: { includeRelated: ['claimedByUser'], includeMeta: true, sortBy: 'createdAt', sortOrder: 'desc', hardwareTaskId: '', hardwareItemId: route.query.hardwareItemId || '', type: route.query.type || '', priority: route.query.priority || '', status: 'unresolved', description: '' },
     newDefaults: { description: '', type: 'needs_help', severity: 'working', status: 'unresolved', submittedBy: '', hardwareTaskId: '', hardwareItemId: '', id: '' },
     onCreate: (data) => { return navigateTo(`/hardwaretickets/${data.props.id}`) },
 });
@@ -159,6 +163,15 @@ const allhardwaretasks = useVingKind({
     createApi: `/api/${useRestVersion()}/hardwaretasks`,
     query: { sortBy: 'description', itemsPerPage: 100, },
 });
+
+const musers = useVingKind({
+    ego: 'maintenanceuserredit',
+    listApi: `/api/${useRestVersion()}/users`,
+    createApi: `/api/${useRestVersion()}/users`,
+    query: { maintenanceManager: true },
+});
+
+
 const links = useHardwareLinks();
 
 await hardwaretickets.search();
@@ -167,12 +180,14 @@ await Promise.all([
     hardwaretickets.fetchPropsOptions(),
     allhardwareitems.all(),
     allhardwaretasks.all(),
+    musers.all(),
 ]);
 
 onBeforeRouteLeave(() => {
     hardwaretickets.dispose();
     allhardwaretasks.dispose(); // throws an error after creating a new ticket if this is disposed
     allhardwareitems.dispose();
+    musers.dispose();
 });
 
 async function updateQueryAndSearch () {

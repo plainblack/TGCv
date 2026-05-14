@@ -31,8 +31,8 @@
                     </NuxtLink>
                     <Button @click="hardwareticket.delete()" severity="danger" title="Delete" class=" mr-2 mb-2"
                         alt="Delete Hardware Ticket"><i class="pi pi-trash mr-1"></i> Delete</Button>
-                    <FormInput name="claimedBy" type="text" v-model="hardwareticket.props.claimedBy" label="Claimed by"
-                        placeholder="Your initials" @change="hardwareticket.save('claimedBy')" />
+                    <MaintenanceUserSelectorEdit :target="hardwareticket" :musers="musers"/>
+
                 </FieldsetItem>
 
 
@@ -168,6 +168,13 @@ const hardwarefiles = useVingKind({
     },
 });
 
+const musers = useVingKind({
+    ego: 'maintenanceuserredit',
+    listApi: `/api/${useRestVersion()}/users`,
+    createApi: `/api/${useRestVersion()}/users`,
+    query: { maintenanceManager: true },
+});
+
 const uploadHardwareFile = async (s3file) => {
     const response = await hardwarefiles.create({ s3FileId: s3file.props?.id });
     const file = hardwarefiles.find(response.data?.props?.id);
@@ -179,11 +186,13 @@ await Promise.all([
     hardwareremarks.fetchPropsOptions(),
     hardwarefiles.search(),
     hardwarefiles.fetchPropsOptions(),
+    musers.all(),
 ]);
 onBeforeRouteLeave(() => {
     hardwareremarks.dispose();
     hardwareticket.dispose();
     hardwarefiles.dispose();
+    musers.dispose();
 });
 
 </script>

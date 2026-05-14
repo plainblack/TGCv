@@ -139,6 +139,22 @@ export const hardwareTicketSchema = {
             edit: ['owner'],
         },
         {
+            type: "id",
+            name: 'claimedByUserId', // the name of the remote record's id in this table
+            required: false,
+            filterQualifier: true,
+            db: (prop) => dbRelation(prop),
+            relation: {
+                type: 'parent',
+                name: 'claimedByUser',
+                kind: 'User',
+                skipOwnerCheck: true,
+            },
+            default: undefined,
+            view: ['owner'],
+            edit: ['owner'],
+        },
+        {
             type: "string",
             name: "claimedBy",
             default: '',

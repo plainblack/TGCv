@@ -247,8 +247,15 @@ export class VingRecord {
                 && ['parent', 'sibling'].includes(field.relation.type)
             ) {
                 if (isObject(out.related) && include.related?.includes(field.relation.name)) {
-                    const parent = await this.parent(field.relation.name);
-                    out.related[field.relation.name] = await parent.describe(params);
+                    const prop = this.parentPropSchema(field.relation.name);
+                    //Object may not have parents (yet).
+                    if (this.get(prop.name)) {
+                        const parent = await this.parent(field.relation.name);
+                        out.related[field.relation.name] = await parent.describe(params);
+                    }
+                    else {
+                        out.related[field.relation.name] = {};
+                    }
                 }
             }
 

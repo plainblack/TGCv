@@ -1,0 +1,2 @@
+ALTER TABLE `hardwaretickets` ADD `claimedByUserId` bigint unsigned DEFAULT null;--> statement-breakpoint
+ALTER TABLE `hardwaretickets` ADD CONSTRAINT `hardwaretickets_claimedByUser_49d25e3d_fk` FOREIGN KEY (`claimedByUserId`) REFERENCES `users`(`id`) ON DELETE set null ON UPDATE no action;
