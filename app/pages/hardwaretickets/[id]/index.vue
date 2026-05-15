@@ -170,7 +170,7 @@ const hardwarefiles = useVingKind({
 
 const musers = useVingKind({
     ego: 'maintenanceuserredit',
-    listApi: `/api/${useRestVersion()}/users`,
+    listApi: `/api/${useRestVersion()}/maintenanceusers`,
     createApi: `/api/${useRestVersion()}/users`,
     query: { maintenanceManager: true },
 });

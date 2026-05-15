@@ -3,7 +3,7 @@ import { baseSchemaId, baseSchemaCreatedAt, baseSchemaUpdatedAt, dbVarChar, zodS
 export const userSchema = {
     kind: 'User',
     tableName: 'users',
-    owner: ['$id', 'admin'],
+    owner: ['$id', 'admin', 'maintenanceManager'],
     props: [
         { ...baseSchemaId },
         { ...baseSchemaCreatedAt },
