@@ -80,7 +80,7 @@
                     </Column>
                     <Column field="related.claimedByUserId" header="Claimed By">
                         <template #body="slotProps">
-                            <MaintenanceUserSelectorEdit :target="slotProps.data" :musers="musers"/>
+                            <MaintenanceUserSelectorEdit :target="slotProps.data" :musers="musers" :showLabel="false"/>
                         </template>
                     </Column>
                     <Column field="props.updatedAt" header="Updated At" sortable>

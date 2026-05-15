@@ -31,7 +31,7 @@
                     </NuxtLink>
                     <Button @click="hardwareticket.delete()" severity="danger" title="Delete" class=" mr-2 mb-2"
                         alt="Delete Hardware Ticket"><i class="pi pi-trash mr-1"></i> Delete</Button>
-                    <MaintenanceUserSelectorEdit :target="hardwareticket" :musers="musers"/>
+                    <MaintenanceUserSelectorEdit :target="hardwareticket" :musers="musers" :showLabel="true"/>
 
                 </FieldsetItem>
 
