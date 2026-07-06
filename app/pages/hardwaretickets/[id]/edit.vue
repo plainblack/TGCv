@@ -38,9 +38,7 @@
                                 required label="Submitted By" @change="hardwareticket.save('submittedBy')" />
                         </div>
                         <div class="mb-4">
-                            <FormInput name="claimedBy" type="text" v-model="hardwareticket.props.claimedBy"
-                                label="Claimed by" placeholder="Your initials"
-                                @change="hardwareticket.save('claimedBy')" />
+                            <MaintenanceUserSelectorEdit :target="hardwareticket" :musers="musers" :showLabel="true"/>
                         </div>
                     </FieldsetItem>
 
@@ -99,9 +97,20 @@ const hardwareticket = useVingRecord({
         await navigateTo('/hardwaretickets');
     },
 });
-await hardwareticket.fetch()
+const musers = useVingKind({
+    ego: 'maintenanceuserredit',
+    listApi: `/api/${useRestVersion()}/maintenanceusers`,
+    createApi: `/api/${useRestVersion()}/users`,
+    query: { maintenanceManager: true },
+});
+
+await Promise.all([
+    hardwareticket.fetch(),
+    musers.all(),
+]);
 
 onBeforeRouteLeave(() => {
     hardwareticket.dispose();
+    musers.dispose();
 });
 </script>

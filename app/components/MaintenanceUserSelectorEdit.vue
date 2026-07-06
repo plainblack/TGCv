@@ -2,6 +2,7 @@
     <div class="mb-4">
         <FormInput type="select"
             :options="musers.recordsAsOptions('props', 'username')"
+            placeholder="No one"
             name="claimedByUserId" v-model="target.props.claimedByUserId" :label="showLabel ? 'Claimed By' : ''" @change="target.save('claimedByUserId')">
         </FormInput>
     </div>
