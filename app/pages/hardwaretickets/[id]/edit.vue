@@ -38,7 +38,8 @@
                                 required label="Submitted By" @change="hardwareticket.save('submittedBy')" />
                         </div>
                         <div class="mb-4">
-                            <MaintenanceUserSelectorEdit :target="hardwareticket" :musers="musers" :showLabel="true"/>
+                            <MaintenanceUserSelectorEdit :target="hardwareticket" :musers="musers" :showLabel="true"
+                                :showClaimButton="true" />
                         </div>
                     </FieldsetItem>
 

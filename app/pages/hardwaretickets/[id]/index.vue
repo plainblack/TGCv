@@ -11,7 +11,9 @@
 
             <FieldsetNav v-if="hardwareticket.props">
                 <FieldsetItem name="Description">
-                    <client-only><MarkdownView :text="hardwareticket.props?.description" class="px-2" /></client-only>
+                    <client-only>
+                        <MarkdownView :text="hardwareticket.props?.description" class="px-2" />
+                    </client-only>
                 </FieldsetItem>
 
                 <FieldsetItem name="Actions" v-if="hardwareticket.meta?.isOwner">
@@ -31,7 +33,8 @@
                     </NuxtLink>
                     <Button @click="hardwareticket.delete()" severity="danger" title="Delete" class=" mr-2 mb-2"
                         alt="Delete Hardware Ticket"><i class="pi pi-trash mr-1"></i> Delete</Button>
-                    <MaintenanceUserSelectorEdit :target="hardwareticket" :musers="musers" :showLabel="true"/>
+                    <MaintenanceUserSelectorEdit :target="hardwareticket" :musers="musers" :showLabel="true"
+                        :showClaimButton="true" />
 
                 </FieldsetItem>
 
