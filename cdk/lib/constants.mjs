@@ -2,6 +2,16 @@ export default {
     shortName: 'tgcv',
     uploadsBucketName: 'uploads',
     thumbnailsBucketName: 'thumbnails',
+    devEnvironments: {
+        '20ae0cc3': {
+            owner: 'Colin',
+            uploadProcessorMemorySize: 256,
+        },
+        '4c319b07': {
+            owner: 'JT',
+            uploadProcessorMemorySize: 1024,
+        },
+    },
     stages: {
         dev: {
             region: 'us-east-1',

@@ -5,6 +5,8 @@ import cdk from 'aws-cdk-lib';
 import { execSync } from 'child_process';
 import lambda from 'aws-cdk-lib/aws-lambda';
 
+const nodeJs24Runtime = new lambda.Runtime('nodejs24.x', lambda.RuntimeFamily.NODEJS);
+
 export class UploadStack extends Stack {
   /**
    *
@@ -14,6 +16,11 @@ export class UploadStack extends Stack {
    */
   constructor(scope, id, props) {
     super(scope, id, props);
+
+    if (props.environmentOwner) {
+      cdk.Tags.of(this).add('Environment', 'development');
+      cdk.Tags.of(this).add('Owner', props.environmentOwner);
+    }
 
     /*
     *   upload area
@@ -126,7 +133,7 @@ export class UploadStack extends Stack {
 
     const nodemodsLayer = new lambda.LayerVersion(this, props.formatName('nodemodslayer'), {
       code: lambda.Code.fromAsset('./lib/lambda/layer/nodemods/nodemods.zip'),
-      compatibleRuntimes: [lambda.Runtime.NODEJS_20_X],
+      compatibleRuntimes: [nodeJs24Runtime],
       description: 'Contains the node modules for the uploader lambda function',
     });
 
@@ -144,11 +151,14 @@ export class UploadStack extends Stack {
     }));
 
     const uploadFunction = new lambda.Function(this, props.formatName('UploadFunction'), {
-      runtime: lambda.Runtime.NODEJS_20_X,
+      runtime: nodeJs24Runtime,
       handler: 'index.handler',
       code: lambda.Code.fromAsset('./lib/lambda/func/processUpload'),
       layers: [nodemodsLayer],
       role: iamForLambda,
+      description: props.environmentOwner
+        ? `TGCv upload processor for ${props.environmentOwner}'s dev environment`
+        : 'TGCv upload processor',
       timeout: Duration.seconds(props.stageConfig.uploadsLambdaSettings.timeout || 60),
       memorySize: props.stageConfig.uploadsLambdaSettings.memorySize || 128,
       environment: {

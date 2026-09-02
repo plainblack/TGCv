@@ -20,12 +20,33 @@ if (!constants.stages[stage]) {
 }
 
 const prefix = generatePrefix(stage);
-const suffix = generateSuffix(stage);
+const suffix = generateSuffix(stage, app.node.tryGetContext('devSuffix'));
+const devEnvironment = stage === 'dev' ? constants.devEnvironments[suffix] : undefined;
+const environmentOwner = stage === 'dev'
+  ? app.node.tryGetContext('devOwner') || devEnvironment?.owner
+  : undefined;
+const stageConfig = devEnvironment
+  ? {
+      ...constants.stages[stage],
+      uploadsLambdaSettings: {
+        ...constants.stages[stage].uploadsLambdaSettings,
+        memorySize: devEnvironment.uploadProcessorMemorySize,
+      },
+    }
+  : constants.stages[stage];
+
+if (stage === 'dev' && !environmentOwner) {
+  throw new Error(
+    `No owner is configured for dev environment ${suffix}. ` +
+    'Pass -c devOwner=<name> so the stack and Lambda identify their owner.',
+  );
+}
 
 new UploadStack(app, `${prefix}-UploadStack${suffix}`, {
   stage,
   constants,
-  stageConfig: constants.stages[stage],
+  stageConfig,
+  environmentOwner,
   formatName: (name) => `${prefix}-${name}${suffix}`,
   env: { account: constants.stages[stage].account, region: constants.stages[stage].region },
 });
