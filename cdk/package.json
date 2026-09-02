@@ -7,7 +7,7 @@
   "scripts": {
     "build": "echo \"The build step is not required when using JavaScript!\" && exit 0",
     "cdk": "cdk",
-    "test": "jest"
+    "test": "node --test test/*.test.mjs && jest"
   },
   "devDependencies": {
     "@aws-sdk/client-cloudformation": "^3.624.0",
