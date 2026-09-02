@@ -18,6 +18,9 @@ export class UploadStack extends Stack {
     super(scope, id, props);
 
     if (props.environmentOwner) {
+      this.templateOptions.description =
+        `Hardware app development upload stack for ${props.environmentOwner}`;
+      cdk.Tags.of(this).add('Application', 'Hardware');
       cdk.Tags.of(this).add('Environment', 'development');
       cdk.Tags.of(this).add('Owner', props.environmentOwner);
     }
@@ -157,8 +160,8 @@ export class UploadStack extends Stack {
       layers: [nodemodsLayer],
       role: iamForLambda,
       description: props.environmentOwner
-        ? `TGCv upload processor for ${props.environmentOwner}'s dev environment`
-        : 'TGCv upload processor',
+        ? `Hardware app upload processor for ${props.environmentOwner}'s dev environment`
+        : 'Hardware app upload processor',
       timeout: Duration.seconds(props.stageConfig.uploadsLambdaSettings.timeout || 60),
       memorySize: props.stageConfig.uploadsLambdaSettings.memorySize || 128,
       environment: {

@@ -11,8 +11,9 @@ The `cdk.json` file tells the CDK Toolkit how to execute your app. The build ste
 * `npx cdk diff`         compare deployed stack with current state
 * `npx cdk synth`        emits the synthesized CloudFormation template
 
-Development stacks include owner metadata. Known environments are selected by their stable
-suffix, so an existing environment can be managed without changing its CloudFormation identity:
+Hardware development stacks include application and owner metadata. Known environments are
+selected by their stable suffix, so an existing environment can be managed without changing
+its CloudFormation identity:
 
 ```sh
 npx cdk deploy -c stage=dev -c devSuffix=20ae0cc3

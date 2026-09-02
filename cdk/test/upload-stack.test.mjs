@@ -37,11 +37,20 @@ test('development upload infrastructure identifies its owner and uses Node.js 24
   });
   const template = Template.fromStack(stack);
 
+  assert.equal(
+    template.toJSON().Description,
+    "Hardware app development upload stack for JT",
+  );
+
   const [uploadFunction] = Object.values(template.findResources('AWS::Lambda::Function'));
   assert.equal(uploadFunction.Properties.Runtime, 'nodejs24.x');
   assert.equal(
     uploadFunction.Properties.Description,
-    "TGCv upload processor for JT's dev environment",
+    "Hardware app upload processor for JT's dev environment",
+  );
+  assert.deepEqual(
+    uploadFunction.Properties.Tags.find(({ Key }) => Key === 'Application'),
+    { Key: 'Application', Value: 'Hardware' },
   );
   assert.deepEqual(
     uploadFunction.Properties.Tags.find(({ Key }) => Key === 'Owner'),
